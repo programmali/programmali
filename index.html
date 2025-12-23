@@ -1,10 +1,71 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>برمج مع علي - دورات الأردوينو</title>
+    
+    <!-- SEO Meta Tags -->
+    <title>برمج مع علي | دورات الأردوينو والبرمجة في السعودية</title>
+    <meta name="description" content="دورات احترافية في الأردوينو والبرمجة مع برمج مع علي. تعلم البرمجة والإلكترونيات عبر دورات مباشرة ومسجلة بأسعار مناسبة. ابدأ رحلتك التعليمية الآن!">
+    <meta name="keywords" content="دورات أردوينو, تعليم البرمجة, Arduino, دورات برمجة السعودية, تعلم الأردوينو, IoT, إنترنت الأشياء, دورات اونلاين, برمج مع علي">
+    <meta name="author" content="برمج مع علي">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://yourwebsite.com">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourwebsite.com">
+    <meta property="og:title" content="برمج مع علي | دورات الأردوينو والبرمجة">
+    <meta property="og:description" content="دورات احترافية في الأردوينو والبرمجة. تعلم مع أفضل المدربين بأسعار مناسبة">
+    <meta property="og:image" content="https://i.imgur.com/1Hu1phq.jpeg">
+    <meta property="og:locale" content="ar_SA">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://yourwebsite.com">
+    <meta property="twitter:title" content="برمج مع علي | دورات الأردوينو والبرمجة">
+    <meta property="twitter:description" content="دورات احترافية في الأردوينو والبرمجة">
+    <meta property="twitter:image" content="https://i.imgur.com/1Hu1phq.jpeg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="https://i.imgur.com/1Hu1phq.jpeg">
+    <link rel="apple-touch-icon" href="https://i.imgur.com/1Hu1phq.jpeg">
+    
+    <!-- Schema.org structured data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "EducationalOrganization",
+      "name": "برمج مع علي",
+      "description": "منصة تعليمية متخصصة في تقديم دورات الأردوينو والبرمجة",
+      "url": "https://yourwebsite.com",
+      "logo": "https://i.imgur.com/1Hu1phq.jpeg",
+      "telephone": "+966568266532",
+      "email": "alireza9111431@hotmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "SA",
+        "addressRegion": "المنطقة الشرقية"
+      },
+      "sameAs": [
+        "https://wa.me/966568266532"
+      ],
+      "offers": [
+        {
+          "@type": "Offer",
+          "name": "دورة الأردوينو المسجلة - نصف ساعة",
+          "price": "10",
+          "priceCurrency": "SAR"
+        },
+        {
+          "@type": "Offer",
+          "name": "دورة الأردوينو المباشرة - ساعة",
+          "price": "80",
+          "priceCurrency": "SAR"
+        }
+      ]
+    }
+    </script>
     <style>
         * {
             margin: 0;
@@ -883,8 +944,9 @@
         <section id="courses" class="section">
             <h2 class="section-title">دوراتنا</h2>
             <div class="courses-grid">
-                <div class="course-card">
-                    <svg class="course-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <article class="course-card">
+                    <svg class="course-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-label="أيقونة الأردوينو">
+                        <title>دورة الأردوينو المسجلة</title>
                         <circle cx="30" cy="50" r="20" fill="none" stroke="#8b6f5a" stroke-width="4"/>
                         <line x1="15" y1="50" x2="10" y2="50" stroke="#8b6f5a" stroke-width="4"/>
                         <line x1="23" y1="50" x2="37" y2="50" stroke="#8b6f5a" stroke-width="4"/>
@@ -955,14 +1017,14 @@
                         <span class="duration">ساعتين</span>
                         <span class="price">65 ريال</span>
                     </div>
-                </div>
+                </article>
             </div>
         </section>
 
         <section id="about" class="section">
             <h2 class="section-title">من نحن</h2>
-            <div class="about-content">
-                <p>
+            <div class="about-content" itemscope itemtype="https://schema.org/AboutPage">
+                <p itemprop="description">
                     <strong>برمج مع علي</strong> منصة تعليمية متخصصة في تقديم دورات البرمجة والالكترونيات
                     مع التركيز بشكل خاص على الاردوينو ومشاريع انترنت الاشياء
                 </p>
@@ -979,31 +1041,31 @@
 
         <section id="contact" class="section">
             <h2 class="section-title">تواصل معنا</h2>
-            <div class="contact-grid">
+            <div class="contact-grid" itemscope itemtype="https://schema.org/ContactPage">
                 <div class="contact-card">
-                    <div class="contact-icon">✉</div>
+                    <div class="contact-icon" aria-label="بريد إلكتروني">✉</div>
                     <h3 class="contact-title">البريد الالكتروني</h3>
                     <p class="contact-info">
-                        <a href="mailto:alireza9111431@hotmail.com" class="contact-link">
+                        <a href="mailto:alireza9111431@hotmail.com" class="contact-link" itemprop="email">
                             alireza9111431@hotmail.com
                         </a>
                     </p>
                 </div>
 
                 <div class="contact-card">
-                    <div class="contact-icon">📱</div>
+                    <div class="contact-icon" aria-label="هاتف">📱</div>
                     <h3 class="contact-title">الجوال (واتساب)</h3>
                     <p class="contact-info">
-                        <a href="https://wa.me/966568266532" class="contact-link" target="_blank">
+                        <a href="https://wa.me/966568266532" class="contact-link" target="_blank" rel="noopener noreferrer" itemprop="telephone">
                             0568266532
                         </a>
                     </p>
                 </div>
 
                 <div class="contact-card">
-                    <div class="contact-icon">⏰</div>
+                    <div class="contact-icon" aria-label="ساعة">⏰</div>
                     <h3 class="contact-title">اوقات العمل</h3>
-                    <p class="contact-info">
+                    <p class="contact-info" itemprop="openingHours" content="Sa-Th 16:00-22:00">
                         السبت - الخميس<br>
                         من 4 عصرا - 10 مساء
                     </p>
@@ -1023,7 +1085,7 @@
     <div id="paymentModal" class="payment-modal">
         <div class="payment-content">
             <div class="payment-header">
-                <h2 class="payment-title">اتمام عملية الشراء</h2>
+                <h2 class="payment-title" id="payment-title">اتمام عملية الشراء</h2>
                 <p class="payment-subtitle">اختر طريقة الدفع المناسبة</p>
             </div>
 
