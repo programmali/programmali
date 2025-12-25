@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -63,7 +62,7 @@
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            animation: fadeOut 1s ease 3s forwards;
+            animation: fadeOut 1s ease 2s forwards;
         }
 
         @keyframes fadeOut {
@@ -77,7 +76,7 @@
             width: min(300px, 70vw);
             height: min(300px, 70vw);
             margin-bottom: 30px;
-            animation: logoZoom 2s ease;
+            animation: logoZoom 1.5s ease;
             border-radius: 50%;
             background: white;
             overflow: hidden;
@@ -91,23 +90,33 @@
         }
 
         @keyframes logoZoom {
-            0% { transform: scale(0.5); opacity: 0; }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); opacity: 1; }
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
         }
 
         .splash-text {
             font-size: clamp(24px, 6vw, 48px);
             font-weight: bold;
             color: var(--primary-color);
-            animation: textFade 1s ease 1s forwards;
+            animation: textFade 1.5s ease forwards;
             opacity: 0;
             text-align: center;
             padding: 0 20px;
         }
 
         @keyframes textFade {
-            to { opacity: 1; }
+            to {
+                opacity: 1;
+            }
         }
 
         /* Navbar */
@@ -555,7 +564,7 @@
 </head>
 <body>
     <!-- Splash Screen -->
-    <div class="splash-screen">
+    <div class="splash-screen" id="splashScreen">
         <div class="splash-logo">
             <img src="https://i.imgur.com/1Hu1phq.jpeg" alt="شعار برمج مع علي">
         </div>
@@ -652,15 +661,28 @@
             <img src="https://i.imgur.com/1Hu1phq.jpeg" alt="Logo">
         </div>
         <p class="footer-text" data-ar="برمج مع علي" data-en="Program with Ali">برمج مع علي</p>
-        <p class="footer-copyright" data-ar="جميع الحقوق محفوظة © 2026" data-en="All Rights Reserved © 2024">جميع الحقوق محفوظة © 2024</p>
+        <p class="footer-copyright" data-ar="جميع الحقوق محفوظة © 2026" data-en="All Rights Reserved © 2026">جميع الحقوق محفوظة © 2026</p>
     </footer>
 
     <script>
-        // Splash Screen
-        setTimeout(() => {
-            const splash = document.querySelector('.splash-screen');
-            if (splash) splash.style.display = 'none';
-        }, 4000);
+        // Splash Screen - Show only once per session
+        window.addEventListener('DOMContentLoaded', () => {
+            const splash = document.getElementById('splashScreen');
+            const hasSeenSplash = sessionStorage.getItem('hasSeenSplash');
+            
+            if (hasSeenSplash) {
+                // Hide splash immediately if already seen
+                if (splash) splash.style.display = 'none';
+            } else {
+                // Mark as seen
+                sessionStorage.setItem('hasSeenSplash', 'true');
+                
+                // Remove after 3 seconds
+                setTimeout(() => {
+                    if (splash) splash.style.display = 'none';
+                }, 3000);
+            }
+        });
 
         // Mobile Menu Toggle
         function toggleMenu() {
