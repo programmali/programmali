@@ -1,1 +1,648 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PES47W54T3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-PES47W54T3');
+    </script>
+    
+    <title>برمج مع علي | من نحن - عن المنصة</title>
+    <meta name="description" content="تعرف على منصة برمج مع علي - رحلتنا، رؤيتنا، وأهدافنا في تقديم أفضل دورات الأردوينو والبرمجة في السعودية.">
+    <link rel="canonical" href="https://programmali.github.io/programmali/about.html">
+    <link rel="icon" type="image/jpeg" href="https://i.imgur.com/1Hu1phq.jpeg">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        :root {
+            --primary-color: #2c1810;
+            --secondary-color: #5a4035;
+            --accent-color: #8b6f5a;
+            --light-bg: #f5e6d3;
+            --hover-color: #d4c4b0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 50%, var(--accent-color) 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(44, 24, 16, 0.95);
+            padding: 12px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 clamp(15px, 3vw, 40px);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: clamp(10px, 2vw, 15px);
+        }
+
+        .nav-logo-img {
+            width: clamp(40px, 6vw, 50px);
+            height: clamp(40px, 6vw, 50px);
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .nav-logo-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .nav-brand {
+            font-size: clamp(16px, 3vw, 24px);
+            font-weight: bold;
+            color: var(--hover-color);
+            text-decoration: none;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: clamp(10px, 2vw, 20px);
+        }
+
+        .language-switcher {
+            background: var(--light-bg);
+            color: var(--primary-color);
+            border: none;
+            padding: clamp(6px, 1.5vw, 10px) clamp(10px, 2vw, 20px);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: clamp(12px, 2vw, 16px);
+            transition: all 0.3s ease;
+        }
+
+        .language-switcher:hover {
+            background: var(--hover-color);
+            transform: scale(1.05);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--hover-color);
+            font-size: clamp(24px, 5vw, 32px);
+            cursor: pointer;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: clamp(15px, 2.5vw, 30px);
+        }
+
+        .nav-link {
+            color: var(--hover-color);
+            text-decoration: none;
+            font-size: clamp(14px, 2vw, 16px);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(212, 196, 176, 0.2);
+            color: #f5e6d3;
+        }
+
+        /* Page Header */
+        .page-header {
+            max-width: 1400px;
+            margin: clamp(30px, 6vw, 60px) auto;
+            padding: 0 clamp(15px, 3vw, 40px);
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: clamp(32px, 6vw, 48px);
+            color: white;
+            margin-bottom: 15px;
+        }
+
+        .page-description {
+            font-size: clamp(16px, 2.5vw, 20px);
+            color: var(--light-bg);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* About Container */
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto clamp(40px, 6vw, 80px);
+            padding: 0 clamp(15px, 3vw, 40px);
+        }
+
+        /* Story Section */
+        .story-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: clamp(30px, 6vw, 60px);
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .story-logo {
+            width: clamp(120px, 20vw, 150px);
+            height: clamp(120px, 20vw, 150px);
+            margin: 0 auto 30px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .story-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .story-title {
+            font-size: clamp(24px, 4vw, 32px);
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .story-text {
+            font-size: clamp(16px, 2.5vw, 18px);
+            color: var(--secondary-color);
+            line-height: 1.8;
+            text-align: justify;
+            margin-bottom: 20px;
+        }
+
+        /* Values Grid */
+        .values-section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: clamp(28px, 5vw, 36px);
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: bold;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+            gap: clamp(20px, 4vw, 30px);
+        }
+
+        .value-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: clamp(25px, 4vw, 35px);
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .value-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .value-icon {
+            font-size: clamp(40px, 8vw, 60px);
+            margin-bottom: 15px;
+        }
+
+        .value-title {
+            font-size: clamp(20px, 3vw, 24px);
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .value-description {
+            font-size: clamp(14px, 2vw, 16px);
+            color: var(--accent-color);
+            line-height: 1.6;
+        }
+
+        /* Vision Mission */
+        .vision-mission-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .vm-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: clamp(30px, 5vw, 40px);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .vm-icon {
+            font-size: clamp(50px, 10vw, 70px);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .vm-title {
+            font-size: clamp(24px, 4vw, 28px);
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .vm-text {
+            font-size: clamp(15px, 2.5vw, 17px);
+            color: var(--secondary-color);
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: clamp(30px, 6vw, 50px);
+            margin-bottom: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+            gap: 30px;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 20px;
+            background: var(--light-bg);
+            border-radius: 12px;
+        }
+
+        .stat-number {
+            font-size: clamp(36px, 7vw, 48px);
+            color: var(--accent-color);
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: clamp(16px, 2.5vw, 18px);
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            border-radius: 20px;
+            padding: clamp(40px, 8vw, 60px);
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .cta-title {
+            font-size: clamp(28px, 5vw, 36px);
+            color: white;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .cta-text {
+            font-size: clamp(16px, 2.5vw, 20px);
+            color: var(--light-bg);
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary, .btn-secondary {
+            padding: clamp(12px, 2.5vw, 18px) clamp(25px, 5vw, 45px);
+            border-radius: 10px;
+            font-size: clamp(14px, 2.5vw, 18px);
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(44, 24, 16, 0.95);
+            color: var(--hover-color);
+            text-align: center;
+            padding: clamp(30px, 5vw, 50px) 20px;
+            margin-top: clamp(50px, 8vw, 100px);
+        }
+
+        .footer-logo {
+            width: clamp(60px, 10vw, 80px);
+            height: clamp(60px, 10vw, 80px);
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .footer-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                display: none;
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: rgba(44, 24, 16, 0.98);
+                border-radius: 0 0 15px 15px;
+                padding: 20px;
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .nav-link {
+                text-align: center;
+                padding: 12px;
+            }
+
+            .story-text, .vm-text {
+                text-align: center;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn-primary, .btn-secondary {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="nav-logo-img">
+                    <img src="https://i.imgur.com/1Hu1phq.jpeg" alt="Logo">
+                </div>
+                <a href="index.html" class="nav-brand" data-ar="برمج مع علي" data-en="Program with Ali">برمج مع علي</a>
+            </div>
+            
+            <div class="nav-actions">
+                <button class="language-switcher" onclick="toggleLanguage()" id="langBtn">English</button>
+                <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="index.html" class="nav-link" data-ar="الرئيسية" data-en="Home">الرئيسية</a></li>
+                    <li><a href="courses.html" class="nav-link" data-ar="الدورات" data-en="Courses">الدورات</a></li>
+                    <li><a href="game.html" class="nav-link" data-ar="لعبة تعليمية" data-en="Educational Game">لعبة تعليمية</a></li>
+                    <li><a href="about.html" class="nav-link active" data-ar="من نحن" data-en="About Us">من نحن</a></li>
+                    <li><a href="contact.html" class="nav-link" data-ar="تواصل معنا" data-en="Contact">تواصل معنا</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="page-header">
+        <h1 class="page-title" data-ar="من نحن" data-en="About Us">من نحن</h1>
+        <p class="page-description" data-ar="تعرف على قصتنا ورؤيتنا في تقديم أفضل تجربة تعليمية" data-en="Learn about our story and vision in providing the best educational experience">تعرف على قصتنا ورؤيتنا في تقديم أفضل تجربة تعليمية</p>
+    </header>
+
+    <!-- About Container -->
+    <main class="about-container">
+        <!-- Story Section -->
+        <section class="story-section">
+            <div class="story-logo">
+                <img src="https://i.imgur.com/1Hu1phq.jpeg" alt="برمج مع علي">
+            </div>
+            <h2 class="story-title" data-ar="قصتنا" data-en="Our Story">قصتنا</h2>
+            <p class="story-text" data-ar="برمج مع علي منصة تعليمية نشأت من شغف عميق بالتكنولوجيا والتعليم. بدأت رحلتنا من إيمان راسخ بأن التعليم الجيد يجب أن يكون متاحاً للجميع، وأن التعلم العملي هو المفتاح الحقيقي لإتقان أي مهارة تقنية." data-en="Program with Ali is an educational platform born from a deep passion for technology and education. Our journey began with a firm belief that quality education should be accessible to everyone, and that practical learning is the true key to mastering any technical skill.">برمج مع علي منصة تعليمية نشأت من شغف عميق بالتكنولوجيا والتعليم. بدأت رحلتنا من إيمان راسخ بأن التعليم الجيد يجب أن يكون متاحاً للجميع، وأن التعلم العملي هو المفتاح الحقيقي لإتقان أي مهارة تقنية.</p>
+            
+            <p class="story-text" data-ar="متخصصون في تقديم دورات الأردوينو والبرمجة، نركز على توفير محتوى تعليمي عالي الجودة يجمع بين النظرية والتطبيق العملي. نؤمن بأن كل متعلم لديه القدرة على الإبداع والابتكار، ودورنا هو توفير الأدوات والمعرفة اللازمة لإطلاق هذه القدرات." data-en="Specialized in providing Arduino and programming courses, we focus on delivering high-quality educational content that combines theory with practical application. We believe every learner has the capacity for creativity and innovation, and our role is to provide the necessary tools and knowledge to unleash these capabilities.">متخصصون في تقديم دورات الأردوينو والبرمجة، نركز على توفير محتوى تعليمي عالي الجودة يجمع بين النظرية والتطبيق العملي. نؤمن بأن كل متعلم لديه القدرة على الإبداع والابتكار، ودورنا هو توفير الأدوات والمعرفة اللازمة لإطلاق هذه القدرات.</p>
+
+            <p class="story-text" data-ar="من خلال دوراتنا المباشرة والمسجلة، نسعى لبناء مجتمع من المبرمجين والمبتكرين الذين يستطيعون تحويل أفكارهم إلى واقع ملموس. نحن هنا لنكون جزءاً من رحلتك التعليمية، ولمساعدتك على تحقيق أهدافك التقنية مهما كانت." data-en="Through our live and recorded courses, we strive to build a community of programmers and innovators who can turn their ideas into tangible reality. We are here to be part of your educational journey and to help you achieve your technical goals, whatever they may be.">من خلال دوراتنا المباشرة والمسجلة، نسعى لبناء مجتمع من المبرمجين والمبتكرين الذين يستطيعون تحويل أفكارهم إلى واقع ملموس. نحن هنا لنكون جزءاً من رحلتك التعليمية، ولمساعدتك على تحقيق أهدافك التقنية مهما كانت.</p>
+        </section>
+
+        <!-- Vision & Mission -->
+        <section class="values-section">
+            <h2 class="section-title" data-ar="رؤيتنا ورسالتنا" data-en="Our Vision & Mission">رؤيتنا ورسالتنا</h2>
+            <div class="vision-mission-grid">
+                <div class="vm-card">
+                    <div class="vm-icon">🎯</div>
+                    <h3 class="vm-title" data-ar="رؤيتنا" data-en="Our Vision">رؤيتنا</h3>
+                    <p class="vm-text" data-ar="أن نكون المنصة التعليمية الرائدة في مجال الأردوينو والبرمجة في المنطقة العربية، ونساهم في بناء جيل من المبدعين والمبتكرين القادرين على المنافسة عالمياً في المجالات التقنية." data-en="To be the leading educational platform in Arduino and programming in the Arab region, and contribute to building a generation of creators and innovators capable of competing globally in technical fields.">أن نكون المنصة التعليمية الرائدة في مجال الأردوينو والبرمجة في المنطقة العربية، ونساهم في بناء جيل من المبدعين والمبتكرين القادرين على المنافسة عالمياً في المجالات التقنية.</p>
+                </div>
+
+                <div class="vm-card">
+                    <div class="vm-icon">🚀</div>
+                    <h3 class="vm-title" data-ar="رسالتنا" data-en="Our Mission">رسالتنا</h3>
+                    <p class="vm-text" data-ar="تقديم تعليم تقني عالي الجودة يجمع بين المعرفة النظرية والتطبيق العملي، مع توفير بيئة تعليمية تفاعلية وداعمة تمكن كل متعلم من تحقيق إمكاناته الكاملة في عالم البرمجة والإلكترونيات." data-en="Providing high-quality technical education that combines theoretical knowledge with practical application, while offering an interactive and supportive learning environment that enables every learner to achieve their full potential in programming and electronics.">تقديم تعليم تقني عالي الجودة يجمع بين المعرفة النظرية والتطبيق العملي، مع توفير بيئة تعليمية تفاعلية وداعمة تمكن كل متعلم من تحقيق إمكاناته الكاملة في عالم البرمجة والإلكترونيات.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Values -->
+        <section class="values-section">
+            <h2 class="section-title" data-ar="قيمنا" data-en="Our Values">قيمنا</h2>
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">💡</div>
+                    <h3 class="value-title" data-ar="الجودة" data-en="Quality">الجودة</h3>
+                    <p class="value-description" data-ar="نلتزم بتقديم محتوى تعليمي عالي الجودة يلبي أعلى المعايير العالمية" data-en="We are committed to providing high-quality educational content that meets the highest international standards">نلتزم بتقديم محتوى تعليمي عالي الجودة يلبي أعلى المعايير العالمية</p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">🤝</div>
+                    <h3 class="value-title" data-ar="الدعم" data-en="Support">الدعم</h3>
+                    <p class="value-description" data-ar="نوفر دعماً مستمراً لطلابنا في كل خطوة من رحلتهم التعليمية" data-en="We provide continuous support to our students at every step of their educational journey">نوفر دعماً مستمراً لطلابنا في كل خطوة من رحلتهم التعليمية</p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">⚡</div>
+                    <h3 class="value-title" data-ar="الابتكار" data-en="Innovation">الابتكار</h3>
+                    <p class="value-description" data-ar="نشجع الإبداع والابتكار من خلال مشاريع عملية وتطبيقات حقيقية" data-en="We encourage creativity and innovation through practical projects and real applications">نشجع الإبداع والابتكار من خلال مشاريع عملية وتطبيقات حقيقية</p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">🌟</div>
+                    <h3 class="value-title" data-ar="الشفافية" data-en="Transparency">الشفافية</h3>
+                    <p class="value-description" data-ar="نؤمن بالشفافية الكاملة في التعامل مع طلابنا وشركائنا" data-en="We believe in complete transparency in dealing with our students and partners">نؤمن بالشفافية الكاملة في التعامل مع طلابنا وشركائنا</p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">📚</div>
+                    <h3 class="value-title" data-ar="التعلم المستمر" data-en="Continuous Learning">التعلم المستمر</h3>
+                    <p class="value-description" data-ar="نحدث محتوانا باستمرار لمواكبة أحدث التطورات التقنية" data-en="We continuously update our content to keep up with the latest technological developments">نحدث محتوانا باستمرار لمواكبة أحدث التطورات التقنية</p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">🎓</div>
+                    <h3 class="value-title" data-ar="التميز" data-en="Excellence">التميز</h3>
+                    <p class="value-description" data-ar="نسعى للتميز في كل ما نقدمه من خدمات ومحتوى تعليمي" data-en="We strive for excellence in everything we offer in services and educational content">نسعى للتميز في كل ما نقدمه من خدمات ومحتوى تعليمي</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats -->
+        <section class="stats-section">
+            <h2 class="story-title" data-ar="إنجازاتنا" data-en="Our Achievements">إنجازاتنا</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" data-ar="100+" data-en="100+">100+</div>
+                    <div class="stat-label" data-ar="طالب راضٍ" data-en="Satisfied Students">طالب راضٍ</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" data-ar="50+" data-en="50+">50+</div>
+                    <div class="stat-label" data-ar="دورة مكتملة" data-en="Completed Courses">دورة مكتملة</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" data-ar="95%" data-en="95%">95%</div>
+                    <div class="stat-label" data-ar="نسبة الرضا" data-en="Satisfaction Rate">نسبة الرضا</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" data-ar="24/7" data-en="24/7">24/7</div>
+                    <div class="stat-label" data-ar="دعم متواصل" data-en="Continuous Support">دعم متواصل</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta-section">
+            <h2 class="cta-title" data-ar="انضم إلينا اليوم" data-en="Join Us Today">انضم إلينا اليوم</h2>
+            <p class="cta-text" data-ar="ابدأ رحلتك التعليمية معنا واكتشف عالم الأردوينو والبرمجة بطريقة ممتعة وفعالة" data-en="Start your educational journey with us and discover the world of Arduino and programming in a fun and effective way">ابدأ رحلتك التعليمية معنا واكتشف عالم الأردوينو والبرمجة بطريقة ممتعة وفعالة</p>
+            <div class="cta-buttons">
+                <a href="courses.html" class="btn-primary" data-ar="استكشف الدورات" data-en="Explore Courses">استكشف الدورات</a>
+                <a href="contact.html" class="btn-secondary" data-ar="تواصل معنا" data-en="Contact Us">تواصل معنا</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-logo">
+            <img src="https://i.imgur.com/1Hu1phq.jpeg" alt="Logo">
+        </div>
+        <p style="margin-bottom: 10px; font-size: 18px; font-weight: bold;" data-ar="برمج مع علي" data-en="Program with Ali">برمج مع علي</p>
+        <p style="opacity: 0.8;" data-ar="جميع الحقوق محفوظة © 2024" data-en="All Rights Reserved © 2024">جميع الحقوق محفوظة © 2024</p>
+    </footer>
+
+    <script>
+        let currentLang = 'ar';
+
+        // Mobile Menu
+        function toggleMenu() {
+            const menu = document.getElementById('navMenu');
+            const toggle = document.querySelector('.menu-toggle');
+            menu.classList.toggle('active');
+            toggle.textContent = menu.classList.contains('active') ? '✕' : '☰';
+        }
+
+        // Language Toggle
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            const langBtn = document.getElementById('langBtn');
+            
+            langBtn.textContent = currentLang === 'ar' ? 'English' : 'العربية';
+            
+            document.querySelectorAll('[data-ar][data-en]').forEach(element => {
+                element.textContent = element.getAttribute(`data-${currentLang}`);
+            });
+            
+            document.documentElement.setAttribute('lang', currentLang);
+            document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+            
+            localStorage.setItem('preferredLanguage', currentLang);
+        }
+
+        // Load saved language
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('preferredLanguage');
+            if (savedLang && savedLang !== 'ar') {
+                toggleLanguage();
+            }
+        });
+    </script>
+</body>
+</html>
