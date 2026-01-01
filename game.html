@@ -250,6 +250,10 @@
             cursor: pointer;
             transition: all 0.3s ease;
             width: 100%;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .btn-start {
@@ -361,7 +365,7 @@
             background: var(--accent-color);
             color: white;
             border: none;
-            padding: 15px;
+            padding: 0;
             border-radius: 10px;
             font-size: 0;
             cursor: pointer;
@@ -371,6 +375,7 @@
             align-items: center;
             justify-content: center;
             position: relative;
+            min-height: 50px;
         }
         
         /* رسم الأسهم بـ CSS */
@@ -381,28 +386,28 @@
             border-style: solid;
         }
         
-        /* السهم للأعلى */
+        /* السهم للأعلى ▲ */
         .arrow-btn.up::before {
-            border-width: 0 12px 16px 12px;
+            border-width: 0 10px 14px 10px;
             border-color: transparent transparent white transparent;
         }
         
-        /* السهم للأسفل */
+        /* السهم للأسفل ▼ */
         .arrow-btn.down::before {
-            border-width: 16px 12px 0 12px;
+            border-width: 14px 10px 0 10px;
             border-color: white transparent transparent transparent;
         }
         
-        /* السهم لليمين */
+        /* السهم لليمين (في RTL = يسار الشاشة) ◄ */
         .arrow-btn.right::before {
-            border-width: 12px 0 12px 16px;
-            border-color: transparent transparent transparent white;
+            border-width: 10px 14px 10px 0;
+            border-color: transparent white transparent transparent;
         }
         
-        /* السهم لليسار */
+        /* السهم لليسار (في RTL = يمين الشاشة) ► */
         .arrow-btn.left::before {
-            border-width: 12px 16px 12px 0;
-            border-color: transparent white transparent transparent;
+            border-width: 10px 0 10px 14px;
+            border-color: transparent transparent transparent white;
         }
 
         .arrow-btn:active {
@@ -550,13 +555,33 @@
             .game-side-controls {
                 flex-direction: column;
                 width: auto;
-                max-width: 180px;
+                max-width: 150px;
                 margin-top: 0;
             }
             
             .game-buttons,
             .mobile-controls {
                 max-width: 100%;
+            }
+            
+            .arrow-btn {
+                min-height: 40px;
+            }
+            
+            .arrow-btn.up::before,
+            .arrow-btn.down::before {
+                border-width: 10px 8px;
+            }
+            
+            .arrow-btn.left::before,
+            .arrow-btn.right::before {
+                border-width: 8px 10px;
+            }
+            
+            .game-btn {
+                min-height: 40px;
+                font-size: 13px;
+                padding: 8px 12px;
             }
         }
         
@@ -593,22 +618,23 @@
             }
             
             .game-btn {
-                padding: 16px 20px;
-                font-size: 17px;
+                padding: 14px 18px;
+                font-size: 16px;
+                min-height: 55px;
             }
             
             .arrow-btn {
-                padding: 20px;
+                min-height: 55px;
             }
             
             .arrow-btn.up::before,
             .arrow-btn.down::before {
-                border-width: 16px 12px;
+                border-width: 14px 11px;
             }
             
             .arrow-btn.left::before,
             .arrow-btn.right::before {
-                border-width: 12px 16px;
+                border-width: 11px 14px;
             }
         }
     </style>
