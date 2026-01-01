@@ -414,18 +414,34 @@
             .nav-menu.active {
                 display: flex;
             }
+            
+            /* الجوال الطولي - كل شيء عمودي */
+            .game-layout {
+                flex-direction: column;
+                align-items: center;
+            }
 
             .game-board {
-                width: clamp(250px, 60vw, 350px) !important;
-                height: clamp(250px, 60vw, 350px) !important;
-            }
-            
-            .game-layout {
-                gap: 15px;
+                width: min(90vw, 400px) !important;
+                height: min(90vw, 400px) !important;
             }
             
             .game-side-controls {
-                width: clamp(120px, 30vw, 180px);
+                width: min(90vw, 400px);
+                max-width: 100%;
+                flex-direction: row;
+                justify-content: space-between;
+                margin-top: 15px;
+            }
+            
+            .game-buttons {
+                flex: 1;
+                max-width: 48%;
+            }
+            
+            .mobile-controls {
+                flex: 1;
+                max-width: 48%;
             }
             
             .game-wrapper {
@@ -439,47 +455,87 @@
             
             .game-controls {
                 grid-template-columns: repeat(3, 1fr);
-                gap: 8px;
+                gap: 10px;
                 margin-bottom: 15px;
             }
             
             .control-card {
-                padding: 10px;
+                padding: 12px;
             }
             
             .control-title {
-                font-size: 11px;
+                font-size: 12px;
             }
             
             .control-value {
-                font-size: 18px;
+                font-size: 22px;
             }
             
             .arrow-btn {
-                padding: 10px;
-                font-size: 16px;
+                padding: clamp(12px, 3vw, 18px);
+                font-size: clamp(18px, 4vw, 24px);
             }
             
             .game-btn {
-                padding: 10px 12px;
-                font-size: 12px;
+                padding: 12px 15px;
+                font-size: 14px;
+            }
+        }
+        
+        /* الجوال العرضي */
+        @media (max-width: 768px) and (orientation: landscape) {
+            .game-layout {
+                flex-direction: row;
+            }
+            
+            .game-board {
+                width: min(50vh, 350px) !important;
+                height: min(50vh, 350px) !important;
+            }
+            
+            .game-side-controls {
+                flex-direction: column;
+                width: auto;
+                max-width: 180px;
+                margin-top: 0;
+            }
+            
+            .game-buttons,
+            .mobile-controls {
+                max-width: 100%;
             }
         }
         
         /* Very Small Mobile */
         @media (max-width: 480px) {
             .game-board {
-                width: 220px !important;
-                height: 220px !important;
+                width: min(85vw, 300px) !important;
+                height: min(85vw, 300px) !important;
+            }
+        }
+        
+        /* Desktop - تكبير العناصر */
+        @media (min-width: 769px) {
+            .control-card {
+                padding: 20px;
             }
             
-            .game-side-controls {
-                width: 110px;
+            .control-title {
+                font-size: 18px;
+            }
+            
+            .control-value {
+                font-size: 32px;
+            }
+            
+            .game-btn {
+                padding: 16px 20px;
+                font-size: 17px;
             }
             
             .arrow-btn {
-                padding: 8px;
-                font-size: 14px;
+                padding: 20px;
+                font-size: 28px;
             }
         }
     </style>
@@ -645,8 +701,8 @@ void loop() {
 
         let snake = [{ x: 10 * box, y: 10 * box }];
         let food = { 
-            x: Math.floor(Math.random() * (canvas.width / box)) * box, 
-            y: Math.floor(Math.random() * (canvas.height / box)) * box 
+            x: (Math.floor(Math.random() * (canvas.width / box - 2)) + 1) * box, 
+            y: (Math.floor(Math.random() * (canvas.height / box - 2)) + 1) * box 
         };
         let direction = 'RIGHT';
         let score = 0;
@@ -741,9 +797,9 @@ void loop() {
                 let snakeX = snake[0].x;
                 let snakeY = snake[0].y;
 
-                if (direction === 'LEFT') snakeX -= box;
+                if (direction === 'LEFT') snakeX += box;  // في العربي: اليسار = يمين الشاشة
                 if (direction === 'UP') snakeY -= box;
-                if (direction === 'RIGHT') snakeX += box;
+                if (direction === 'RIGHT') snakeX -= box;  // في العربي: اليمين = يسار الشاشة
                 if (direction === 'DOWN') snakeY += box;
 
                 // Check collision with food
@@ -765,10 +821,10 @@ void loop() {
                         document.getElementById('speed').textContent = Math.floor(100 / gameSpeed * 10) / 10;
                     }
 
-                    // New food
+                    // New food - avoid edges
                     food = {
-                        x: Math.floor(Math.random() * (canvas.width / box)) * box,
-                        y: Math.floor(Math.random() * (canvas.height / box)) * box
+                        x: (Math.floor(Math.random() * (canvas.width / box - 2)) + 1) * box,
+                        y: (Math.floor(Math.random() * (canvas.height / box - 2)) + 1) * box
                     };
                 } else {
                     snake.pop();
