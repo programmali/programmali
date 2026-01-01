@@ -196,8 +196,8 @@
             border: 4px solid var(--accent-color);
             border-radius: 10px;
             display: block;
-            width: 600px;
-            height: 600px;
+            width: 550px;
+            height: 550px;
         }
 
         .game-side-controls {
@@ -205,6 +205,7 @@
             flex-direction: column;
             gap: 20px;
             width: 280px;
+            justify-content: center;
         }
 
         .game-controls {
@@ -410,7 +411,7 @@
             border-color: transparent transparent transparent white;
         }
         
-        /* عكس الأسهم في اللغة الإنجليزية (LTR) */
+        /* عكس شكل الأسهم في اللغة الإنجليزية (LTR) */
         [dir="ltr"] .arrow-btn.right::before {
             border-width: 10px 0 10px 14px;
             border-color: transparent transparent transparent white;
@@ -576,6 +577,7 @@
                 width: auto;
                 max-width: 120px;
                 margin-top: 0;
+                justify-content: center;
             }
             
             .game-buttons,
@@ -1011,6 +1013,12 @@ void loop() {
         }
 
         function changeDirection(newDirection) {
+            // في اللغة الإنجليزية (LTR)، نعكس LEFT و RIGHT
+            if (document.documentElement.getAttribute('dir') === 'ltr') {
+                if (newDirection === 'LEFT') newDirection = 'RIGHT';
+                else if (newDirection === 'RIGHT') newDirection = 'LEFT';
+            }
+            
             if (newDirection === 'LEFT' && direction !== 'RIGHT') direction = 'LEFT';
             if (newDirection === 'UP' && direction !== 'DOWN') direction = 'UP';
             if (newDirection === 'RIGHT' && direction !== 'LEFT') direction = 'RIGHT';
@@ -1019,11 +1027,22 @@ void loop() {
 
         // Keyboard Controls
         document.addEventListener('keydown', (event) => {
-            // في RTL: Arrow Left = يمين الشاشة، Arrow Right = يسار الشاشة
-            if (event.key === 'ArrowLeft') changeDirection('RIGHT');  // LEFT في الكيبورد = يمين الشاشة
-            if (event.key === 'ArrowUp') changeDirection('UP');
-            if (event.key === 'ArrowRight') changeDirection('LEFT');  // RIGHT في الكيبورد = يسار الشاشة
-            if (event.key === 'ArrowDown') changeDirection('DOWN');
+            // في العربية (RTL): الكيبورد معكوس
+            // في الإنجليزية (LTR): الكيبورد طبيعي
+            const isRTL = document.documentElement.getAttribute('dir') === 'rtl';
+            
+            if (event.key === 'ArrowLeft') {
+                changeDirection(isRTL ? 'RIGHT' : 'LEFT');
+            }
+            if (event.key === 'ArrowUp') {
+                changeDirection('UP');
+            }
+            if (event.key === 'ArrowRight') {
+                changeDirection(isRTL ? 'LEFT' : 'RIGHT');
+            }
+            if (event.key === 'ArrowDown') {
+                changeDirection('DOWN');
+            }
             
             // Prevent scrolling with arrow keys
             if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(event.key)) {
