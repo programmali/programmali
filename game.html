@@ -196,15 +196,15 @@
             border: 4px solid var(--accent-color);
             border-radius: 10px;
             display: block;
-            width: clamp(300px, 90vw, 500px);
-            height: clamp(300px, 90vw, 500px);
+            width: 600px;
+            height: 600px;
         }
 
         .game-side-controls {
             display: flex;
             flex-direction: column;
             gap: 20px;
-            width: clamp(150px, 25vw, 200px);
+            width: 280px;
         }
 
         .game-controls {
@@ -250,7 +250,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             width: 100%;
-            min-height: 50px;
+            min-height: 65px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -375,7 +375,7 @@
             align-items: center;
             justify-content: center;
             position: relative;
-            min-height: 50px;
+            min-height: 65px;
         }
         
         /* رسم الأسهم بـ CSS */
@@ -472,16 +472,17 @@
             }
 
             .game-board {
-                width: min(90vw, 400px) !important;
-                height: min(90vw, 400px) !important;
+                width: min(90vw, 380px) !important;
+                height: min(90vw, 380px) !important;
             }
             
             .game-side-controls {
-                width: min(90vw, 400px);
+                width: min(90vw, 380px);
                 max-width: 100%;
                 flex-direction: row;
                 justify-content: space-between;
                 margin-top: 15px;
+                gap: 10px;
             }
             
             .game-buttons {
@@ -522,22 +523,23 @@
             }
             
             .arrow-btn {
-                padding: clamp(12px, 3vw, 18px);
+                min-height: 45px;
             }
             
             .arrow-btn.up::before,
             .arrow-btn.down::before {
-                border-width: 12px 9px;
+                border-width: 11px 9px;
             }
             
             .arrow-btn.left::before,
             .arrow-btn.right::before {
-                border-width: 9px 12px;
+                border-width: 9px 11px;
             }
             
             .game-btn {
-                padding: 12px 15px;
-                font-size: 14px;
+                padding: 10px 12px;
+                font-size: 13px;
+                min-height: 45px;
             }
         }
         
@@ -545,17 +547,18 @@
         @media (max-width: 768px) and (orientation: landscape) {
             .game-layout {
                 flex-direction: row;
+                gap: 10px;
             }
             
             .game-board {
-                width: min(50vh, 350px) !important;
-                height: min(50vh, 350px) !important;
+                width: min(60vh, 400px) !important;
+                height: min(60vh, 400px) !important;
             }
             
             .game-side-controls {
                 flex-direction: column;
                 width: auto;
-                max-width: 150px;
+                max-width: 140px;
                 margin-top: 0;
             }
             
@@ -565,23 +568,23 @@
             }
             
             .arrow-btn {
-                min-height: 40px;
+                min-height: 38px;
             }
             
             .arrow-btn.up::before,
             .arrow-btn.down::before {
-                border-width: 10px 8px;
+                border-width: 9px 7px;
             }
             
             .arrow-btn.left::before,
             .arrow-btn.right::before {
-                border-width: 8px 10px;
+                border-width: 7px 9px;
             }
             
             .game-btn {
-                min-height: 40px;
-                font-size: 13px;
-                padding: 8px 12px;
+                min-height: 38px;
+                font-size: 12px;
+                padding: 6px 10px;
             }
         }
         
@@ -601,15 +604,15 @@
             }
             
             .control-card {
-                padding: 20px;
+                padding: 25px;
             }
             
             .control-title {
-                font-size: 18px;
+                font-size: 20px;
             }
             
             .control-value {
-                font-size: 32px;
+                font-size: 36px;
             }
             
             /* الشاشة والأزرار جنب بعض */
@@ -618,23 +621,23 @@
             }
             
             .game-btn {
-                padding: 14px 18px;
-                font-size: 16px;
-                min-height: 55px;
+                padding: 18px 22px;
+                font-size: 18px;
+                min-height: 75px;
             }
             
             .arrow-btn {
-                min-height: 55px;
+                min-height: 75px;
             }
             
             .arrow-btn.up::before,
             .arrow-btn.down::before {
-                border-width: 14px 11px;
+                border-width: 16px 13px;
             }
             
             .arrow-btn.left::before,
             .arrow-btn.right::before {
-                border-width: 11px 14px;
+                border-width: 13px 16px;
             }
         }
     </style>
@@ -990,9 +993,10 @@ void loop() {
 
         // Keyboard Controls
         document.addEventListener('keydown', (event) => {
-            if (event.key === 'ArrowLeft') changeDirection('LEFT');
+            // في RTL: Arrow Left = يمين الشاشة، Arrow Right = يسار الشاشة
+            if (event.key === 'ArrowLeft') changeDirection('RIGHT');  // LEFT في الكيبورد = يمين الشاشة
             if (event.key === 'ArrowUp') changeDirection('UP');
-            if (event.key === 'ArrowRight') changeDirection('RIGHT');
+            if (event.key === 'ArrowRight') changeDirection('LEFT');  // RIGHT في الكيبورد = يسار الشاشة
             if (event.key === 'ArrowDown') changeDirection('DOWN');
             
             // Prevent scrolling with arrow keys
