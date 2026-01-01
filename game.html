@@ -167,17 +167,16 @@
         .game-wrapper {
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
-            padding: clamp(15px, 3vw, 30px);
+            padding: clamp(20px, 4vw, 40px);
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
 
         /* Game Layout - الأزرار بجانب الشاشة */
         .game-layout {
             display: flex;
-            gap: 20px;
+            gap: clamp(15px, 3vw, 30px);
             align-items: flex-start;
             justify-content: center;
-            flex-wrap: wrap;
         }
 
         .game-canvas-wrapper {
@@ -189,17 +188,15 @@
             border: 4px solid var(--accent-color);
             border-radius: 10px;
             display: block;
-            width: 100%;
-            max-width: 500px;
-            height: auto;
-            aspect-ratio: 1;
+            width: clamp(300px, 90vw, 500px);
+            height: clamp(300px, 90vw, 500px);
         }
 
         .game-side-controls {
             display: flex;
             flex-direction: column;
             gap: 20px;
-            min-width: 200px;
+            width: clamp(150px, 25vw, 200px);
         }
 
         .game-controls {
@@ -336,12 +333,20 @@
         }
 
         /* Mobile Controls */
+        /* Mobile Controls - Always visible */
         .mobile-controls {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
+            gap: 6px;
             width: 100%;
-            max-width: 200px;
+        }
+        
+        .controls-label {
+            font-size: 12px;
+            color: var(--secondary-color);
+            text-align: center;
+            margin-bottom: 5px;
+            font-weight: 600;
         }
 
         .arrow-btn {
@@ -411,20 +416,16 @@
             }
 
             .game-board {
-                max-width: 350px;
-                width: 100%;
-                height: auto;
+                width: clamp(250px, 60vw, 350px) !important;
+                height: clamp(250px, 60vw, 350px) !important;
             }
             
             .game-layout {
-                flex-direction: column;
-                align-items: center;
+                gap: 15px;
             }
             
             .game-side-controls {
-                width: 100%;
-                max-width: 350px;
-                margin-top: 20px;
+                width: clamp(120px, 30vw, 180px);
             }
             
             .game-wrapper {
@@ -438,24 +439,47 @@
             
             .game-controls {
                 grid-template-columns: repeat(3, 1fr);
-                gap: 10px;
-                margin-bottom: 20px;
+                gap: 8px;
+                margin-bottom: 15px;
             }
             
             .control-card {
-                padding: 12px;
+                padding: 10px;
             }
             
-            .mobile-controls {
-                max-width: 200px;
-                margin: 0 auto;
+            .control-title {
+                font-size: 11px;
+            }
+            
+            .control-value {
+                font-size: 18px;
+            }
+            
+            .arrow-btn {
+                padding: 10px;
+                font-size: 16px;
+            }
+            
+            .game-btn {
+                padding: 10px 12px;
+                font-size: 12px;
             }
         }
         
-        /* Desktop: hide mobile controls by default */
-        @media (min-width: 769px) {
-            .mobile-controls {
-                display: none;
+        /* Very Small Mobile */
+        @media (max-width: 480px) {
+            .game-board {
+                width: 220px !important;
+                height: 220px !important;
+            }
+            
+            .game-side-controls {
+                width: 110px;
+            }
+            
+            .arrow-btn {
+                padding: 8px;
+                font-size: 14px;
             }
         }
     </style>
@@ -620,7 +644,10 @@ void loop() {
         const canvasSize = 600;
 
         let snake = [{ x: 10 * box, y: 10 * box }];
-        let food = { x: Math.floor(Math.random() * 29) * box, y: Math.floor(Math.random() * 29) * box };
+        let food = { 
+            x: Math.floor(Math.random() * (canvas.width / box)) * box, 
+            y: Math.floor(Math.random() * (canvas.height / box)) * box 
+        };
         let direction = 'RIGHT';
         let score = 0;
         let highScore = localStorage.getItem('snakeHighScore') || 0;
@@ -634,19 +661,14 @@ void loop() {
 
         // Adjust canvas size for mobile
         function adjustCanvasSize() {
-            if (window.innerWidth < 768) {
-                const maxWidth = window.innerWidth - 60;
-                canvas.width = maxWidth;
-                canvas.height = maxWidth;
-            } else {
-                canvas.width = 600;
-                canvas.height = 600;
-            }
+            // Keep canvas size fixed at 600x600 for consistent gameplay
+            canvas.width = 600;
+            canvas.height = 600;
+            // CSS will handle the visual scaling
         }
 
-        // Call on load and resize
+        // Call on load
         adjustCanvasSize();
-        window.addEventListener('resize', adjustCanvasSize);
 
         // Mobile Menu
         function toggleMenu() {
@@ -745,8 +767,8 @@ void loop() {
 
                     // New food
                     food = {
-                        x: Math.floor(Math.random() * (canvas.width / box - 1)) * box,
-                        y: Math.floor(Math.random() * (canvas.height / box - 1)) * box
+                        x: Math.floor(Math.random() * (canvas.width / box)) * box,
+                        y: Math.floor(Math.random() * (canvas.height / box)) * box
                     };
                 } else {
                     snake.pop();
