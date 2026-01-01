@@ -171,20 +171,17 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
 
-        /* Game Layout للموبايل */
+        /* Game Layout - الأزرار بجانب الشاشة */
         .game-layout {
             display: flex;
-            flex-direction: column;
-            align-items: center;
             gap: 20px;
+            align-items: flex-start;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
-        .game-board-container {
-            width: 100%;
-            max-width: 500px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+        .game-canvas-wrapper {
+            flex-shrink: 0;
         }
 
         .game-board {
@@ -196,6 +193,13 @@
             max-width: 500px;
             height: auto;
             aspect-ratio: 1;
+        }
+
+        .game-side-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            min-width: 200px;
         }
 
         .game-controls {
@@ -227,20 +231,20 @@
 
         .game-buttons {
             display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 30px;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
         }
 
         .game-btn {
-            padding: clamp(12px, 2vw, 15px) clamp(25px, 4vw, 35px);
+            padding: clamp(12px, 2vw, 15px) clamp(20px, 4vw, 25px);
             border: none;
             border-radius: 10px;
-            font-size: clamp(14px, 2.5vw, 18px);
+            font-size: clamp(14px, 2.5vw, 16px);
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
+            width: 100%;
         }
 
         .btn-start {
@@ -267,6 +271,15 @@
             opacity: 0.5;
             cursor: not-allowed;
             transform: none;
+        }
+        
+        /* Side Controls Container */
+        .game-side-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            min-width: 200px;
+            max-width: 220px;
         }
 
         /* Arduino Instructions */
@@ -324,24 +337,26 @@
 
         /* Mobile Controls */
         .mobile-controls {
-            display: none;
+            display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-top: 20px;
-            max-width: 300px;
-            margin-left: auto;
-            margin-right: auto;
+            gap: 8px;
+            width: 100%;
+            max-width: 200px;
         }
 
         .arrow-btn {
             background: var(--accent-color);
             color: white;
             border: none;
-            padding: 20px;
+            padding: 15px;
             border-radius: 10px;
-            font-size: 24px;
+            font-size: 20px;
             cursor: pointer;
             transition: all 0.2s ease;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .arrow-btn:active {
@@ -395,14 +410,21 @@
                 display: flex;
             }
 
-            .mobile-controls {
-                display: grid;
-            }
-
             .game-board {
                 max-width: 350px;
                 width: 100%;
                 height: auto;
+            }
+            
+            .game-layout {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .game-side-controls {
+                width: 100%;
+                max-width: 350px;
+                margin-top: 20px;
             }
             
             .game-wrapper {
@@ -417,11 +439,23 @@
             .game-controls {
                 grid-template-columns: repeat(3, 1fr);
                 gap: 10px;
-                margin-top: 15px;
+                margin-bottom: 20px;
             }
             
             .control-card {
                 padding: 12px;
+            }
+            
+            .mobile-controls {
+                max-width: 200px;
+                margin: 0 auto;
+            }
+        }
+        
+        /* Desktop: hide mobile controls by default */
+        @media (min-width: 769px) {
+            .mobile-controls {
+                display: none;
             }
         }
     </style>
@@ -459,8 +493,7 @@
         </header>
 
         <div class="game-wrapper">
-            <canvas id="gameCanvas" class="game-board" width="600" height="600"></canvas>
-
+            <!-- Game Stats -->
             <div class="game-controls">
                 <div class="control-card">
                     <div class="control-title" data-ar="النقاط" data-en="Score">النقاط</div>
@@ -476,22 +509,34 @@
                 </div>
             </div>
 
-            <div class="game-buttons">
-                <button class="game-btn btn-start" onclick="startGame()" id="startBtn" data-ar="ابدأ اللعبة" data-en="Start Game">ابدأ اللعبة</button>
-                <button class="game-btn btn-pause" onclick="pauseGame()" id="pauseBtn" disabled data-ar="إيقاف مؤقت" data-en="Pause">إيقاف مؤقت</button>
-            </div>
+            <!-- Game Layout: Canvas + Side Controls -->
+            <div class="game-layout">
+                <!-- Game Canvas -->
+                <div class="game-canvas-wrapper">
+                    <canvas id="gameCanvas" class="game-board" width="600" height="600"></canvas>
+                </div>
 
-            <!-- Mobile Controls -->
-            <div class="mobile-controls">
-                <div></div>
-                <button class="arrow-btn" onclick="changeDirection('UP')">▲</button>
-                <div></div>
-                <button class="arrow-btn" onclick="changeDirection('LEFT')">◄</button>
-                <div></div>
-                <button class="arrow-btn" onclick="changeDirection('RIGHT')">►</button>
-                <div></div>
-                <button class="arrow-btn" onclick="changeDirection('DOWN')">▼</button>
-                <div></div>
+                <!-- Side Controls (Buttons + Arrows) -->
+                <div class="game-side-controls">
+                    <!-- Game Buttons -->
+                    <div class="game-buttons">
+                        <button class="game-btn btn-start" onclick="startGame()" id="startBtn" data-ar="ابدأ اللعبة" data-en="Start Game">ابدأ اللعبة</button>
+                        <button class="game-btn btn-pause" onclick="pauseGame()" id="pauseBtn" disabled data-ar="إيقاف مؤقت" data-en="Pause">إيقاف مؤقت</button>
+                    </div>
+
+                    <!-- Mobile Controls (Arrows) -->
+                    <div class="mobile-controls">
+                        <div></div>
+                        <button class="arrow-btn" onclick="changeDirection('UP')">▲</button>
+                        <div></div>
+                        <button class="arrow-btn" onclick="changeDirection('LEFT')">◄</button>
+                        <div></div>
+                        <button class="arrow-btn" onclick="changeDirection('RIGHT')">►</button>
+                        <div></div>
+                        <button class="arrow-btn" onclick="changeDirection('DOWN')">▼</button>
+                        <div></div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -564,7 +609,7 @@ void loop() {
             <img src="https://i.imgur.com/1Hu1phq.jpeg" alt="Logo">
         </div>
         <p style="margin-bottom: 10px; font-size: 18px; font-weight: bold;" data-ar="برمج مع علي" data-en="Program with Ali">برمج مع علي</p>
-        <p style="opacity: 0.8;" data-ar="جميع الحقوق محفوظة © 2024" data-en="All Rights Reserved © 2024">جميع الحقوق محفوظة © 2024</p>
+        <p style="opacity: 0.8;" data-ar="جميع الحقوق محفوظة © 2026" data-en="All Rights Reserved © 2026">جميع الحقوق محفوظة © 2026</p>
     </footer>
 
     <script>
