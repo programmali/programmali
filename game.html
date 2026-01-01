@@ -170,8 +170,16 @@
             padding: clamp(20px, 4vw, 40px);
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
+        
+        /* Game Stats - في الأعلى دائماً */
+        .game-controls {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: clamp(15px, 3vw, 25px);
+            margin-bottom: clamp(20px, 4vw, 30px);
+        }
 
-        /* Game Layout - الأزرار بجانب الشاشة */
+        /* Game Layout - الشاشة والأزرار */
         .game-layout {
             display: flex;
             gap: clamp(15px, 3vw, 30px);
@@ -355,17 +363,54 @@
             border: none;
             padding: 15px;
             border-radius: 10px;
-            font-size: 20px;
+            font-size: 0;
             cursor: pointer;
             transition: all 0.2s ease;
             aspect-ratio: 1;
             display: flex;
             align-items: center;
             justify-content: center;
+            position: relative;
+        }
+        
+        /* رسم الأسهم بـ CSS */
+        .arrow-btn::before {
+            content: '';
+            width: 0;
+            height: 0;
+            border-style: solid;
+        }
+        
+        /* السهم للأعلى */
+        .arrow-btn.up::before {
+            border-width: 0 12px 16px 12px;
+            border-color: transparent transparent white transparent;
+        }
+        
+        /* السهم للأسفل */
+        .arrow-btn.down::before {
+            border-width: 16px 12px 0 12px;
+            border-color: white transparent transparent transparent;
+        }
+        
+        /* السهم لليمين */
+        .arrow-btn.right::before {
+            border-width: 12px 0 12px 16px;
+            border-color: transparent transparent transparent white;
+        }
+        
+        /* السهم لليسار */
+        .arrow-btn.left::before {
+            border-width: 12px 16px 12px 0;
+            border-color: transparent white transparent transparent;
         }
 
         .arrow-btn:active {
             transform: scale(0.95);
+            background: var(--secondary-color);
+        }
+        
+        .arrow-btn:hover {
             background: var(--secondary-color);
         }
 
@@ -415,7 +460,7 @@
                 display: flex;
             }
             
-            /* الجوال الطولي - كل شيء عمودي */
+            /* الجوال الطولي - Stats فوق، ثم الشاشة والأزرار تحت بعض */
             .game-layout {
                 flex-direction: column;
                 align-items: center;
@@ -473,7 +518,16 @@
             
             .arrow-btn {
                 padding: clamp(12px, 3vw, 18px);
-                font-size: clamp(18px, 4vw, 24px);
+            }
+            
+            .arrow-btn.up::before,
+            .arrow-btn.down::before {
+                border-width: 12px 9px;
+            }
+            
+            .arrow-btn.left::before,
+            .arrow-btn.right::before {
+                border-width: 9px 12px;
             }
             
             .game-btn {
@@ -482,7 +536,7 @@
             }
         }
         
-        /* الجوال العرضي */
+        /* الجوال العرضي - Stats فوق، الشاشة والأزرار جنب بعض */
         @media (max-width: 768px) and (orientation: landscape) {
             .game-layout {
                 flex-direction: row;
@@ -514,8 +568,13 @@
             }
         }
         
-        /* Desktop - تكبير العناصر */
+        /* Desktop - تكبير العناصر وترتيب أفضل */
         @media (min-width: 769px) {
+            /* Stats في الأعلى */
+            .game-controls {
+                margin-bottom: 30px;
+            }
+            
             .control-card {
                 padding: 20px;
             }
@@ -528,6 +587,11 @@
                 font-size: 32px;
             }
             
+            /* الشاشة والأزرار جنب بعض */
+            .game-layout {
+                flex-direction: row;
+            }
+            
             .game-btn {
                 padding: 16px 20px;
                 font-size: 17px;
@@ -535,7 +599,16 @@
             
             .arrow-btn {
                 padding: 20px;
-                font-size: 28px;
+            }
+            
+            .arrow-btn.up::before,
+            .arrow-btn.down::before {
+                border-width: 16px 12px;
+            }
+            
+            .arrow-btn.left::before,
+            .arrow-btn.right::before {
+                border-width: 12px 16px;
             }
         }
     </style>
@@ -607,13 +680,13 @@
                     <!-- Mobile Controls (Arrows) -->
                     <div class="mobile-controls">
                         <div></div>
-                        <button class="arrow-btn" onclick="changeDirection('UP')">▲</button>
+                        <button class="arrow-btn up" onclick="changeDirection('UP')"></button>
                         <div></div>
-                        <button class="arrow-btn" onclick="changeDirection('LEFT')">◄</button>
+                        <button class="arrow-btn left" onclick="changeDirection('LEFT')"></button>
                         <div></div>
-                        <button class="arrow-btn" onclick="changeDirection('RIGHT')">►</button>
+                        <button class="arrow-btn right" onclick="changeDirection('RIGHT')"></button>
                         <div></div>
-                        <button class="arrow-btn" onclick="changeDirection('DOWN')">▼</button>
+                        <button class="arrow-btn down" onclick="changeDirection('DOWN')"></button>
                         <div></div>
                     </div>
                 </div>
