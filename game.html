@@ -409,6 +409,17 @@
             border-width: 10px 0 10px 14px;
             border-color: transparent transparent transparent white;
         }
+        
+        /* عكس الأسهم في اللغة الإنجليزية (LTR) */
+        [dir="ltr"] .arrow-btn.right::before {
+            border-width: 10px 0 10px 14px;
+            border-color: transparent transparent transparent white;
+        }
+        
+        [dir="ltr"] .arrow-btn.left::before {
+            border-width: 10px 14px 10px 0;
+            border-color: transparent white transparent transparent;
+        }
 
         .arrow-btn:active {
             transform: scale(0.95);
@@ -536,6 +547,11 @@
                 border-width: 9px 11px;
             }
             
+            [dir="ltr"] .arrow-btn.left::before,
+            [dir="ltr"] .arrow-btn.right::before {
+                border-width: 9px 11px;
+            }
+            
             .game-btn {
                 padding: 10px 12px;
                 font-size: 13px;
@@ -551,14 +567,14 @@
             }
             
             .game-board {
-                width: min(60vh, 400px) !important;
-                height: min(60vh, 400px) !important;
+                width: min(65vh, 450px) !important;
+                height: min(65vh, 450px) !important;
             }
             
             .game-side-controls {
                 flex-direction: column;
                 width: auto;
-                max-width: 140px;
+                max-width: 120px;
                 margin-top: 0;
             }
             
@@ -568,23 +584,28 @@
             }
             
             .arrow-btn {
-                min-height: 38px;
+                min-height: 32px;
             }
             
             .arrow-btn.up::before,
             .arrow-btn.down::before {
-                border-width: 9px 7px;
+                border-width: 8px 6px;
             }
             
             .arrow-btn.left::before,
             .arrow-btn.right::before {
-                border-width: 7px 9px;
+                border-width: 6px 8px;
+            }
+            
+            [dir="ltr"] .arrow-btn.left::before,
+            [dir="ltr"] .arrow-btn.right::before {
+                border-width: 6px 8px;
             }
             
             .game-btn {
-                min-height: 38px;
-                font-size: 12px;
-                padding: 6px 10px;
+                min-height: 32px;
+                font-size: 11px;
+                padding: 5px 8px;
             }
         }
         
@@ -637,6 +658,11 @@
             
             .arrow-btn.left::before,
             .arrow-btn.right::before {
+                border-width: 13px 16px;
+            }
+            
+            [dir="ltr"] .arrow-btn.left::before,
+            [dir="ltr"] .arrow-btn.right::before {
                 border-width: 13px 16px;
             }
         }
