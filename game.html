@@ -200,15 +200,15 @@
             border: 4px solid var(--accent-color);
             border-radius: 10px;
             display: block;
-            width: 550px;
-            height: 550px;
+            width: 500px;
+            height: 500px;
         }
 
         .game-side-controls {
             display: flex;
             flex-direction: column;
             gap: 20px;
-            width: 280px;
+            width: 300px;
             justify-content: center;
             background: linear-gradient(145deg, #8b6f5a 0%, #5a4035 100%);
             padding: 30px 20px;
@@ -611,6 +611,19 @@
             height: 100%;
             object-fit: cover;
         }
+        
+        .footer-text {
+            margin-bottom: 10px;
+            font-size: clamp(16px, 3vw, 18px);
+            font-weight: bold;
+            color: var(--light-bg);
+        }
+        
+        .footer-copyright {
+            opacity: 0.8;
+            font-size: clamp(13px, 2.5vw, 15px);
+            color: var(--hover-color);
+        }
 
         /* Responsive */
         @media (max-width: 768px) {
@@ -807,6 +820,18 @@
                 flex-direction: row;
             }
             
+            /* تصغير الشاشة قليلاً */
+            .game-board {
+                width: 500px !important;
+                height: 500px !important;
+            }
+            
+            /* تكبير لوحة التحكم */
+            .game-side-controls {
+                width: 300px;
+                padding: 30px 22px;
+            }
+            
             .game-btn {
                 padding: 16px 20px;
                 font-size: 17px;
@@ -830,10 +855,6 @@
             [dir="ltr"] .arrow-btn.left::before,
             [dir="ltr"] .arrow-btn.right::before {
                 border-width: 9px 12px;
-            }
-            
-            .game-side-controls {
-                padding: 25px 18px;
             }
             
             .mobile-controls {
@@ -989,12 +1010,12 @@ void loop() {
     </main>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer" role="contentinfo">
         <div class="footer-logo">
             <img src="https://i.imgur.com/1Hu1phq.jpeg" alt="Logo">
         </div>
-        <p style="margin-bottom: 10px; font-size: 18px; font-weight: bold;" data-ar="برمج مع علي" data-en="Program with Ali">برمج مع علي</p>
-        <p style="opacity: 0.8;" data-ar="جميع الحقوق محفوظة © 2026" data-en="All Rights Reserved © 2026">جميع الحقوق محفوظة © 2026</p>
+        <p class="footer-text" data-ar="برمج مع علي" data-en="Program with Ali">برمج مع علي</p>
+        <p class="footer-copyright" data-ar="جميع الحقوق محفوظة © 2026" data-en="All Rights Reserved © 2026">جميع الحقوق محفوظة © 2026</p>
     </footer>
 
     <script>
