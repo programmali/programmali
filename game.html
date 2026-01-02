@@ -714,11 +714,12 @@
             
             .game-side-controls {
                 flex-direction: column;
-                width: 95px !important;
-                max-width: 95px !important;
+                width: 90px !important;
+                max-width: 90px !important;
+                min-width: 90px !important;
                 margin-top: 0;
                 justify-content: center;
-                padding: 10px 6px !important;
+                padding: 8px 5px !important;
             }
             
             .game-buttons,
@@ -727,38 +728,40 @@
             }
             
             .arrow-btn {
-                min-height: 24px !important;
+                min-height: 22px !important;
+                max-height: 22px !important;
             }
             
             .arrow-btn.up::before,
             .arrow-btn.down::before {
-                border-width: 5px 4px !important;
+                border-width: 4px 3px !important;
             }
             
             .arrow-btn.left::before,
             .arrow-btn.right::before {
-                border-width: 4px 5px !important;
+                border-width: 3px 4px !important;
             }
             
             [dir="ltr"] .arrow-btn.left::before,
             [dir="ltr"] .arrow-btn.right::before {
-                border-width: 4px 5px !important;
+                border-width: 3px 4px !important;
             }
             
             .game-btn {
-                min-height: 24px !important;
-                font-size: 8px !important;
-                padding: 3px 4px !important;
+                min-height: 22px !important;
+                max-height: 22px !important;
+                font-size: 7px !important;
+                padding: 2px 3px !important;
             }
             
             .controller-label {
-                font-size: 7px !important;
-                margin-bottom: 4px;
+                font-size: 6px !important;
+                margin-bottom: 3px !important;
             }
             
             .mobile-controls {
-                gap: 2px !important;
-                padding: 5px !important;
+                gap: 1px !important;
+                padding: 4px !important;
             }
         }
         
@@ -800,10 +803,12 @@
                 height: 450px !important;
             }
             
-            /* تكبير لوحة التحكم في اللابتوب */
+            /* تكبير لوحة التحكم في اللابتوب - واضح جداً */
             .game-side-controls {
-                width: 300px !important;
-                padding: 28px 22px !important;
+                width: 320px !important;
+                max-width: 320px !important;
+                min-width: 320px !important;
+                padding: 30px 25px !important;
             }
             
             .game-btn {
@@ -813,9 +818,10 @@
             }
             
             .controller-label {
-                font-size: 16px !important;
-                margin-bottom: 18px;
-                letter-spacing: 3px;
+                font-size: 18px !important;
+                margin-bottom: 20px !important;
+                letter-spacing: 4px !important;
+                font-weight: 900 !important;
             }
             
             .arrow-btn {
