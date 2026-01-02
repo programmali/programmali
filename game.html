@@ -260,6 +260,7 @@
             font-size: 12px;
             font-weight: 700;
             letter-spacing: 2px;
+            margin-top: 8px;  /* مسافة من الضوء الأبيض */
             margin-bottom: 15px;
             text-transform: uppercase;
             text-shadow: 0 2px 4px rgba(44, 24, 16, 0.8);
@@ -642,8 +643,8 @@
             
             .mobile-controls {
                 width: 100%;
-                gap: 1px !important;  /* تصغير الـ gap */
-                padding: 4px !important;  /* تصغير الـ padding */
+                gap: 0px !important;  /* تصفير الـ gap تماماً لتقريب الأسهم */
+                padding: 3px !important;  /* تصغير الـ padding */
             }
             
             .game-wrapper {
@@ -674,23 +675,23 @@
             }
             
             .arrow-btn {
-                min-height: 38px !important;
-                max-height: 38px !important;
+                min-height: 40px !important;  /* تكبير من 38px */
+                max-height: 40px !important;
             }
             
             .arrow-btn.up::before,
             .arrow-btn.down::before {
-                border-width: 9px 7px !important;  /* تكبير المثلثات */
+                border-width: 10px 8px !important;  /* تكبير المثلثات */
             }
             
             .arrow-btn.left::before,
             .arrow-btn.right::before {
-                border-width: 7px 9px !important;  /* تكبير المثلثات */
+                border-width: 8px 10px !important;  /* تكبير المثلثات */
             }
             
             [dir="ltr"] .arrow-btn.left::before,
             [dir="ltr"] .arrow-btn.right::before {
-                border-width: 7px 9px !important;
+                border-width: 8px 10px !important;
             }
             
             .game-btn {
@@ -701,6 +702,7 @@
             
             .controller-label {
                 font-size: 9px !important;
+                margin-top: 6px !important;  /* مسافة من الضوء */
                 margin-bottom: 6px;
             }
         }
@@ -720,10 +722,10 @@
             .game-side-controls {
                 flex-direction: column;
                 width: auto;
-                max-width: 100px !important;  /* تصغير العرض */
+                max-width: 115px !important;  /* تكبير من 100px */
                 margin-top: 0;
                 justify-content: center;
-                padding: 10px 6px !important;  /* تصغير الـ padding */
+                padding: 12px 8px !important;  /* تكبير الـ padding */
             }
             
             .game-buttons,
@@ -732,38 +734,39 @@
             }
             
             .arrow-btn {
-                min-height: 26px !important;
-                max-height: 26px !important;
+                min-height: 30px !important;  /* تكبير من 26px */
+                max-height: 30px !important;
             }
             
             .arrow-btn.up::before,
             .arrow-btn.down::before {
-                border-width: 7px 5px !important;  /* تكبير المثلثات */
+                border-width: 8px 6px !important;  /* تكبير المثلثات */
             }
             
             .arrow-btn.left::before,
             .arrow-btn.right::before {
-                border-width: 5px 7px !important;  /* تكبير المثلثات */
+                border-width: 6px 8px !important;  /* تكبير المثلثات */
             }
             
             [dir="ltr"] .arrow-btn.left::before,
             [dir="ltr"] .arrow-btn.right::before {
-                border-width: 5px 7px !important;
+                border-width: 6px 8px !important;
             }
             
             .game-btn {
-                min-height: 26px !important;
-                font-size: 10px !important;
-                padding: 4px 6px !important;
+                min-height: 30px !important;  /* تكبير من 26px */
+                font-size: 11px !important;  /* تكبير الخط */
+                padding: 5px 7px !important;
             }
             
             .mobile-controls {
-                gap: 1px !important;  /* تصغير الـ gap */
-                padding: 3px !important;  /* تصغير الـ padding */
+                gap: 0px !important;  /* تصفير الـ gap */
+                padding: 4px !important;  /* تكبير الـ padding */
             }
             
             .controller-label {
-                font-size: 7px !important;
+                font-size: 8px !important;  /* تكبير من 7px */
+                margin-top: 4px !important;  /* مسافة من الضوء */
                 margin-bottom: 4px !important;
             }
         }
