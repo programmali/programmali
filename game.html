@@ -633,8 +633,8 @@
                 flex-direction: column !important;
                 justify-content: center;
                 margin-top: 8px;
-                gap: 6px;
-                padding: 10px 8px;
+                gap: 4px;  /* تصغير من 6px */
+                padding: 8px 8px;  /* تصغير من 10px */
             }
             
             .game-buttons {
@@ -643,8 +643,11 @@
             
             .mobile-controls {
                 width: 100%;
-                gap: 0px !important;  /* تصفير الـ gap تماماً لتقريب الأسهم */
-                padding: 3px !important;  /* تصغير الـ padding */
+                gap: 3px !important;  /* gap صغير بين الأسهم */
+                padding: 5px !important;
+                display: grid !important;
+                grid-template-columns: 50px 50px 50px !important;  /* 3 أعمدة بعرض 50px */
+                justify-content: center !important;
             }
             
             .game-wrapper {
@@ -675,8 +678,10 @@
             }
             
             .arrow-btn {
-                min-height: 40px !important;  /* تكبير من 38px */
-                max-height: 40px !important;
+                min-height: 32px !important;  /* تصغير من 40px */
+                max-height: 32px !important;
+                width: 50px !important;  /* عرض أكبر من الارتفاع */
+                aspect-ratio: auto !important;  /* إلغاء المربع */
             }
             
             .arrow-btn.up::before,
@@ -695,9 +700,9 @@
             }
             
             .game-btn {
-                padding: 8px 10px;
+                padding: 6px 10px;  /* تصغير من 8px */
                 font-size: 12px;
-                min-height: 38px;
+                min-height: 32px;  /* تصغير من 38px */
             }
             
             .controller-label {
