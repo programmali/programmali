@@ -207,7 +207,7 @@
             width: 260px;
             justify-content: center;
             background: linear-gradient(145deg, #8b6f5a 0%, #5a4035 100%);
-            padding: 26px 16px;
+            padding: 28px 18px;
             border-radius: 25px;
             box-shadow: 
                 0 15px 40px rgba(44, 24, 16, 0.5),
@@ -443,19 +443,21 @@
             font-size: clamp(12px, 1.8vw, 14px);
         }
 
+        /* تم التحديث: 2025-01-02 الساعة 23:20 - إصلاح الأسهم في الجوال */
         /* Mobile Controls - D-Pad Style */
-        /* تم التحديث: 2025-01-02 الساعة 22:45 - إصلاح الأسهم */
         .mobile-controls {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 3px;
+            gap: 2px;  /* تم التصغير من 3px */
             width: 100%;
             background: rgba(44, 24, 16, 0.6);
-            padding: 6px;
+            padding: 5px;  /* تم التصغير من 6px */
             border-radius: 15px;
             box-shadow: 
                 inset 0 2px 8px rgba(44, 24, 16, 0.8),
                 0 2px 10px rgba(0, 0, 0, 0.3);
+            justify-items: center;
+            align-items: center;
         }
 
         .arrow-btn {
@@ -471,7 +473,7 @@
             align-items: center;
             justify-content: center;
             position: relative;
-            min-height: 35px; /* تم التصغير من 65px إلى 35px */
+            min-height: 38px;  /* تم التكبير قليلاً من 35px */
             box-shadow: 
                 0 3px 10px rgba(255, 152, 0, 0.4),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2);
@@ -501,40 +503,40 @@
         
         /* السهم للأعلى ▲ */
         .arrow-btn.up::before {
-            border-width: 0 10px 14px 10px;
+            border-width: 0 9px 12px 9px;  /* تم التكبير قليلاً */
             border-color: transparent transparent white transparent;
             filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
         }
         
         /* السهم للأسفل ▼ */
         .arrow-btn.down::before {
-            border-width: 14px 10px 0 10px;
+            border-width: 12px 9px 0 9px;  /* تم التكبير قليلاً */
             border-color: white transparent transparent transparent;
             filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
         }
         
         /* السهم لليمين (في RTL = يسار الشاشة) ◄ */
         .arrow-btn.right::before {
-            border-width: 10px 14px 10px 0;
+            border-width: 9px 12px 9px 0;  /* تم التكبير قليلاً */
             border-color: transparent white transparent transparent;
             filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
         }
         
         /* السهم لليسار (في RTL = يمين الشاشة) ► */
         .arrow-btn.left::before {
-            border-width: 10px 0 10px 14px;
+            border-width: 9px 0 9px 12px;  /* تم التكبير قليلاً */
             border-color: transparent transparent transparent white;
             filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
         }
         
         /* عكس شكل الأسهم في اللغة الإنجليزية (LTR) */
         [dir="ltr"] .arrow-btn.right::before {
-            border-width: 10px 0 10px 14px;
+            border-width: 9px 0 9px 12px;
             border-color: transparent transparent transparent white;
         }
         
         [dir="ltr"] .arrow-btn.left::before {
-            border-width: 10px 14px 10px 0;
+            border-width: 9px 12px 9px 0;
             border-color: transparent white transparent transparent;
         }
 
@@ -625,11 +627,10 @@
             }
             
             .game-side-controls {
-                width: min(90vw, 260px) !important;
-                max-width: min(90vw, 260px) !important;
+                width: min(90vw, 350px);
+                max-width: 100%;
                 flex-direction: column !important;
                 justify-content: center;
-                align-items: stretch;
                 margin-top: 8px;
                 gap: 6px;
                 padding: 10px 8px;
@@ -637,12 +638,12 @@
             
             .game-buttons {
                 width: 100%;
-                flex: none;
             }
             
             .mobile-controls {
                 width: 100%;
-                flex: none;
+                gap: 1px !important;  /* تصغير الـ gap */
+                padding: 4px !important;  /* تصغير الـ padding */
             }
             
             .game-wrapper {
@@ -679,34 +680,28 @@
             
             .arrow-btn.up::before,
             .arrow-btn.down::before {
-                border-width: 8px 6px !important;
+                border-width: 9px 7px !important;  /* تكبير المثلثات */
             }
             
             .arrow-btn.left::before,
             .arrow-btn.right::before {
-                border-width: 6px 8px !important;
+                border-width: 7px 9px !important;  /* تكبير المثلثات */
             }
             
             [dir="ltr"] .arrow-btn.left::before,
             [dir="ltr"] .arrow-btn.right::before {
-                border-width: 6px 8px !important;
+                border-width: 7px 9px !important;
             }
             
             .game-btn {
-                padding: 7px 9px;
-                font-size: 11px;
-                min-height: 38px !important;
-                max-height: 38px !important;
+                padding: 8px 10px;
+                font-size: 12px;
+                min-height: 38px;
             }
             
             .controller-label {
                 font-size: 9px !important;
-                margin-bottom: 6px !important;
-            }
-            
-            .mobile-controls {
-                gap: 4px !important;
-                padding: 8px !important;
+                margin-bottom: 6px;
             }
         }
         
@@ -724,12 +719,11 @@
             
             .game-side-controls {
                 flex-direction: column;
-                width: 100px !important;
-                max-width: 100px !important;
-                min-width: 100px !important;
+                width: auto;
+                max-width: 100px !important;  /* تصغير العرض */
                 margin-top: 0;
                 justify-content: center;
-                padding: 10px 6px !important;
+                padding: 10px 6px !important;  /* تصغير الـ padding */
             }
             
             .game-buttons,
@@ -744,34 +738,33 @@
             
             .arrow-btn.up::before,
             .arrow-btn.down::before {
-                border-width: 5px 4px !important;
+                border-width: 7px 5px !important;  /* تكبير المثلثات */
             }
             
             .arrow-btn.left::before,
             .arrow-btn.right::before {
-                border-width: 4px 5px !important;
+                border-width: 5px 7px !important;  /* تكبير المثلثات */
             }
             
             [dir="ltr"] .arrow-btn.left::before,
             [dir="ltr"] .arrow-btn.right::before {
-                border-width: 4px 5px !important;
+                border-width: 5px 7px !important;
             }
             
             .game-btn {
                 min-height: 26px !important;
-                max-height: 26px !important;
-                font-size: 8px !important;
-                padding: 3px 4px !important;
+                font-size: 10px !important;
+                padding: 4px 6px !important;
+            }
+            
+            .mobile-controls {
+                gap: 1px !important;  /* تصغير الـ gap */
+                padding: 3px !important;  /* تصغير الـ padding */
             }
             
             .controller-label {
                 font-size: 7px !important;
                 margin-bottom: 4px !important;
-            }
-            
-            .mobile-controls {
-                gap: 2px !important;
-                padding: 5px !important;
             }
         }
         
@@ -783,7 +776,7 @@
             }
         }
         
-        /* Desktop - تصغير الشاشة وتكبير لوحة التحكم */
+        /* Desktop - الأسهم ممتازة، بقي كما هو */
         @media (min-width: 769px) {
             /* Stats في الأعلى */
             .game-controls {
@@ -807,18 +800,16 @@
                 flex-direction: row;
             }
             
-            /* تصغير الشاشة أكثر */
             .game-board {
                 width: 450px !important;
                 height: 450px !important;
             }
             
-            /* تكبير لوحة التحكم في اللابتوب - واضح جداً */
             .game-side-controls {
-                width: 320px !important;
-                max-width: 320px !important;
-                min-width: 320px !important;
-                padding: 30px 25px !important;
+                width: 300px !important;
+                max-width: 300px !important;
+                min-width: 300px !important;
+                padding: 28px 22px !important;
             }
             
             .game-btn {
@@ -827,14 +818,6 @@
                 min-height: 65px;
             }
             
-            .controller-label {
-                font-size: 20px !important;
-                margin-bottom: 22px !important;
-                letter-spacing: 5px !important;
-                font-weight: 900 !important;
-            }
-            
-            /* تكبير الأسهم والتقارب في اللابتوب */
             .arrow-btn {
                 min-height: 50px !important;
                 max-height: 50px !important;
@@ -858,8 +841,15 @@
             .mobile-controls {
                 gap: 2px !important;
                 padding: 8px !important;
-                justify-items: center;
-                align-items: center;
+                justify-items: center !important;
+                align-items: center !important;
+            }
+            
+            .controller-label {
+                font-size: 20px !important;
+                font-weight: 900 !important;
+                letter-spacing: 5px !important;
+                margin-bottom: 12px !important;
             }
         }
     </style>
