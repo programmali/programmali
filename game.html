@@ -204,10 +204,10 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
-            width: 300px;
+            width: 280px;
             justify-content: center;
             background: linear-gradient(145deg, #8b6f5a 0%, #5a4035 100%);
-            padding: 30px 20px;
+            padding: 28px 18px;
             border-radius: 25px;
             box-shadow: 
                 0 15px 40px rgba(44, 24, 16, 0.5),
@@ -716,9 +716,10 @@
             .game-side-controls {
                 flex-direction: column;
                 width: auto;
-                max-width: 120px;
+                max-width: 100px;
                 margin-top: 0;
                 justify-content: center;
+                padding: 12px 8px;
             }
             
             .game-buttons,
@@ -727,28 +728,38 @@
             }
             
             .arrow-btn {
-                min-height: 28px;
+                min-height: 26px;
             }
             
             .arrow-btn.up::before,
             .arrow-btn.down::before {
-                border-width: 7px 5px;
+                border-width: 6px 5px;
             }
             
             .arrow-btn.left::before,
             .arrow-btn.right::before {
-                border-width: 5px 7px;
+                border-width: 5px 6px;
             }
             
             [dir="ltr"] .arrow-btn.left::before,
             [dir="ltr"] .arrow-btn.right::before {
-                border-width: 5px 7px;
+                border-width: 5px 6px;
             }
             
             .game-btn {
-                min-height: 28px;
-                font-size: 10px;
-                padding: 4px 6px;
+                min-height: 26px;
+                font-size: 9px;
+                padding: 4px 5px;
+            }
+            
+            .controller-label {
+                font-size: 8px;
+                margin-bottom: 6px;
+            }
+            
+            .mobile-controls {
+                gap: 3px;
+                padding: 6px;
             }
         }
         
