@@ -194,6 +194,26 @@
             transform: scale(1.05);
         }
 
+        .login-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: clamp(6px, 1.5vw, 10px) clamp(15px, 3vw, 25px);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: clamp(12px, 2vw, 16px);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
         .menu-toggle {
             display: none;
             background: none;
@@ -584,11 +604,13 @@
             
             <div class="nav-actions">
                 <button class="language-switcher" onclick="toggleLanguage()" id="langBtn" aria-label="تغيير اللغة">English</button>
+                <a href="login.html" class="login-btn" data-ar="تسجيل الدخول" data-en="Login">تسجيل الدخول</a>
                 <button class="menu-toggle" onclick="toggleMenu()" aria-label="القائمة" aria-expanded="false">☰</button>
                 <ul class="nav-menu" id="navMenu" role="navigation">
                     <li><a href="index.html" class="nav-link active" data-ar="الرئيسية" data-en="Home">الرئيسية</a></li>
                     <li><a href="courses.html" class="nav-link" data-ar="الدورات" data-en="Courses">الدورات</a></li>
                     <li><a href="game.html" class="nav-link" data-ar="لعبة تعليمية" data-en="Educational Game">لعبة تعليمية</a></li>
+                    <li><a href="leaderboard.html" class="nav-link" data-ar="لوحة الأوائل" data-en="Leaderboard">لوحة الأوائل</a></li>
                     <li><a href="about.html" class="nav-link" data-ar="من نحن" data-en="About Us">من نحن</a></li>
                     <li><a href="contact.html" class="nav-link" data-ar="تواصل معنا" data-en="Contact">تواصل معنا</a></li>
                 </ul>
