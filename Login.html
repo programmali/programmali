@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    
+    <title>برمج مع علي | تسجيل الدخول</title>
+    <meta name="description" content="سجل دخولك للعب وكسب النقاط والحصول على المكافآت!">
+    <link rel="canonical" href="https://programmali.github.io/programmali/login.html">
+    <link rel="icon" type="image/jpeg" href="https://i.imgur.com/1Hu1phq.jpeg">
+    
+    <!-- Google Sign-In -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2c1810;
+            --secondary-color: #5a4035;
+            --accent-color: #8b6f5a;
+            --light-bg: #f5e6d3;
+            --hover-color: #d4c4b0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 50%, var(--accent-color) 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: clamp(30px, 6vw, 50px);
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .language-switcher-top {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--light-bg);
+            color: var(--primary-color);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+
+        .language-switcher-top:hover {
+            background: var(--hover-color);
+            transform: scale(1.05);
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .login-title {
+            font-size: clamp(24px, 5vw, 32px);
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .login-subtitle {
+            font-size: clamp(14px, 2.5vw, 16px);
+            color: var(--accent-color);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* Google Sign-In Button */
+        .google-signin-section {
+            margin-bottom: 25px;
+        }
+
+        .google-btn {
+            width: 100%;
+            padding: 12px 20px;
+            background: white;
+            border: 2px solid #dadce0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            color: #3c4043;
+            transition: all 0.3s ease;
+        }
+
+        .google-btn:hover {
+            background: #f8f9fa;
+            border-color: #4285f4;
+            box-shadow: 0 2px 8px rgba(66, 133, 244, 0.3);
+        }
+
+        .google-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #dadce0;
+        }
+
+        .divider span {
+            padding: 0 15px;
+            color: var(--accent-color);
+            font-size: 14px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px;
+            background: var(--light-bg);
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            color: var(--accent-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid var(--hover-color);
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(139, 111, 90, 0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .guest-btn {
+            width: 100%;
+            padding: 12px;
+            background: transparent;
+            color: var(--accent-color);
+            border: 2px solid var(--accent-color);
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+        }
+
+        .guest-btn:hover {
+            background: var(--light-bg);
+        }
+
+        .home-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: var(--accent-color);
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .home-link:hover {
+            color: var(--primary-color);
+        }
+
+        .message {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            text-align: center;
+            display: none;
+        }
+
+        .message.success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 2px solid #10b981;
+        }
+
+        .message.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 2px solid #ef4444;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        .features {
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid var(--light-bg);
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+        }
+
+        .feature-icon {
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+
+        .feature-text {
+            font-size: 14px;
+        }
+
+        /* Note */
+        .note {
+            background: #d1fae5;
+            border: 2px solid #10b981;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #065f46;
+            text-align: center;
+        }
+
+        .note-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <button class="language-switcher-top" onclick="toggleLanguage()" id="langBtn">English</button>
+        
+        <div class="logo">
+            <img src="https://i.imgur.com/1Hu1phq.jpeg" alt="برمج مع علي">
+        </div>
+        
+        <h1 class="login-title" data-ar="مرحباً بك! 🎮" data-en="Welcome! 🎮">مرحباً بك! 🎮</h1>
+        <p class="login-subtitle" data-ar="سجل دخولك للعب وكسب النقاط" data-en="Login to play and earn points">سجل دخولك للعب وكسب النقاط</p>
+
+        <div id="message" class="message"></div>
+
+        <!-- Google Sign-In -->
+        <div class="google-signin-section">
+            <button class="google-btn" onclick="handleGoogleSignIn()">
+                <svg class="google-icon" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
+                <span data-ar="تسجيل الدخول عبر Google" data-en="Sign in with Google">تسجيل الدخول عبر Google</span>
+            </button>
+        </div>
+
+        <div class="divider">
+            <span data-ar="أو" data-en="OR">أو</span>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('login')" data-ar="تسجيل الدخول" data-en="Login">تسجيل الدخول</button>
+            <button class="tab" onclick="switchTab('register')" data-ar="حساب جديد" data-en="Register">حساب جديد</button>
+        </div>
+
+        <!-- Login Form -->
+        <div id="loginForm" class="form-section active">
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label class="form-label" data-ar="اسم المستخدم أو البريد الإلكتروني" data-en="Username or Email">اسم المستخدم أو البريد الإلكتروني</label>
+                    <input type="text" class="form-input" id="loginUsername" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" data-ar="كلمة المرور" data-en="Password">كلمة المرور</label>
+                    <input type="password" class="form-input" id="loginPassword" required>
+                </div>
+                <button type="submit" class="submit-btn" data-ar="دخول 🚀" data-en="Login 🚀">دخول 🚀</button>
+            </form>
+        </div>
+
+        <!-- Register Form -->
+        <div id="registerForm" class="form-section">
+            <form onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label class="form-label" data-ar="الاسم الكامل" data-en="Full Name">الاسم الكامل</label>
+                    <input type="text" class="form-input" id="registerName" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" data-ar="البريد الإلكتروني" data-en="Email">البريد الإلكتروني</label>
+                    <input type="email" class="form-input" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" data-ar="اسم المستخدم" data-en="Username">اسم المستخدم</label>
+                    <input type="text" class="form-input" id="registerUsername" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" data-ar="كلمة المرور" data-en="Password">كلمة المرور</label>
+                    <input type="password" class="form-input" id="registerPassword" required minlength="6">
+                </div>
+                <button type="submit" class="submit-btn" data-ar="إنشاء حساب ✨" data-en="Create Account ✨">إنشاء حساب ✨</button>
+            </form>
+        </div>
+
+        <button class="guest-btn" onclick="continueAsGuest()" data-ar="متابعة كزائر 👤" data-en="Continue as Guest 👤">متابعة كزائر 👤</button>
+
+        <a href="index.html" class="home-link" data-ar="← العودة للصفحة الرئيسية" data-en="← Back to Home">← العودة للصفحة الرئيسية</a>
+
+        <!-- Note about Google Sign-In -->
+        <div class="note">
+            <div class="note-title">
+                <span>✅</span>
+                <span data-ar="تسجيل الدخول عبر Google مفعّل!" data-en="Google Sign-In Activated!">تسجيل الدخول عبر Google مفعّل!</span>
+            </div>
+            <p data-ar="يمكنك الآن تسجيل الدخول باستخدام حساب Google الخاص بك مباشرة!" data-en="You can now sign in directly with your Google account!">
+                يمكنك الآن تسجيل الدخول باستخدام حساب Google الخاص بك مباشرة!
+            </p>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">🏆</div>
+                <div class="feature-text" data-ar="اربح نقاط من خلال اللعب" data-en="Earn points by playing">اربح نقاط من خلال اللعب</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🎁</div>
+                <div class="feature-text" data-ar="احصل على خصومات ومكافآت" data-en="Get discounts and rewards">احصل على خصومات ومكافآت</div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">👑</div>
+                <div class="feature-text" data-ar="تنافس في لوحة الأوائل" data-en="Compete in the leaderboard">تنافس في لوحة الأوائل</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentLang = 'ar';
+        const STORAGE_KEY = 'programmali_user_data';
+        const USERS_KEY = 'programmali_users';
+
+        // Google Sign-In Handler (Real Mode - Activated!)
+        function handleGoogleSignIn() {
+            // تم تفعيل Google OAuth الحقيقي!
+            
+            const useRealGoogle = true; // ✅ تم التفعيل!
+            
+            if (useRealGoogle) {
+                // هنا سيكون كود Google OAuth الحقيقي
+                initializeGoogleSignIn();
+            } else {
+                // Demo mode - محاكاة تسجيل الدخول
+                handleGoogleSignInDemo();
+            }
+        }
+
+        // Demo Mode Google Sign-In
+        function handleGoogleSignInDemo() {
+            const confirmText = currentLang === 'ar'
+                ? 'هذه نسخة تجريبية من تسجيل الدخول عبر Google.\n\nهل تريد المتابعة بحساب تجريبي؟'
+                : 'This is a demo version of Google Sign-In.\n\nDo you want to continue with a demo account?';
+            
+            if (confirm(confirmText)) {
+                const demoUser = {
+                    name: 'Google User',
+                    email: 'user@gmail.com',
+                    username: 'google_' + Date.now(),
+                    googleId: 'demo_google_id_' + Date.now(),
+                    points: 0,
+                    highScore: 0,
+                    gamesPlayed: 0,
+                    rewards: [],
+                    joinDate: new Date().toISOString(),
+                    isGoogleUser: true
+                };
+                
+                // Save to users list
+                const users = getUsers();
+                users.push(demoUser);
+                saveUsers(users);
+                
+                // Set as current user
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(demoUser));
+                
+                showMessage(
+                    'تم تسجيل الدخول عبر Google بنجاح! 🎉',
+                    'Google Sign-In successful! 🎉',
+                    'success'
+                );
+                
+                setTimeout(() => {
+                    window.location.href = 'game.html';
+                }, 1500);
+            }
+        }
+
+        // Real Google Sign-In (مفعّل الآن!)
+        function initializeGoogleSignIn() {
+            // تم إعداد Google OAuth ✅
+            
+            google.accounts.id.initialize({
+                client_id: '736529467752-jl6rp0j3ab1jn3rda5v1n6jm3esfjdoe.apps.googleusercontent.com',
+                callback: handleGoogleResponse
+            });
+            
+            google.accounts.id.prompt();
+        }
+
+        // Handle real Google response
+        function handleGoogleResponse(response) {
+            // فك تشفير JWT token من Google
+            const userInfo = parseJwt(response.credential);
+            
+            const googleUser = {
+                name: userInfo.name,
+                email: userInfo.email,
+                username: 'google_' + userInfo.sub,
+                googleId: userInfo.sub,
+                picture: userInfo.picture,
+                points: 0,
+                highScore: 0,
+                gamesPlayed: 0,
+                rewards: [],
+                joinDate: new Date().toISOString(),
+                isGoogleUser: true
+            };
+            
+            // Check if user exists
+            const users = getUsers();
+            const existingUser = users.find(u => u.googleId === googleUser.googleId);
+            
+            if (existingUser) {
+                // Login existing user
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(existingUser));
+            } else {
+                // Create new user
+                users.push(googleUser);
+                saveUsers(users);
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(googleUser));
+            }
+            
+            showMessage(
+                'تم تسجيل الدخول عبر Google بنجاح!',
+                'Google Sign-In successful!',
+                'success'
+            );
+            
+            setTimeout(() => {
+                window.location.href = 'game.html';
+            }, 1500);
+        }
+
+        // Parse JWT token
+        function parseJwt(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+            return JSON.parse(jsonPayload);
+        }
+
+        // Switch between tabs
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.form-section').forEach(f => f.classList.remove('active'));
+            
+            if (tab === 'login') {
+                document.querySelectorAll('.tab')[0].classList.add('active');
+                document.getElementById('loginForm').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab')[1].classList.add('active');
+                document.getElementById('registerForm').classList.add('active');
+            }
+            
+            hideMessage();
+        }
+
+        // Show message
+        function showMessage(textAr, textEn, type) {
+            const msg = document.getElementById('message');
+            msg.textContent = currentLang === 'ar' ? textAr : textEn;
+            msg.className = 'message ' + type + ' show';
+        }
+
+        function hideMessage() {
+            document.getElementById('message').className = 'message';
+        }
+
+        // Get all users
+        function getUsers() {
+            const users = localStorage.getItem(USERS_KEY);
+            return users ? JSON.parse(users) : [];
+        }
+
+        // Save users
+        function saveUsers(users) {
+            localStorage.setItem(USERS_KEY, JSON.stringify(users));
+        }
+
+        // Handle Login
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            
+            const users = getUsers();
+            const user = users.find(u => 
+                (u.username === username || u.email === username) && u.password === password
+            );
+            
+            if (user) {
+                const userData = {
+                    name: user.name,
+                    username: user.username,
+                    email: user.email,
+                    points: user.points || 0,
+                    highScore: user.highScore || 0,
+                    gamesPlayed: user.gamesPlayed || 0,
+                    rewards: user.rewards || [],
+                    joinDate: user.joinDate
+                };
+                
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(userData));
+                
+                showMessage(
+                    'تم تسجيل الدخول بنجاح! جاري التحويل...',
+                    'Login successful! Redirecting...',
+                    'success'
+                );
+                
+                setTimeout(() => {
+                    window.location.href = 'game.html';
+                }, 1500);
+            } else {
+                showMessage(
+                    'اسم المستخدم أو كلمة المرور غير صحيحة!',
+                    'Invalid username or password!',
+                    'error'
+                );
+            }
+        }
+
+        // Handle Register
+        function handleRegister(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('registerName').value.trim();
+            const email = document.getElementById('registerEmail').value.trim();
+            const username = document.getElementById('registerUsername').value.trim();
+            const password = document.getElementById('registerPassword').value;
+            
+            const users = getUsers();
+            
+            if (users.find(u => u.username === username)) {
+                showMessage(
+                    'اسم المستخدم موجود مسبقاً!',
+                    'Username already exists!',
+                    'error'
+                );
+                return;
+            }
+            
+            if (users.find(u => u.email === email)) {
+                showMessage(
+                    'البريد الإلكتروني مسجل مسبقاً!',
+                    'Email already registered!',
+                    'error'
+                );
+                return;
+            }
+            
+            const newUser = {
+                name: name,
+                username: username,
+                email: email,
+                password: password,
+                points: 0,
+                highScore: 0,
+                gamesPlayed: 0,
+                rewards: [],
+                joinDate: new Date().toISOString()
+            };
+            
+            users.push(newUser);
+            saveUsers(users);
+            
+            const userData = {
+                name: newUser.name,
+                username: newUser.username,
+                email: newUser.email,
+                points: 0,
+                highScore: 0,
+                gamesPlayed: 0,
+                rewards: [],
+                joinDate: newUser.joinDate
+            };
+            
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(userData));
+            
+            showMessage(
+                'تم إنشاء الحساب بنجاح! مرحباً بك 🎉',
+                'Account created successfully! Welcome 🎉',
+                'success'
+            );
+            
+            setTimeout(() => {
+                window.location.href = 'game.html';
+            }, 1500);
+        }
+
+        // Continue as guest
+        function continueAsGuest() {
+            const promptText = currentLang === 'ar'
+                ? 'ما اسمك؟ (سيُستخدم في لوحة الأوائل)'
+                : 'What is your name? (Will be used in leaderboard)';
+            
+            let guestName = prompt(promptText);
+            
+            while (!guestName || guestName.trim() === '') {
+                const retryText = currentLang === 'ar'
+                    ? 'الرجاء إدخال اسمك:'
+                    : 'Please enter your name:';
+                guestName = prompt(retryText);
+            }
+            
+            const userData = {
+                name: guestName.trim(),
+                username: 'guest_' + Date.now(),
+                isGuest: true,
+                points: 0,
+                highScore: 0,
+                gamesPlayed: 0,
+                rewards: [],
+                joinDate: new Date().toISOString()
+            };
+            
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(userData));
+            window.location.href = 'game.html';
+        }
+
+        // Language Toggle
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            const langBtn = document.getElementById('langBtn');
+            
+            langBtn.textContent = currentLang === 'ar' ? 'English' : 'العربية';
+            
+            document.querySelectorAll('[data-ar][data-en]').forEach(element => {
+                element.textContent = element.getAttribute(`data-${currentLang}`);
+            });
+            
+            document.documentElement.setAttribute('lang', currentLang);
+            document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+            
+            localStorage.setItem('preferredLanguage', currentLang);
+        }
+
+        // Check if already logged in
+        window.addEventListener('DOMContentLoaded', () => {
+            const userData = localStorage.getItem(STORAGE_KEY);
+            if (userData) {
+                const data = JSON.parse(userData);
+                const welcomeText = currentLang === 'ar'
+                    ? `مرحباً ${data.name}! لديك ${data.points} نقطة`
+                    : `Welcome ${data.name}! You have ${data.points} points`;
+                showMessage(welcomeText, welcomeText, 'success');
+            }
+            
+            const savedLang = localStorage.getItem('preferredLanguage');
+            if (savedLang && savedLang !== 'ar') {
+                toggleLanguage();
+            }
+        });
+    </script>
+</body>
+</html>
