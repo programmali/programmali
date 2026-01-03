@@ -628,13 +628,13 @@
             }
             
             .game-side-controls {
-                width: 260px;  /* عرض محدد بدلاً من min(90vw, 350px) */
-                max-width: 260px;
+                width: 240px;  /* تصغير من 260px */
+                max-width: 240px;
                 flex-direction: column !important;
                 justify-content: center;
                 margin-top: 3px;
-                margin-left: auto;  /* توسيط */
-                margin-right: auto;  /* توسيط */
+                margin-left: auto;
+                margin-right: auto;
                 gap: 5px;
                 padding: 4px 8px 4px 8px;
             }
@@ -646,10 +646,10 @@
             
             .mobile-controls {
                 width: 100%;
-                gap: 3px !important;  /* زيادة من 2px */
-                padding: 4px !important;  /* زيادة من 3px */
+                gap: 3px !important;
+                padding: 4px !important;
                 display: grid !important;
-                grid-template-columns: 50px 50px 50px !important;  /* تحديث من 38px */
+                grid-template-columns: 46px 46px 46px !important;  /* تحديث من 50px */
                 justify-content: center !important;
             }
             
@@ -681,15 +681,15 @@
             }
             
             .arrow-btn {
-                min-height: 28px !important;  /* تكبير الارتفاع من 22px */
+                min-height: 28px !important;
                 max-height: 28px !important;
-                width: 50px !important;  /* تكبير العرض من 38px */
+                width: 46px !important;  /* تصغير من 50px */
                 aspect-ratio: auto !important;
             }
             
             .arrow-btn.up::before,
             .arrow-btn.down::before {
-                border-width: 9px 7px !important;  /* تكبير المثلثات */
+                border-width: 9px 7px !important;
             }
             
             .arrow-btn.left::before,
@@ -709,9 +709,9 @@
             }
             
             .controller-label {
-                font-size: 8px !important;  /* تكبير من 7px */
-                margin-top: 8px !important;  /* زيادة كبيرة من 5px */
-                margin-bottom: 3px !important;  /* زيادة من 2px */
+                font-size: 8px !important;
+                margin-top: 10px !important;  /* زيادة كبيرة من 8px */
+                margin-bottom: 3px !important;
                 letter-spacing: 1px !important;
                 font-weight: 700 !important;
             }
