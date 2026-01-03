@@ -105,11 +105,112 @@
         }
 
         .language-switcher:hover {
-            background: var(--hover-color);
-            transform: scale(1.05);
-        }
+    background: var(--hover-color);
+    transform: scale(1.05);
+}
 
-        .menu-toggle {
+/* User Info & Login */
+.user-info {
+    position: relative;
+    background: var(--light-bg);
+    padding: 8px 15px;
+    border-radius: 20px;
+    display: none;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.user-info:hover {
+    background: var(--hover-color);
+}
+
+.user-name {
+    font-weight: bold;
+    color: var(--primary-color);
+    font-size: 14px;
+}
+
+.user-points {
+    background: #FFD700;
+    color: var(--primary-color);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.user-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 10px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    min-width: 200px;
+    display: none;
+    z-index: 1001;
+}
+
+.user-dropdown.show {
+    display: block;
+}
+
+.dropdown-item {
+    padding: 12px 20px;
+    color: var(--primary-color);
+    text-decoration: none;
+    display: block;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.dropdown-item:last-child {
+    border-bottom: none;
+}
+
+.dropdown-item:hover {
+    background: var(--light-bg);
+}
+
+.dropdown-item.danger {
+    color: #ef4444;
+}
+
+.login-btn {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border: none;
+    padding: clamp(6px, 1.5vw, 10px) clamp(15px, 3vw, 25px);
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: clamp(12px, 2vw, 16px);
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.login-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+@media (max-width: 768px) {
+    .user-info {
+        font-size: 12px;
+    }
+    
+    .user-points {
+        font-size: 10px;
+        padding: 3px 8px;
+    }
+}
+
+.menu-toggle {
             display: none;
             background: none;
             border: none;
@@ -471,12 +572,29 @@
             </div>
             
             <div class="nav-actions">
-                <button class="language-switcher" onclick="toggleLanguage()" id="langBtn">English</button>
-                <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-                <ul class="nav-menu" id="navMenu">
+    <!-- User Info (shown when logged in) -->
+    <div class="user-info" id="userInfo" onclick="toggleUserDropdown()">
+        <span class="user-name"><span id="userName">زائر</span></span>
+        <span class="user-points">🏆 <span id="userPoints">0</span></span>
+        <span>▼</span>
+        
+        <div class="user-dropdown" id="userDropdown">
+            <a href="leaderboard.html" class="dropdown-item"><span data-ar="📊 لوحة الأوائل" data-en="📊 Leaderboard">📊 لوحة الأوائل</span></a>
+            <a href="login.html" class="dropdown-item"><span data-ar="🔄 تبديل الحساب" data-en="🔄 Switch Account">🔄 تبديل الحساب</span></a>
+            <a href="#" class="dropdown-item danger" onclick="logout(); return false;"><span data-ar="🚪 تسجيل الخروج" data-en="🚪 Logout">🚪 تسجيل الخروج</span></a>
+        </div>
+    </div>
+    
+    <!-- Login Button (shown when not logged in) -->
+    <a href="login.html" class="login-btn" id="loginBtn" data-ar="تسجيل الدخول" data-en="Login">تسجيل الدخول</a>
+    
+    <button class="language-switcher" onclick="toggleLanguage()" id="langBtn">English</button>
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+    <ul class="nav-menu" id="navMenu">
                     <li><a href="index.html" class="nav-link" data-ar="الرئيسية" data-en="Home">الرئيسية</a></li>
                     <li><a href="courses.html" class="nav-link" data-ar="الدورات" data-en="Courses">الدورات</a></li>
                     <li><a href="game.html" class="nav-link" data-ar="لعبة تعليمية" data-en="Educational Game">لعبة تعليمية</a></li>
+                    <li><a href="leaderboard.html" class="nav-link" data-ar="لوحة الأوائل" data-en="Leaderboard">لوحة الأوائل</a></li>
                     <li><a href="about.html" class="nav-link active" data-ar="من نحن" data-en="About Us">من نحن</a></li>
                     <li><a href="contact.html" class="nav-link" data-ar="تواصل معنا" data-en="Contact">تواصل معنا</a></li>
                 </ul>
