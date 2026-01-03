@@ -628,12 +628,14 @@
             }
             
             .game-side-controls {
-                width: min(90vw, 350px);
-                max-width: 100%;
+                width: 260px;  /* عرض محدد بدلاً من min(90vw, 350px) */
+                max-width: 260px;
                 flex-direction: column !important;
                 justify-content: center;
                 margin-top: 3px;
-                gap: 5px;  /* زيادة من 3px */
+                margin-left: auto;  /* توسيط */
+                margin-right: auto;  /* توسيط */
+                gap: 5px;
                 padding: 4px 8px 4px 8px;
             }
             
@@ -742,34 +744,39 @@
             }
             
             .arrow-btn {
-                min-height: 38px !important;  /* تكبير من 36px */
-                max-height: 38px !important;
+                min-height: 32px !important;  /* تصغير من 38px */
+                max-height: 32px !important;
+                width: 45px !important;  /* إضافة عرض مستطيل */
+                aspect-ratio: auto !important;
             }
             
             .arrow-btn.up::before,
             .arrow-btn.down::before {
-                border-width: 11px 9px !important;  /* تكبير من 10px 8px */
+                border-width: 9px 7px !important;  /* تصغير من 11px 9px */
             }
             
             .arrow-btn.left::before,
             .arrow-btn.right::before {
-                border-width: 9px 11px !important;  /* تكبير من 8px 10px */
+                border-width: 7px 9px !important;  /* تصغير من 9px 11px */
             }
             
             [dir="ltr"] .arrow-btn.left::before,
             [dir="ltr"] .arrow-btn.right::before {
-                border-width: 9px 11px !important;
+                border-width: 7px 9px !important;
             }
             
             .game-btn {
-                min-height: 38px !important;  /* تكبير من 36px */
-                font-size: 12px !important;
-                padding: 9px 11px !important;  /* تكبير من 8px 10px */
+                min-height: 32px !important;  /* تصغير من 38px */
+                font-size: 11px !important;  /* تصغير من 12px */
+                padding: 7px 9px !important;  /* تصغير من 9px 11px */
             }
             
             .mobile-controls {
-                gap: 0px !important;
-                padding: 12px !important;  /* تكبير من 10px */
+                gap: 2px !important;  /* زيادة من 0px */
+                padding: 10px !important;  /* تصغير من 12px */
+                display: grid !important;
+                grid-template-columns: 45px 45px 45px !important;
+                justify-content: center !important;
             }
             
             .controller-label {
@@ -852,12 +859,14 @@
             }
             
             .mobile-controls {
-                gap: 3px !important;  /* زيادة من 2px */
+                gap: 3px !important;
                 padding: 8px !important;
                 justify-items: center !important;
                 align-items: center !important;
+                justify-content: center !important;  /* إضافة توسيط */
                 display: grid !important;
-                grid-template-columns: 58px 58px 58px !important;  /* تحديد العرض */
+                grid-template-columns: 58px 58px 58px !important;
+                margin: 0 auto !important;  /* توسيط الـ grid نفسه */
             }
             
             .controller-label {
