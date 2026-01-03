@@ -2,7 +2,9 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
     
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-PES47W54T3"></script>
@@ -38,6 +40,8 @@
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 50%, var(--accent-color) 100%);
             background-attachment: fixed;
             min-height: 100vh;
+            touch-action: manipulation;  /* منع delay 300ms */
+            -webkit-tap-highlight-color: transparent;  /* إزالة highlight */
         }
 
         /* Navbar */
@@ -300,7 +304,10 @@
             font-size: clamp(14px, 2.5vw, 16px);
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: none;  /* إزالة التأخير */
+            touch-action: manipulation;  /* استجابة فورية للمس */
+            -webkit-tap-highlight-color: transparent;  /* إزالة highlight */
+            user-select: none;  /* منع التحديد */
             width: 100%;
             min-height: 65px;
             display: flex;
@@ -468,13 +475,16 @@
             padding: 0;
             border-radius: 8px;
             cursor: pointer;
-            transition: all 0.15s ease;
+            transition: none;  /* إزالة التأخير */
+            touch-action: manipulation;  /* استجابة فورية */
+            -webkit-tap-highlight-color: transparent;  /* إزالة highlight */
+            user-select: none;  /* منع التحديد */
             aspect-ratio: 1;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
-            min-height: 38px;  /* تم التكبير قليلاً من 35px */
+            min-height: 38px;
             box-shadow: 
                 0 3px 10px rgba(255, 152, 0, 0.4),
                 inset 0 1px 0 rgba(255, 255, 255, 0.2);
@@ -710,7 +720,7 @@
             
             .controller-label {
                 font-size: 8px !important;
-                margin-top: 10px !important;  /* زيادة كبيرة من 8px */
+                margin-top: 12px !important;  /* زيادة من 10px */
                 margin-bottom: 3px !important;
                 letter-spacing: 1px !important;
                 font-weight: 700 !important;
