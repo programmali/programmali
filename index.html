@@ -49,7 +49,7 @@
             overflow-x: hidden;
         }
 
-        /* Splash Screen */
+        /* Splash Screen - تم الإصلاح للاختفاء التدريجي في جميع الأجهزة */
         .splash-screen {
             position: fixed;
             top: 0;
@@ -62,14 +62,15 @@
             justify-content: center;
             align-items: center;
             z-index: 9999;
-            animation: fadeOut 1s ease 2s forwards;
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 1s ease, visibility 1s ease;
         }
 
-        @keyframes fadeOut {
-            to {
-                opacity: 0;
-                visibility: hidden;
-            }
+        /* Class للاختفاء التدريجي */
+        .splash-screen.fade-out {
+            opacity: 0;
+            visibility: hidden;
         }
 
         .splash-logo {
@@ -665,22 +666,30 @@
     </footer>
 
     <script>
-        // Splash Screen - Show only once per session
+        // Splash Screen - تم الإصلاح للاختفاء التدريجي في جميع الأجهزة
         window.addEventListener('DOMContentLoaded', () => {
             const splash = document.getElementById('splashScreen');
             const hasSeenSplash = sessionStorage.getItem('hasSeenSplash');
             
             if (hasSeenSplash) {
-                // Hide splash immediately if already seen
-                if (splash) splash.style.display = 'none';
+                // إخفاء فوري إذا تم المشاهدة من قبل
+                if (splash) {
+                    splash.style.display = 'none';
+                }
             } else {
-                // Mark as seen
+                // وضع علامة على المشاهدة
                 sessionStorage.setItem('hasSeenSplash', 'true');
                 
-                // Remove after 3 seconds
+                // بدء الاختفاء التدريجي بعد ثانيتين
                 setTimeout(() => {
-                    if (splash) splash.style.display = 'none';
-                }, 3000);
+                    if (splash) {
+                        splash.classList.add('fade-out');
+                        // إخفاء نهائي بعد انتهاء الـ transition (1 ثانية)
+                        setTimeout(() => {
+                            splash.style.display = 'none';
+                        }, 1000);
+                    }
+                }, 2000);
             }
         });
 
