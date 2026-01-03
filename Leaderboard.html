@@ -428,7 +428,7 @@
         .leaderboard-points {
             font-size: 20px;
             font-weight: bold;
-            color: var(--gold);
+            color: #000000;
         }
 
         /* CTA Buttons */
@@ -520,23 +520,23 @@
                 <div class="nav-logo-img">
                     <img src="https://i.imgur.com/1Hu1phq.jpeg" alt="Logo">
                 </div>
-                <a href="index.html" class="nav-brand">برمج مع علي</a>
+                <a href="index.html" class="nav-brand" data-ar="برمج مع علي" data-en="Program with Ali">برمج مع علي</a>
             </div>
             
             <div class="nav-actions">
                 <div class="user-info" id="userInfo">
-                    <span class="user-points">مرحباً، <span id="userName">زائر</span></span>
-                    <span class="points-badge">🏆 <span id="userPoints">0</span> نقطة</span>
+                    <span class="user-points"><span data-ar="مرحباً،" data-en="Hello,">مرحباً،</span> <span id="userName" data-ar="زائر" data-en="Guest">زائر</span></span>
+                    <span class="points-badge">🏆 <span id="userPoints">0</span> <span data-ar="نقطة" data-en="points">نقطة</span></span>
                 </div>
                 <button class="language-switcher" onclick="toggleLanguage()" id="langBtn">English</button>
                 <button class="menu-toggle" onclick="toggleMenu()">☰</button>
                 <ul class="nav-menu" id="navMenu">
-                    <li><a href="index.html" class="nav-link">الرئيسية</a></li>
-                    <li><a href="courses.html" class="nav-link">الدورات</a></li>
-                    <li><a href="game.html" class="nav-link">لعبة تعليمية</a></li>
-                    <li><a href="leaderboard.html" class="nav-link active">لوحة الأوائل</a></li>
-                    <li><a href="about.html" class="nav-link">من نحن</a></li>
-                    <li><a href="contact.html" class="nav-link">تواصل معنا</a></li>
+                    <li><a href="index.html" class="nav-link" data-ar="الرئيسية" data-en="Home">الرئيسية</a></li>
+                    <li><a href="courses.html" class="nav-link" data-ar="الدورات" data-en="Courses">الدورات</a></li>
+                    <li><a href="game.html" class="nav-link" data-ar="لعبة تعليمية" data-en="Educational Game">لعبة تعليمية</a></li>
+                    <li><a href="leaderboard.html" class="nav-link active" data-ar="لوحة الأوائل" data-en="Leaderboard">لوحة الأوائل</a></li>
+                    <li><a href="about.html" class="nav-link" data-ar="من نحن" data-en="About Us">من نحن</a></li>
+                    <li><a href="contact.html" class="nav-link" data-ar="تواصل معنا" data-en="Contact">تواصل معنا</a></li>
                 </ul>
             </div>
         </div>
@@ -544,8 +544,8 @@
 
     <!-- Page Header -->
     <header class="page-header">
-        <h1 class="page-title">🏆 لوحة الأوائل والمكافآت</h1>
-        <p class="page-description">اربح نقاطاً من خلال اللعب واحصل على خصومات وجوائز رائعة!</p>
+        <h1 class="page-title" data-ar="🏆 لوحة الأوائل والمكافآت" data-en="🏆 Leaderboard & Rewards">🏆 لوحة الأوائل والمكافآت</h1>
+        <p class="page-description" data-ar="اربح نقاطاً من خلال اللعب واحصل على خصومات وجوائز رائعة!" data-en="Earn points by playing and get great discounts and rewards!">اربح نقاطاً من خلال اللعب واحصل على خصومات وجوائز رائعة!</p>
     </header>
 
     <!-- Main Container -->
@@ -555,36 +555,36 @@
             <div class="profile-header">
                 <div class="profile-avatar" id="profileAvatar">👤</div>
                 <div class="profile-info">
-                    <h2 id="profileName">مرحباً بك!</h2>
-                    <p class="profile-rank" id="profileRank">المرتبة: -</p>
+                    <h2 id="profileName" data-ar="مرحباً بك!" data-en="Welcome!">مرحباً بك!</h2>
+                    <p class="profile-rank" id="profileRank"><span data-ar="المرتبة:" data-en="Rank:">المرتبة:</span> -</p>
                 </div>
             </div>
             <div class="points-section">
                 <div class="points-box">
                     <div class="points-box-value" id="totalPoints">0</div>
-                    <div class="points-box-label">مجموع النقاط</div>
+                    <div class="points-box-label" data-ar="مجموع النقاط" data-en="Total Points">مجموع النقاط</div>
                 </div>
                 <div class="points-box">
                     <div class="points-box-value" id="highScore">0</div>
-                    <div class="points-box-label">أعلى نتيجة</div>
+                    <div class="points-box-label" data-ar="أعلى نتيجة" data-en="High Score">أعلى نتيجة</div>
                 </div>
                 <div class="points-box">
                     <div class="points-box-value" id="gamesPlayed">0</div>
-                    <div class="points-box-label">عدد المحاولات</div>
+                    <div class="points-box-label" data-ar="عدد المحاولات" data-en="Games Played">عدد المحاولات</div>
                 </div>
             </div>
         </section>
 
         <!-- Rewards -->
         <section class="rewards-section">
-            <h2 class="section-title">🎁 المكافآت المتاحة</h2>
+            <h2 class="section-title" data-ar="🎁 المكافآت المتاحة" data-en="🎁 Available Rewards">🎁 المكافآت المتاحة</h2>
             <div class="rewards-grid">
                 <div class="reward-card" id="reward1">
                     <div class="reward-icon">🎟️</div>
-                    <div class="reward-title">خصم 10%</div>
-                    <div class="reward-description">على جميع الدورات المسجلة</div>
-                    <div class="reward-points">50 نقطة</div>
-                    <div class="reward-status locked">مقفل</div>
+                    <div class="reward-title" data-ar="خصم 10%" data-en="10% Discount">خصم 10%</div>
+                    <div class="reward-description" data-ar="على جميع الدورات المسجلة" data-en="On all recorded courses">على جميع الدورات المسجلة</div>
+                    <div class="reward-points"><span data-ar="50 نقطة" data-en="50 points">50 نقطة</span></div>
+                    <div class="reward-status locked" data-ar-locked="مقفل" data-en-locked="Locked" data-ar-unlocked="✅ مفتوح" data-en-unlocked="✅ Unlocked">مقفل</div>
                     <div class="reward-progress">
                         <div class="reward-progress-bar" id="progress1" style="width: 0%"></div>
                     </div>
@@ -592,10 +592,10 @@
 
                 <div class="reward-card" id="reward2">
                     <div class="reward-icon">🎫</div>
-                    <div class="reward-title">خصم 25%</div>
-                    <div class="reward-description">على جميع الدورات المسجلة</div>
-                    <div class="reward-points">100 نقطة</div>
-                    <div class="reward-status locked">مقفل</div>
+                    <div class="reward-title" data-ar="خصم 25%" data-en="25% Discount">خصم 25%</div>
+                    <div class="reward-description" data-ar="على جميع الدورات المسجلة" data-en="On all recorded courses">على جميع الدورات المسجلة</div>
+                    <div class="reward-points"><span data-ar="100 نقطة" data-en="100 points">100 نقطة</span></div>
+                    <div class="reward-status locked" data-ar-locked="مقفل" data-en-locked="Locked" data-ar-unlocked="✅ مفتوح" data-en-unlocked="✅ Unlocked">مقفل</div>
                     <div class="reward-progress">
                         <div class="reward-progress-bar" id="progress2" style="width: 0%"></div>
                     </div>
@@ -603,10 +603,10 @@
 
                 <div class="reward-card" id="reward3">
                     <div class="reward-icon">🎖️</div>
-                    <div class="reward-title">خصم 50%</div>
-                    <div class="reward-description">على جميع الدورات المسجلة</div>
-                    <div class="reward-points">200 نقطة</div>
-                    <div class="reward-status locked">مقفل</div>
+                    <div class="reward-title" data-ar="خصم 50%" data-en="50% Discount">خصم 50%</div>
+                    <div class="reward-description" data-ar="على جميع الدورات المسجلة" data-en="On all recorded courses">على جميع الدورات المسجلة</div>
+                    <div class="reward-points"><span data-ar="200 نقطة" data-en="200 points">200 نقطة</span></div>
+                    <div class="reward-status locked" data-ar-locked="مقفل" data-en-locked="Locked" data-ar-unlocked="✅ مفتوح" data-en-unlocked="✅ Unlocked">مقفل</div>
                     <div class="reward-progress">
                         <div class="reward-progress-bar" id="progress3" style="width: 0%"></div>
                     </div>
@@ -614,10 +614,10 @@
 
                 <div class="reward-card" id="reward4">
                     <div class="reward-icon">🏆</div>
-                    <div class="reward-title">دورة مجانية!</div>
-                    <div class="reward-description">احصل على دورة كاملة مجاناً</div>
-                    <div class="reward-points">500 نقطة</div>
-                    <div class="reward-status locked">مقفل</div>
+                    <div class="reward-title" data-ar="دورة مجانية!" data-en="Free Course!">دورة مجانية!</div>
+                    <div class="reward-description" data-ar="احصل على دورة كاملة مجاناً" data-en="Get a complete course for free">احصل على دورة كاملة مجاناً</div>
+                    <div class="reward-points"><span data-ar="500 نقطة" data-en="500 points">500 نقطة</span></div>
+                    <div class="reward-status locked" data-ar-locked="مقفل" data-en-locked="Locked" data-ar-unlocked="✅ مفتوح" data-en-unlocked="✅ Unlocked">مقفل</div>
                     <div class="reward-progress">
                         <div class="reward-progress-bar" id="progress4" style="width: 0%"></div>
                     </div>
@@ -627,7 +627,7 @@
 
         <!-- Leaderboard -->
         <section class="leaderboard-section">
-            <h2 class="section-title">👑 قائمة الأوائل</h2>
+            <h2 class="section-title" data-ar="👑 قائمة الأوائل" data-en="👑 Top Players">👑 قائمة الأوائل</h2>
             <ul class="leaderboard-list" id="leaderboardList">
                 <!-- Will be populated by JavaScript -->
             </ul>
@@ -635,8 +635,8 @@
 
         <!-- CTA -->
         <div class="cta-section">
-            <a href="game.html" class="cta-button">🎮 العب الآن واربح نقاط!</a>
-            <a href="courses.html" class="cta-button">📚 تصفح الدورات</a>
+            <a href="game.html" class="cta-button" data-ar="🎮 العب الآن واربح نقاط!" data-en="🎮 Play Now & Earn Points!">🎮 العب الآن واربح نقاط!</a>
+            <a href="courses.html" class="cta-button" data-ar="📚 تصفح الدورات" data-en="📚 Browse Courses">📚 تصفح الدورات</a>
         </div>
     </main>
 
@@ -645,12 +645,12 @@
         <div class="footer-logo">
             <img src="https://i.imgur.com/1Hu1phq.jpeg" alt="Logo">
         </div>
-        <p style="margin-bottom: 10px; font-size: 18px; font-weight: bold;">برمج مع علي</p>
-        <p style="opacity: 0.8;">جميع الحقوق محفوظة © 2026</p>
+        <p style="margin-bottom: 10px; font-size: 18px; font-weight: bold;" data-ar="برمج مع علي" data-en="Program with Ali">برمج مع علي</p>
+        <p style="opacity: 0.8;" data-ar="جميع الحقوق محفوظة © 2026" data-en="All Rights Reserved © 2026">جميع الحقوق محفوظة © 2026</p>
     </footer>
 
     <script>
-        // Simple in-memory storage (will be replaced with backend later)
+        let currentLang = 'ar';
         const STORAGE_KEY = 'programmali_user_data';
         
         // Get user data from localStorage
@@ -660,7 +660,7 @@
                 return JSON.parse(data);
             }
             return {
-                name: 'زائر',
+                name: currentLang === 'ar' ? 'زائر' : 'Guest',
                 points: 0,
                 highScore: 0,
                 gamesPlayed: 0,
@@ -675,11 +675,11 @@
 
         // Sample leaderboard data
         const sampleLeaderboard = [
-            { name: 'أحمد محمد', points: 850, level: 'خبير البرمجة' },
-            { name: 'فاطمة علي', points: 720, level: 'محترف متقدم' },
-            { name: 'خالد سعيد', points: 650, level: 'محترف' },
-            { name: 'نورة حسن', points: 480, level: 'متقدم' },
-            { name: 'عمر يوسف', points: 320, level: 'متوسط' }
+            { name: 'أحمد محمد', nameEn: 'Ahmed Mohamed', points: 850, level: 'خبير البرمجة', levelEn: 'Programming Expert' },
+            { name: 'فاطمة علي', nameEn: 'Fatima Ali', points: 720, level: 'محترف متقدم', levelEn: 'Advanced Professional' },
+            { name: 'خالد سعيد', nameEn: 'Khaled Said', points: 650, level: 'محترف', levelEn: 'Professional' },
+            { name: 'نورة حسن', nameEn: 'Noura Hassan', points: 480, level: 'متقدم', levelEn: 'Advanced' },
+            { name: 'عمر يوسف', nameEn: 'Omar Yousef', points: 320, level: 'متوسط', levelEn: 'Intermediate' }
         ];
 
         // Initialize page
@@ -687,8 +687,7 @@
             const userData = getUserData();
             
             // Update profile
-            document.getElementById('profileName').textContent = 'مرحباً، ' + userData.name;
-            document.getElementById('userName').textContent = userData.name;
+            updateProfileName(userData.name);
             document.getElementById('userPoints').textContent = userData.points;
             document.getElementById('totalPoints').textContent = userData.points;
             document.getElementById('highScore').textContent = userData.highScore;
@@ -699,6 +698,12 @@
             
             // Update leaderboard
             updateLeaderboard(userData);
+        }
+
+        function updateProfileName(name) {
+            const greeting = currentLang === 'ar' ? 'مرحباً، ' : 'Hello, ';
+            document.getElementById('profileName').textContent = greeting + name;
+            document.getElementById('userName').textContent = name;
         }
 
         // Update rewards based on points
@@ -723,10 +728,13 @@
                     card.classList.remove('locked');
                     status.classList.add('unlocked');
                     status.classList.remove('locked');
-                    status.textContent = '✅ مفتوح';
+                    status.textContent = currentLang === 'ar' ? '✅ مفتوح' : '✅ Unlocked';
                 } else {
                     const remaining = reward.required - points;
-                    status.textContent = `🔒 يتبقى ${remaining} نقطة`;
+                    const remainingText = currentLang === 'ar' 
+                        ? `🔒 يتبقى ${remaining} نقطة` 
+                        : `🔒 ${remaining} points left`;
+                    status.textContent = remainingText;
                 }
             });
         }
@@ -737,10 +745,13 @@
             
             // Add current user if they have points
             if (currentUser.points > 0) {
+                const youText = currentLang === 'ar' ? ' (أنت)' : ' (You)';
                 leaderboard.push({
-                    name: currentUser.name + ' (أنت)',
+                    name: currentUser.name + youText,
+                    nameEn: currentUser.name + youText,
                     points: currentUser.points,
                     level: getLevelByPoints(currentUser.points),
+                    levelEn: getLevelByPoints(currentUser.points, 'en'),
                     isCurrentUser: true
                 });
             }
@@ -752,6 +763,8 @@
             const listElement = document.getElementById('leaderboardList');
             listElement.innerHTML = '';
             
+            const pointsText = currentLang === 'ar' ? 'نقطة' : 'points';
+            
             leaderboard.forEach((user, index) => {
                 const rank = index + 1;
                 const rankClass = rank === 1 ? 'top1' : rank === 2 ? 'top2' : rank === 3 ? 'top3' : '';
@@ -762,14 +775,17 @@
                     item.style.border = '3px solid #10b981';
                 }
                 
+                const displayName = currentLang === 'ar' ? user.name : user.nameEn;
+                const displayLevel = currentLang === 'ar' ? user.level : user.levelEn;
+                
                 item.innerHTML = `
                     <div class="leaderboard-rank">${rank === 1 ? '🥇' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : rank}</div>
-                    <div class="leaderboard-avatar">${user.name.charAt(0)}</div>
+                    <div class="leaderboard-avatar">${displayName.charAt(0)}</div>
                     <div class="leaderboard-info">
-                        <div class="leaderboard-name">${user.name}</div>
-                        <div class="leaderboard-level">${user.level}</div>
+                        <div class="leaderboard-name">${displayName}</div>
+                        <div class="leaderboard-level">${displayLevel}</div>
                     </div>
-                    <div class="leaderboard-points">${user.points} نقطة</div>
+                    <div class="leaderboard-points">${user.points} ${pointsText}</div>
                 `;
                 
                 listElement.appendChild(item);
@@ -778,17 +794,26 @@
             // Update rank
             const currentUserRank = leaderboard.findIndex(u => u.isCurrentUser) + 1;
             if (currentUserRank > 0) {
-                document.getElementById('profileRank').textContent = `المرتبة: #${currentUserRank}`;
+                const rankText = currentLang === 'ar' ? 'المرتبة:' : 'Rank:';
+                document.getElementById('profileRank').textContent = `${rankText} #${currentUserRank}`;
             }
         }
 
         // Get level by points
-        function getLevelByPoints(points) {
-            if (points >= 500) return 'خبير البرمجة';
-            if (points >= 300) return 'محترف متقدم';
-            if (points >= 150) return 'محترف';
-            if (points >= 50) return 'متقدم';
-            return 'مبتدئ';
+        function getLevelByPoints(points, lang = 'ar') {
+            if (lang === 'ar') {
+                if (points >= 500) return 'خبير البرمجة';
+                if (points >= 300) return 'محترف متقدم';
+                if (points >= 150) return 'محترف';
+                if (points >= 50) return 'متقدم';
+                return 'مبتدئ';
+            } else {
+                if (points >= 500) return 'Programming Expert';
+                if (points >= 300) return 'Advanced Professional';
+                if (points >= 150) return 'Professional';
+                if (points >= 50) return 'Advanced';
+                return 'Beginner';
+            }
         }
 
         // Mobile Menu
@@ -799,13 +824,40 @@
             toggle.textContent = menu.classList.contains('active') ? '✕' : '☰';
         }
 
-        // Language Toggle (simplified)
+        // Language Toggle
         function toggleLanguage() {
-            alert('ميزة تبديل اللغة ستتوفر قريباً!');
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            const langBtn = document.getElementById('langBtn');
+            
+            langBtn.textContent = currentLang === 'ar' ? 'English' : 'العربية';
+            
+            // Update all text content
+            document.querySelectorAll('[data-ar][data-en]').forEach(element => {
+                element.textContent = element.getAttribute(`data-${currentLang}`);
+            });
+            
+            // Update language and direction
+            document.documentElement.setAttribute('lang', currentLang);
+            document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+            
+            // Save preference
+            localStorage.setItem('preferredLanguage', currentLang);
+            
+            // Re-render dynamic content
+            const userData = getUserData();
+            updateProfileName(userData.name);
+            updateRewards(userData.points);
+            updateLeaderboard(userData);
         }
 
-        // Initialize on load
-        window.addEventListener('DOMContentLoaded', initPage);
+        // Load saved language
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('preferredLanguage');
+            if (savedLang && savedLang !== 'ar') {
+                toggleLanguage();
+            }
+            initPage();
+        });
     </script>
 </body>
 </html>
