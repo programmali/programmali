@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-PES47W54T3"></script>
@@ -49,7 +52,7 @@
             overflow-x: hidden;
         }
 
-        /* Splash Screen - تم الإصلاح للاختفاء التدريجي في جميع الأجهزة */
+        /* Splash Screen - إصلاح نهائي */
         .splash-screen {
             position: fixed;
             top: 0;
@@ -63,14 +66,13 @@
             align-items: center;
             z-index: 9999;
             opacity: 1;
-            visibility: visible;
-            transition: opacity 1s ease, visibility 1s ease;
+            pointer-events: auto;
+            transition: opacity 1.2s ease-in-out;
         }
 
-        /* Class للاختفاء التدريجي */
         .splash-screen.fade-out {
             opacity: 0;
-            visibility: hidden;
+            pointer-events: none;
         }
 
         .splash-logo {
@@ -529,10 +531,8 @@
 
         /* Reduced Motion */
         @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
+            .splash-screen {
+                transition: opacity 0.3s ease;
             }
         }
 
@@ -666,32 +666,32 @@
     </footer>
 
     <script>
-        // Splash Screen - تم الإصلاح للاختفاء التدريجي في جميع الأجهزة
-        window.addEventListener('DOMContentLoaded', () => {
+        // Splash Screen - إصلاح نهائي لجميع الأجهزة
+        (function() {
+            'use strict';
+            
             const splash = document.getElementById('splashScreen');
             const hasSeenSplash = sessionStorage.getItem('hasSeenSplash');
             
             if (hasSeenSplash) {
-                // إخفاء فوري إذا تم المشاهدة من قبل
-                if (splash) {
-                    splash.style.display = 'none';
-                }
+                // إخفاء فوري
+                splash.style.display = 'none';
             } else {
-                // وضع علامة على المشاهدة
+                // تعليم كمشاهد
                 sessionStorage.setItem('hasSeenSplash', 'true');
                 
-                // بدء الاختفاء التدريجي بعد ثانيتين
-                setTimeout(() => {
-                    if (splash) {
-                        splash.classList.add('fade-out');
-                        // إخفاء نهائي بعد انتهاء الـ transition (1 ثانية)
-                        setTimeout(() => {
-                            splash.style.display = 'none';
-                        }, 1000);
-                    }
+                // الانتظار ثانيتين ثم البدء بالاختفاء
+                setTimeout(function() {
+                    // إضافة class للاختفاء
+                    splash.classList.add('fade-out');
+                    
+                    // بعد انتهاء الـ transition (1.2 ثانية)، إخفاء نهائي
+                    setTimeout(function() {
+                        splash.style.display = 'none';
+                    }, 1200);
                 }, 2000);
             }
-        });
+        })();
 
         // Mobile Menu Toggle
         function toggleMenu() {
