@@ -769,16 +769,10 @@
             
             if (!userInfoDiv || !loginBtn) return;
             
-            // تحقق إذا كان المستخدم مسجل دخول بأي طريقة
-            const isLoggedIn = userData && (
-                userData.isGuest === true ||
-                userData.username || 
-                userData.email || 
-                userData.isGoogleUser ||
-                (userData.name && userData.joinDate) // له اسم وتاريخ انضمام
-            );
+            // تحقق بسيط: إذا كان localStorage يحتوي على بيانات المستخدم
+            const hasData = localStorage.getItem(STORAGE_KEY);
             
-            if (isLoggedIn) {
+            if (hasData && userData) {
                 userInfoDiv.style.display = 'flex';
                 loginBtn.style.display = 'none';
                 
