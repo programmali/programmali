@@ -46,6 +46,7 @@
             width: 100%;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             position: relative;
+            overflow: visible;
         }
 
         .language-switcher-top {
@@ -204,21 +205,27 @@
         .google-signin-container {
             display: flex;
             justify-content: center;
+            align-items: center;
             margin: 0 0 25px 0;
-            min-height: 44px;
+            min-height: 50px;
+            width: 100%;
+            padding: 0 10px;
         }
 
         #googleButton {
             display: flex;
             justify-content: center;
+            align-items: center;
             width: 100%;
+            max-width: 100%;
         }
 
-        /* تحسين شكل زر Google */
+        /* تحسين شكل زر Google - يظهر كامل! */
         #googleButton > div {
             width: 100% !important;
+            max-width: 100% !important;
             border-radius: 12px !important;
-            overflow: hidden;
+            overflow: visible !important;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
             transition: all 0.3s ease !important;
         }
@@ -230,6 +237,15 @@
 
         #googleButton iframe {
             border-radius: 12px !important;
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+        
+        /* للجوال - حجم أصغر */
+        @media (max-width: 480px) {
+            .google-signin-container {
+                padding: 0 5px;
+            }
         }
 
         .guest-btn {
@@ -439,6 +455,14 @@
             }
         });
 
+        // منع الرجوع لموقع آخر بعد إلغاء Google Sign-In
+        window.addEventListener('popstate', function(event) {
+            // إذا كان المستخدم في صفحة login، أبقه فيها
+            if (window.location.pathname.includes('login.html')) {
+                window.history.pushState(null, '', 'login.html');
+            }
+        });
+
         // ========================================
         // Google Sign-In - الطريقة الصحيحة! ✅
         // ========================================
@@ -462,23 +486,33 @@
                 cancel_on_tap_outside: false // لا تلغي عند الضغط خارج النافذة
             });
             
-            // عرض الزر - هذا يعمل دائماً! ✅
+            // عرض الزر - يظهر كامل في الجوال! ✅
+            const isMobile = window.innerWidth <= 480;
+            
             google.accounts.id.renderButton(
                 document.getElementById('googleButton'),
                 {
                     theme: 'outline',
                     size: 'large',
-                    width: 380,
+                    width: isMobile ? 320 : 380, // عرض أصغر للجوال
                     text: 'signin_with',
-                    shape: 'pill', // حواف ناعمة جداً! 🎨
+                    shape: 'pill',
                     logo_alignment: 'left'
                 }
             );
+            
+            // حل مشكلة الرجوع - منع إضافة history entry
+            window.history.replaceState(null, '', window.location.href);
         }
 
         // Handle Google response
         function handleGoogleResponse(response) {
             try {
+                // منع الرجوع لصفحات سابقة
+                if (window.history.length > 1) {
+                    window.history.pushState(null, '', window.location.href);
+                }
+                
                 // فك تشفير JWT token من Google
                 const userInfo = parseJwt(response.credential);
                 
