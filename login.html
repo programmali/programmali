@@ -204,7 +204,7 @@
         .google-signin-container {
             display: flex;
             justify-content: center;
-            margin: 20px 0;
+            margin: 0 0 25px 0;
             min-height: 44px;
         }
 
@@ -212,6 +212,24 @@
             display: flex;
             justify-content: center;
             width: 100%;
+        }
+
+        /* تحسين شكل زر Google */
+        #googleButton > div {
+            width: 100% !important;
+            border-radius: 12px !important;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+            transition: all 0.3s ease !important;
+        }
+
+        #googleButton > div:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15) !important;
+        }
+
+        #googleButton iframe {
+            border-radius: 12px !important;
         }
 
         .guest-btn {
@@ -317,6 +335,15 @@
 
         <div id="message" class="message"></div>
 
+        <!-- Google Sign-In Button - في الأعلى! -->
+        <div class="google-signin-container">
+            <div id="googleButton"></div>
+        </div>
+
+        <div class="divider">
+            <span data-ar="أو" data-en="OR">أو</span>
+        </div>
+
         <div class="tabs">
             <button class="tab active" onclick="switchTab('login')" data-ar="تسجيل الدخول" data-en="Login">تسجيل الدخول</button>
             <button class="tab" onclick="switchTab('register')" data-ar="إنشاء حساب" data-en="Register">إنشاء حساب</button>
@@ -368,11 +395,6 @@
 
         <div class="divider">
             <span data-ar="أو" data-en="OR">أو</span>
-        </div>
-
-        <!-- Google Sign-In Button -->
-        <div class="google-signin-container">
-            <div id="googleButton"></div>
         </div>
 
         <button class="guest-btn" onclick="guestLogin()" data-ar="🎮 الدخول كزائر" data-en="🎮 Continue as Guest">🎮 الدخول كزائر</button>
@@ -446,9 +468,9 @@
                 {
                     theme: 'outline',
                     size: 'large',
-                    width: 350,
+                    width: 380,
                     text: 'signin_with',
-                    shape: 'rectangular',
+                    shape: 'pill', // حواف ناعمة جداً! 🎨
                     logo_alignment: 'left'
                 }
             );
