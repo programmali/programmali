@@ -769,8 +769,9 @@
             
             if (!userInfoDiv || !loginBtn) return;
             
-            // Check if user is logged in
-            const isLoggedIn = userData && (userData.points > 0 || userData.username || userData.email || userData.isGoogleUser);
+            // Check if user data exists (even guest with 0 points)
+            const hasUserData = userData && userData.name && userData.name !== 'زائر' && userData.name !== 'Guest';
+            const isLoggedIn = hasUserData || (userData && (userData.username || userData.email || userData.isGoogleUser));
             
             if (isLoggedIn) {
                 userInfoDiv.style.display = 'flex';
