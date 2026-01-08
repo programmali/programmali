@@ -85,30 +85,6 @@
             gap: clamp(10px, 2vw, 20px);
         }
 
-        .user-info {
-            background: var(--light-bg);
-            padding: 8px 15px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .user-points {
-            font-weight: bold;
-            color: var(--primary-color);
-            font-size: 14px;
-        }
-
-        .points-badge {
-            background: var(--gold);
-            color: var(--primary-color);
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-weight: bold;
-            font-size: 12px;
-        }
-
         .language-switcher {
             background: var(--light-bg);
             color: var(--primary-color);
@@ -124,6 +100,96 @@
         .language-switcher:hover {
             background: var(--hover-color);
             transform: scale(1.05);
+        }
+
+        /* User Info & Login - نظام تسجيل الدخول */
+        .user-info {
+            position: relative;
+            background: var(--light-bg);
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .user-info:hover {
+            background: var(--hover-color);
+        }
+
+        .user-name {
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 14px;
+        }
+
+        .user-points {
+            background: #FFD700;
+            color: var(--primary-color);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .user-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 10px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            min-width: 200px;
+            display: none;
+            z-index: 1001;
+        }
+
+        .user-dropdown.show {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 12px 20px;
+            color: var(--primary-color);
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background: var(--light-bg);
+        }
+
+        .dropdown-item.danger {
+            color: #ef4444;
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: clamp(6px, 1.5vw, 10px) clamp(15px, 3vw, 25px);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: clamp(12px, 2vw, 16px);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
         .menu-toggle {
@@ -505,9 +571,14 @@
                 text-align: center;
                 padding: 12px;
             }
-
+            
             .user-info {
-                display: none;
+                font-size: 12px;
+            }
+            
+            .user-points {
+                font-size: 10px;
+                padding: 3px 8px;
             }
         }
     </style>
@@ -524,10 +595,22 @@
             </div>
             
             <div class="nav-actions">
-                <div class="user-info" id="userInfo">
-                    <span class="user-points"><span data-ar="مرحباً،" data-en="Hello,">مرحباً،</span> <span id="userName" data-ar="زائر" data-en="Guest">زائر</span></span>
-                    <span class="points-badge">🏆 <span id="userPoints">0</span> <span data-ar="نقطة" data-en="points">نقطة</span></span>
+                <!-- User Info (shown when logged in) -->
+                <div class="user-info" id="userInfo" onclick="toggleUserDropdown()">
+                    <span class="user-name"><span id="userName">زائر</span></span>
+                    <span class="user-points">🏆 <span id="userPoints">0</span></span>
+                    <span>▼</span>
+                    
+                    <div class="user-dropdown" id="userDropdown">
+                        <a href="leaderboard.html" class="dropdown-item"><span data-ar="📊 لوحة الأوائل" data-en="📊 Leaderboard">📊 لوحة الأوائل</span></a>
+                        <a href="login.html" class="dropdown-item"><span data-ar="🔄 تبديل الحساب" data-en="🔄 Switch Account">🔄 تبديل الحساب</span></a>
+                        <a href="#" class="dropdown-item danger" onclick="logout(); return false;"><span data-ar="🚪 تسجيل الخروج" data-en="🚪 Logout">🚪 تسجيل الخروج</span></a>
+                    </div>
                 </div>
+                
+                <!-- Login Button (shown when not logged in) -->
+                <a href="login.html" class="login-btn" id="loginBtn" data-ar="تسجيل الدخول" data-en="Login">تسجيل الدخول</a>
+                
                 <button class="language-switcher" onclick="toggleLanguage()" id="langBtn">English</button>
                 <button class="menu-toggle" onclick="toggleMenu()">☰</button>
                 <ul class="nav-menu" id="navMenu">
@@ -857,7 +940,55 @@
                 toggleLanguage();
             }
             initPage();
+            updateUserInfo(); // تحديث معلومات المستخدم
         });
+
+        // ========================================
+        // نظام تسجيل الدخول - Navbar
+        // ========================================
+
+        function toggleUserDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            if (dropdown) {
+                dropdown.classList.toggle('show');
+            }
+        }
+
+        document.addEventListener('click', function(event) {
+            const userInfo = document.getElementById('userInfo');
+            const dropdown = document.getElementById('userDropdown');
+            
+            if (userInfo && dropdown && !userInfo.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        function logout() {
+            localStorage.removeItem('programmali_user_data');
+            window.location.href = 'index.html';
+        }
+
+        function updateUserInfo() {
+            const userData = getUserData();
+            const userInfoDiv = document.getElementById('userInfo');
+            const loginBtn = document.getElementById('loginBtn');
+            
+            if (!userInfoDiv || !loginBtn) return;
+            
+            if (userData.points > 0 || userData.name !== 'زائر') {
+                userInfoDiv.style.display = 'flex';
+                loginBtn.style.display = 'none';
+                
+                const userNameSpan = document.getElementById('userName');
+                const userPointsSpan = document.getElementById('userPoints');
+                
+                if (userNameSpan) userNameSpan.textContent = userData.name;
+                if (userPointsSpan) userPointsSpan.textContent = userData.points || 0;
+            } else {
+                userInfoDiv.style.display = 'none';
+                loginBtn.style.display = 'inline-block';
+            }
+        }
     </script>
 </body>
 </html>
