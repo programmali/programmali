@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    
+    <title>مكتب IPS لبراءات الاختراع | شريك برمج مع علي - HRC</title>
+    <meta name="description" content="احصل على براءة اختراع مضمونة وموثقة من مكتب IPS - شريكنا الاستراتيجي في حماية الملكية الفكرية">
+    <link rel="canonical" href="https://programmali.github.io/programmali/ips-patents.html">
+    <link rel="icon" type="image/jpeg" href="https://i.imgur.com/1Hu1phq.jpeg">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* HRC Colors - بني */
+            --hrc-primary: #2c1810;
+            --hrc-secondary: #5a4035;
+            --hrc-accent: #8b6f5a;
+            --hrc-light: #f5e6d3;
+            --hrc-hover: #d4c4b0;
+            
+            /* IPS Colors - بنفسجي */
+            --ips-primary: #6B4C9A;
+            --ips-secondary: #8B6FB9;
+            --ips-light: #B99FD4;
+            --ips-lighter: #E6DDFF;
+            
+            /* Shared */
+            --white: #ffffff;
+            --gradient-partnership: linear-gradient(135deg, #2c1810 0%, #6B4C9A 50%, #8b6f5a 100%);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--gradient-partnership);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(44, 24, 16, 0.95);
+            padding: 12px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 clamp(15px, 3vw, 40px);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: clamp(10px, 2vw, 15px);
+        }
+
+        .nav-logo-img {
+            width: clamp(40px, 6vw, 50px);
+            height: clamp(40px, 6vw, 50px);
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .nav-logo-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .nav-brand {
+            font-size: clamp(16px, 3vw, 24px);
+            font-weight: bold;
+            color: var(--hrc-hover);
+            text-decoration: none;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: clamp(10px, 2vw, 20px);
+        }
+
+        .language-switcher {
+            background: var(--hrc-light);
+            color: var(--hrc-primary);
+            border: none;
+            padding: clamp(6px, 1.5vw, 10px) clamp(10px, 2vw, 20px);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: clamp(12px, 2vw, 16px);
+            transition: all 0.3s ease;
+        }
+
+        .language-switcher:hover {
+            background: var(--hrc-hover);
+            transform: scale(1.05);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--hrc-hover);
+            font-size: clamp(24px, 5vw, 32px);
+            cursor: pointer;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: clamp(15px, 2.5vw, 30px);
+        }
+
+        .nav-link {
+            color: var(--hrc-hover);
+            text-decoration: none;
+            font-size: clamp(14px, 2vw, 16px);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 12px;
+            border-radius: 8px;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(212, 196, 176, 0.2);
+            color: #f5e6d3;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            max-width: 1400px;
+            margin: clamp(30px, 6vw, 60px) auto;
+            padding: 0 clamp(15px, 3vw, 40px);
+            text-align: center;
+        }
+
+        .partnership-badge {
+            background: rgba(255, 255, 255, 0.95);
+            display: inline-flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px 40px;
+            border-radius: 50px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .partner-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid var(--ips-primary);
+        }
+
+        .partner-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .partnership-text {
+            font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(135deg, var(--hrc-primary), var(--ips-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-title {
+            font-size: clamp(32px, 6vw, 56px);
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .hero-subtitle {
+            font-size: clamp(18px, 3vw, 28px);
+            color: var(--ips-lighter);
+            margin-bottom: 40px;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto clamp(40px, 6vw, 80px);
+            padding: 0 clamp(15px, 3vw, 40px);
+        }
+
+        /* Features Grid */
+        .features-section {
+            margin-bottom: 60px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px 30px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border-top: 5px solid var(--ips-primary);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(107, 76, 154, 0.3);
+        }
+
+        .feature-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 24px;
+            color: var(--ips-primary);
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .feature-description {
+            font-size: 16px;
+            color: var(--hrc-secondary);
+            line-height: 1.6;
+        }
+
+        /* Contact Form */
+        .contact-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: clamp(40px, 6vw, 60px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border: 3px solid var(--ips-light);
+        }
+
+        .section-title {
+            font-size: clamp(28px, 5vw, 40px);
+            color: var(--ips-primary);
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--hrc-secondary);
+            font-size: 18px;
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: bold;
+            color: var(--hrc-primary);
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .form-label .required {
+            color: #ef4444;
+            margin-right: 3px;
+        }
+
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--ips-lighter);
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--ips-primary);
+            box-shadow: 0 0 0 4px rgba(107, 76, 154, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .char-count {
+            text-align: left;
+            font-size: 14px;
+            color: var(--hrc-accent);
+            margin-top: 5px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, var(--ips-primary), var(--ips-secondary));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(107, 76, 154, 0.4);
+            background: linear-gradient(135deg, var(--ips-secondary), var(--ips-primary));
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        /* Info Box */
+        .info-box {
+            background: linear-gradient(135deg, var(--ips-lighter), white);
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+            border-right: 5px solid var(--ips-primary);
+        }
+
+        .info-title {
+            font-weight: bold;
+            color: var(--ips-primary);
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .info-text {
+            color: var(--hrc-secondary);
+            line-height: 1.8;
+        }
+
+        .whatsapp-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--ips-primary);
+            text-decoration: none;
+            font-weight: bold;
+            direction: ltr;
+        }
+
+        .whatsapp-link:hover {
+            color: var(--ips-secondary);
+        }
+
+        /* Guarantees Section */
+        .guarantees-section {
+            background: linear-gradient(135deg, rgba(107, 76, 154, 0.1), rgba(139, 111, 90, 0.1));
+            padding: 50px 30px;
+            border-radius: 20px;
+            margin: 50px 0;
+        }
+
+        .guarantee-badge {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .guarantee-badge:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 8px 25px rgba(107, 76, 154, 0.2);
+        }
+
+        .guarantee-icon {
+            font-size: 40px;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .guarantee-text {
+            flex: 1;
+        }
+
+        .guarantee-text h3 {
+            color: var(--ips-primary);
+            margin-bottom: 5px;
+            font-size: 20px;
+        }
+
+        .guarantee-text p {
+            color: var(--hrc-secondary);
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(44, 24, 16, 0.95);
+            color: var(--hrc-hover);
+            text-align: center;
+            padding: clamp(30px, 5vw, 50px) 20px;
+            margin-top: clamp(50px, 8vw, 100px);
+        }
+
+        .footer-logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .footer-logo {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .footer-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            .nav-menu {
+                display: none;
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: rgba(44, 24, 16, 0.98);
+                border-radius: 0 0 15px 15px;
+                padding: 20px;
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .nav-link {
+                text-align: center;
+                padding: 12px;
+            }
+
+            .partnership-badge {
+                flex-direction: column;
+                gap: 15px;
+                padding: 20px;
+            }
+
+            .partner-logo {
+                width: 60px;
+                height: 60px;
+            }
+
+            .partnership-text {
+                font-size: 18px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .guarantee-badge {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .footer-logos {
+                gap: 20px;
+            }
+
+            .footer-logo {
+                width: 50px;
+                height: 50px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="nav-logo-img">
+                    <img src="https://i.imgur.com/1Hu1phq.jpeg" alt="Logo">
+                </div>
+                <a href="index.html" class="nav-brand" data-ar="برمج مع علي" data-en="Program with Ali">برمج مع علي</a>
+            </div>
+            
+            <div class="nav-actions">
+                <button class="language-switcher" onclick="toggleLanguage()" id="langBtn">English</button>
+                <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="index.html" class="nav-link" data-ar="الرئيسية" data-en="Home">الرئيسية</a></li>
+                    <li><a href="courses.html" class="nav-link" data-ar="الدورات" data-en="Courses">الدورات</a></li>
+                    <li><a href="game.html" class="nav-link" data-ar="لعبة تعليمية" data-en="Educational Game">لعبة تعليمية</a></li>
+                    <li><a href="leaderboard.html" class="nav-link" data-ar="لوحة الأوائل" data-en="Leaderboard">لوحة الأوائل</a></li>
+                    <li><a href="ips-patents.html" class="nav-link active" data-ar="براءات الاختراع" data-en="Patents">براءات الاختراع</a></li>
+                    <li><a href="about.html" class="nav-link" data-ar="من نحن" data-en="About Us">من نحن</a></li>
+                    <li><a href="contact.html" class="nav-link" data-ar="تواصل معنا" data-en="Contact">تواصل معنا</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section">
+        <div class="partnership-badge">
+            <div class="partner-logo">
+                <img src="https://i.imgur.com/1Hu1phq.jpeg" alt="HRC">
+            </div>
+            <span class="partnership-text" data-ar="شراكة استراتيجية" data-en="Strategic Partnership">شراكة استراتيجية</span>
+            <div class="partner-logo">
+                <img src="https://i.imgur.com/POvq9YU.png" alt="IPS">
+            </div>
+        </div>
+
+        <h1 class="hero-title" data-ar="🏆 مكتب IPS لبراءات الاختراع" data-en="🏆 IPS Patents Office">🏆 مكتب IPS لبراءات الاختراع</h1>
+        <p class="hero-subtitle" data-ar="براءة اختراعك مضمونة وموثقة مع شريكنا الاستراتيجي" data-en="Your patent is guaranteed and certified with our strategic partner">براءة اختراعك مضمونة وموثقة مع شريكنا الاستراتيجي</p>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-container">
+        <!-- Features Section -->
+        <section class="features-section">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">✅</div>
+                    <h3 class="feature-title" data-ar="براءة مضمونة 100%" data-en="100% Guaranteed Patent">براءة مضمونة 100%</h3>
+                    <p class="feature-description" data-ar="نضمن لك الحصول على براءة الاختراع بشكل موثق ورسمي من مكتب IPS المعتمد" data-en="We guarantee you a documented and official patent from the certified IPS office">نضمن لك الحصول على براءة الاختراع بشكل موثق ورسمي من مكتب IPS المعتمد</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3 class="feature-title" data-ar="حماية كاملة للملكية الفكرية" data-en="Full IP Protection">حماية كاملة للملكية الفكرية</h3>
+                    <p class="feature-description" data-ar="احمِ فكرتك ومشروعك من السرقة والتقليد مع حماية قانونية شاملة" data-en="Protect your idea and project from theft and imitation with comprehensive legal protection">احمِ فكرتك ومشروعك من السرقة والتقليد مع حماية قانونية شاملة</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title" data-ar="إجراءات سريعة وسهلة" data-en="Fast & Easy Procedures">إجراءات سريعة وسهلة</h3>
+                    <p class="feature-description" data-ar="نسهل عليك جميع الإجراءات ونتابع طلبك من البداية حتى الحصول على البراءة" data-en="We simplify all procedures and follow your application from start to finish">نسهل عليك جميع الإجراءات ونتابع طلبك من البداية حتى الحصول على البراءة</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Guarantees Section -->
+        <section class="guarantees-section">
+            <h2 class="section-title" data-ar="لماذا مكتب IPS؟" data-en="Why IPS Office?">لماذا مكتب IPS؟</h2>
+            
+            <div class="guarantee-badge">
+                <div class="guarantee-icon">🎯</div>
+                <div class="guarantee-text">
+                    <h3 data-ar="معتمد ومرخص" data-en="Certified & Licensed">معتمد ومرخص</h3>
+                    <p data-ar="مكتب IPS معتمد رسمياً ومرخص لتقديم خدمات براءات الاختراع في المملكة" data-en="IPS office is officially certified and licensed to provide patent services in the Kingdom">مكتب IPS معتمد رسمياً ومرخص لتقديم خدمات براءات الاختراع في المملكة</p>
+                </div>
+            </div>
+
+            <div class="guarantee-badge">
+                <div class="guarantee-icon">👥</div>
+                <div class="guarantee-text">
+                    <h3 data-ar="فريق محترف ومتخصص" data-en="Professional Team">فريق محترف ومتخصص</h3>
+                    <p data-ar="فريق من الخبراء القانونيين والمتخصصين في الملكية الفكرية لخدمتك" data-en="A team of legal experts and intellectual property specialists at your service">فريق من الخبراء القانونيين والمتخصصين في الملكية الفكرية لخدمتك</p>
+                </div>
+            </div>
+
+            <div class="guarantee-badge">
+                <div class="guarantee-icon">📱</div>
+                <div class="guarantee-text">
+                    <h3 data-ar="متابعة مستمرة" data-en="Continuous Follow-up">متابعة مستمرة</h3>
+                    <p data-ar="نتابع معك كل خطوة ونبقيك على اطلاع دائم بحالة طلبك" data-en="We follow every step with you and keep you constantly updated on your application status">نتابع معك كل خطوة ونبقيك على اطلاع دائم بحالة طلبك</p>
+                </div>
+            </div>
+
+            <div class="guarantee-badge">
+                <div class="guarantee-icon">💼</div>
+                <div class="guarantee-text">
+                    <h3 data-ar="استشارات مجانية" data-en="Free Consultation">استشارات مجانية</h3>
+                    <p data-ar="احصل على استشارة مجانية لتقييم فكرتك ومعرفة إمكانية تسجيلها" data-en="Get a free consultation to evaluate your idea and its registration possibilities">احصل على استشارة مجانية لتقييم فكرتك ومعرفة إمكانية تسجيلها</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Form -->
+        <section class="contact-section">
+            <h2 class="section-title" data-ar="📝 قدّم طلبك الآن" data-en="📝 Submit Your Application">📝 قدّم طلبك الآن</h2>
+            <p class="section-subtitle" data-ar="املأ النموذج وسنتواصل معك عبر الواتساب في أقرب وقت" data-en="Fill the form and we'll contact you via WhatsApp soon">املأ النموذج وسنتواصل معك عبر الواتساب في أقرب وقت</p>
+
+            <form id="patentForm" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label class="form-label">
+                        <span class="required">*</span>
+                        <span data-ar="الاسم الكامل" data-en="Full Name">الاسم الكامل</span>
+                    </label>
+                    <input type="text" class="form-input" id="fullName" required 
+                           data-placeholder-ar="مثال: أحمد محمد العلي" 
+                           data-placeholder-en="Example: Ahmed Mohamed"
+                           placeholder="مثال: أحمد محمد العلي">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <span class="required">*</span>
+                        <span data-ar="عنوان المشروع/الاختراع" data-en="Project/Invention Title">عنوان المشروع/الاختراع</span>
+                    </label>
+                    <input type="text" class="form-input" id="projectTitle" required
+                           data-placeholder-ar="مثال: نظام ذكي للري الزراعي" 
+                           data-placeholder-en="Example: Smart Irrigation System"
+                           placeholder="مثال: نظام ذكي للري الزراعي">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        <span class="required">*</span>
+                        <span data-ar="وصف تفصيلي للمشروع" data-en="Detailed Project Description">وصف تفصيلي للمشروع</span>
+                    </label>
+                    <textarea class="form-textarea" id="projectDescription" required maxlength="1000"
+                              data-placeholder-ar="اشرح فكرة مشروعك/اختراعك بالتفصيل، كيف يعمل، وما هي مميزاته..." 
+                              data-placeholder-en="Explain your project/invention in detail, how it works, and its features..."
+                              placeholder="اشرح فكرة مشروعك/اختراعك بالتفصيل، كيف يعمل، وما هي مميزاته..."></textarea>
+                    <div class="char-count">
+                        <span id="charCount">0</span> / 1000 <span data-ar="حرف" data-en="characters">حرف</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <span data-ar="📤 إرسال الطلب عبر واتساب" data-en="📤 Send via WhatsApp">📤 إرسال الطلب عبر واتساب</span>
+                </button>
+            </form>
+
+            <div class="info-box">
+                <div class="info-title" data-ar="📞 للتواصل المباشر:" data-en="📞 Direct Contact:">📞 للتواصل المباشر:</div>
+                <p class="info-text">
+                    <span data-ar="يمكنك التواصل مباشرة مع مكتب IPS عبر الواتساب:" data-en="You can contact IPS office directly via WhatsApp:">يمكنك التواصل مباشرة مع مكتب IPS عبر الواتساب:</span>
+                    <br>
+                    <a href="https://wa.me/966506428814" class="whatsapp-link" target="_blank">
+                        📱 +966 50 642 8814
+                    </a>
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-logos">
+            <div class="footer-logo">
+                <img src="https://i.imgur.com/1Hu1phq.jpeg" alt="HRC">
+            </div>
+            <div class="footer-logo">
+                <img src="https://i.imgur.com/POvq9YU.png" alt="IPS">
+            </div>
+        </div>
+        <p style="margin-bottom: 10px; font-size: 18px; font-weight: bold;" data-ar="شراكة بين HRC و IPS" data-en="Partnership between HRC & IPS">شراكة بين HRC و IPS</p>
+        <p style="opacity: 0.8;" data-ar="جميع الحقوق محفوظة © 2026" data-en="All Rights Reserved © 2026">جميع الحقوق محفوظة © 2026</p>
+    </footer>
+
+    <script>
+        let currentLang = 'ar';
+
+        // Character counter
+        document.getElementById('projectDescription').addEventListener('input', function() {
+            const count = this.value.length;
+            document.getElementById('charCount').textContent = count;
+        });
+
+        // Mobile Menu
+        function toggleMenu() {
+            const menu = document.getElementById('navMenu');
+            const toggle = document.querySelector('.menu-toggle');
+            menu.classList.toggle('active');
+            toggle.textContent = menu.classList.contains('active') ? '✕' : '☰';
+        }
+
+        // Language Toggle
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            const langBtn = document.getElementById('langBtn');
+            
+            langBtn.textContent = currentLang === 'ar' ? 'English' : 'العربية';
+            
+            document.querySelectorAll('[data-ar][data-en]').forEach(element => {
+                element.textContent = element.getAttribute(`data-${currentLang}`);
+            });
+            
+            // Update placeholders
+            document.querySelectorAll('[data-placeholder-ar][data-placeholder-en]').forEach(element => {
+                element.placeholder = element.getAttribute(`data-placeholder-${currentLang}`);
+            });
+            
+            document.documentElement.setAttribute('lang', currentLang);
+            document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+            
+            localStorage.setItem('preferredLanguage', currentLang);
+        }
+
+        // Load saved language
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('preferredLanguage');
+            if (savedLang && savedLang !== 'ar') {
+                toggleLanguage();
+            }
+        });
+
+        // Handle form submission
+        function handleSubmit(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('fullName').value.trim();
+            const title = document.getElementById('projectTitle').value.trim();
+            const description = document.getElementById('projectDescription').value.trim();
+            
+            // Construct WhatsApp message
+            const message = currentLang === 'ar' 
+                ? `*طلب براءة اختراع جديد*
+━━━━━━━━━━━━━━━━━━━━
+
+👤 *الاسم:* ${name}
+
+📋 *عنوان المشروع:*
+${title}
+
+📝 *وصف المشروع:*
+${description}
+
+━━━━━━━━━━━━━━━━━━━━
+📤 *تم الإرسال من:* برمج مع علي (HRC)
+🤝 *بالتعاون مع:* مكتب IPS لبراءات الاختراع`
+                : `*New Patent Application*
+━━━━━━━━━━━━━━━━━━━━
+
+👤 *Name:* ${name}
+
+📋 *Project Title:*
+${title}
+
+📝 *Project Description:*
+${description}
+
+━━━━━━━━━━━━━━━━━━━━
+📤 *Sent from:* Program with Ali (HRC)
+🤝 *In partnership with:* IPS Patents Office`;
+            
+            // Encode message for WhatsApp
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappURL = `https://wa.me/966506428814?text=${encodedMessage}`;
+            
+            // Open WhatsApp
+            window.open(whatsappURL, '_blank');
+            
+            // Show success message
+            alert(currentLang === 'ar' 
+                ? '✅ تم فتح واتساب! أكمل إرسال الرسالة من هناك.'
+                : '✅ WhatsApp opened! Complete sending the message from there.');
+            
+            // Reset form
+            document.getElementById('patentForm').reset();
+            document.getElementById('charCount').textContent = '0';
+        }
+    </script>
+</body>
+</html>
