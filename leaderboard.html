@@ -736,6 +736,62 @@
         let currentLang = 'ar';
         const STORAGE_KEY = 'programmali_user_data';
         
+        // ========================================
+        // نظام تسجيل الدخول - Navbar
+        // ========================================
+
+        function toggleUserDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            if (dropdown) {
+                dropdown.classList.toggle('show');
+            }
+        }
+
+        document.addEventListener('click', function(event) {
+            const userInfo = document.getElementById('userInfo');
+            const dropdown = document.getElementById('userDropdown');
+            
+            if (userInfo && dropdown && !userInfo.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        function logout() {
+            if (confirm(currentLang === 'ar' ? 'هل أنت متأكد من تسجيل الخروج؟' : 'Are you sure you want to logout?')) {
+                localStorage.removeItem(STORAGE_KEY);
+                window.location.href = 'index.html';
+            }
+        }
+
+        function updateUserInfo() {
+            const userData = getUserData();
+            const userInfoDiv = document.getElementById('userInfo');
+            const loginBtn = document.getElementById('loginBtn');
+            
+            if (!userInfoDiv || !loginBtn) return;
+            
+            // Check if user is logged in
+            const isLoggedIn = userData && (userData.points > 0 || userData.username || userData.email || userData.isGoogleUser);
+            
+            if (isLoggedIn) {
+                userInfoDiv.style.display = 'flex';
+                loginBtn.style.display = 'none';
+                
+                const userNameSpan = document.getElementById('userName');
+                const userPointsSpan = document.getElementById('userPoints');
+                
+                if (userNameSpan) userNameSpan.textContent = userData.name || 'زائر';
+                if (userPointsSpan) userPointsSpan.textContent = userData.points || 0;
+            } else {
+                userInfoDiv.style.display = 'none';
+                loginBtn.style.display = 'inline-block';
+            }
+        }
+
+        // ========================================
+        // Main Functions
+        // ========================================
+        
         // Get user data from localStorage
         function getUserData() {
             const data = localStorage.getItem(STORAGE_KEY);
@@ -771,7 +827,6 @@
             
             // Update profile
             updateProfileName(userData.name);
-            document.getElementById('userPoints').textContent = userData.points;
             document.getElementById('totalPoints').textContent = userData.points;
             document.getElementById('highScore').textContent = userData.highScore;
             document.getElementById('gamesPlayed').textContent = userData.gamesPlayed;
@@ -786,7 +841,6 @@
         function updateProfileName(name) {
             const greeting = currentLang === 'ar' ? 'مرحباً، ' : 'Hello, ';
             document.getElementById('profileName').textContent = greeting + name;
-            document.getElementById('userName').textContent = name;
         }
 
         // Update rewards based on points
@@ -939,56 +993,9 @@
             if (savedLang && savedLang !== 'ar') {
                 toggleLanguage();
             }
+            updateUserInfo(); // تحديث معلومات المستخدم في البداية
             initPage();
-            updateUserInfo(); // تحديث معلومات المستخدم
         });
-
-        // ========================================
-        // نظام تسجيل الدخول - Navbar
-        // ========================================
-
-        function toggleUserDropdown() {
-            const dropdown = document.getElementById('userDropdown');
-            if (dropdown) {
-                dropdown.classList.toggle('show');
-            }
-        }
-
-        document.addEventListener('click', function(event) {
-            const userInfo = document.getElementById('userInfo');
-            const dropdown = document.getElementById('userDropdown');
-            
-            if (userInfo && dropdown && !userInfo.contains(event.target)) {
-                dropdown.classList.remove('show');
-            }
-        });
-
-        function logout() {
-            localStorage.removeItem('programmali_user_data');
-            window.location.href = 'index.html';
-        }
-
-        function updateUserInfo() {
-            const userData = getUserData();
-            const userInfoDiv = document.getElementById('userInfo');
-            const loginBtn = document.getElementById('loginBtn');
-            
-            if (!userInfoDiv || !loginBtn) return;
-            
-            if (userData.points > 0 || userData.name !== 'زائر') {
-                userInfoDiv.style.display = 'flex';
-                loginBtn.style.display = 'none';
-                
-                const userNameSpan = document.getElementById('userName');
-                const userPointsSpan = document.getElementById('userPoints');
-                
-                if (userNameSpan) userNameSpan.textContent = userData.name;
-                if (userPointsSpan) userPointsSpan.textContent = userData.points || 0;
-            } else {
-                userInfoDiv.style.display = 'none';
-                loginBtn.style.display = 'inline-block';
-            }
-        }
     </script>
 </body>
 </html>
