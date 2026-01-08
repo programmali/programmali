@@ -1302,14 +1302,19 @@ void loop() {
                 const newHead = { x: snakeX, y: snakeY };
 
                 // Check collision
-                if (snakeX < 0 || snakeX >= canvas.width || snakeY < 0 || snakeY >= canvas.height || collision(newHead, snake)) {
-                    clearInterval(game);
-                    gameRunning = false;
-                    alert(currentLang === 'ar' ? `انتهت اللعبة! النقاط: ${score}` : `Game Over! Score: ${score}`);
-                    document.getElementById('startBtn').disabled = false;
-                    document.getElementById('pauseBtn').disabled = true;
-                    return;
-                }
+               // Check collision
+if (snakeX < 0 || snakeX >= canvas.width || snakeY < 0 || snakeY >= canvas.height || collision(newHead, snake)) {
+    clearInterval(game);
+    gameRunning = false;
+    
+    // حفظ النقاط في حساب المستخدم
+    saveGameScore(score);
+    
+    alert(currentLang === 'ar' ? `انتهت اللعبة! النقاط: ${score}` : `Game Over! Score: ${score}`);
+    document.getElementById('startBtn').disabled = false;
+    document.getElementById('pauseBtn').disabled = true;
+    return;
+}
 
                 snake.unshift(newHead);
             }
@@ -1445,6 +1450,115 @@ if (document.readyState === 'loading') {
 } else {
     updateUserInfo();
 }
+
+  // ========================================
+// نظام حفظ النقاط وتحديث لوحة الأوائل
+// ========================================
+
+function saveGameScore(finalScore) {
+    const STORAGE_KEY = 'programmali_user_data';
+    const userData = localStorage.getItem(STORAGE_KEY);
+    
+    if (!userData) {
+        console.log('User not logged in');
+        return;
+    }
+    
+    try {
+        const user = JSON.parse(userData);
+        
+        user.gamesPlayed = (user.gamesPlayed || 0) + 1;
+        user.points = (user.points || 0) + finalScore;
+        
+        if (finalScore > (user.highScore || 0)) {
+            user.highScore = finalScore;
+        }
+        
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+        updateUserInfo();
+        updateGlobalLeaderboard(user);
+        
+    } catch (error) {
+        console.error('Error saving score:', error);
+    }
+}
+
+function updateGlobalLeaderboard(user) {
+    const LEADERBOARD_KEY = 'programmali_leaderboard';
+    
+    try {
+        let leaderboard = localStorage.getItem(LEADERBOARD_KEY);
+        leaderboard = leaderboard ? JSON.parse(leaderboard) : [];
+        
+        const userIndex = leaderboard.findIndex(entry => {
+            if (user.googleId) return entry.googleId === user.googleId;
+            if (user.username) return entry.username === user.username;
+            if (user.email) return entry.email === user.email;
+            return false;
+        });
+        
+        const leaderboardEntry = {
+            name: user.name,
+            nameEn: user.nameEn || user.name,
+            username: user.username,
+            email: user.email,
+            googleId: user.googleId,
+            points: user.points,
+            highScore: user.highScore,
+            gamesPlayed: user.gamesPlayed,
+            level: getLevelByPoints(user.points),
+            levelEn: getLevelByPoints(user.points, 'en'),
+            lastUpdated: new Date().toISOString()
+        };
+        
+        if (userIndex !== -1) {
+            leaderboard[userIndex] = leaderboardEntry;
+        } else {
+            if (!user.isGuest) {
+                leaderboard.push(leaderboardEntry);
+            }
+        }
+        
+        leaderboard.sort((a, b) => b.points - a.points);
+        leaderboard = leaderboard.slice(0, 50);
+        localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(leaderboard));
+        
+        const userRank = leaderboard.findIndex(entry => {
+            if (user.googleId) return entry.googleId === user.googleId;
+            if (user.username) return entry.username === user.username;
+            if (user.email) return entry.email === user.email;
+            return false;
+        }) + 1;
+        
+        if (userRank > 0 && userRank <= 5) {
+            setTimeout(() => {
+                const message = currentLang === 'ar' 
+                    ? `🎉 مبروك! أنت في المركز ${userRank} على لوحة الأوائل!`
+                    : `🎉 Congratulations! You're ranked #${userRank} on the leaderboard!`;
+                alert(message);
+            }, 500);
+        }
+        
+    } catch (error) {
+        console.error('Error updating leaderboard:', error);
+    }
+}
+
+function getLevelByPoints(points, lang = 'ar') {
+    if (lang === 'ar') {
+        if (points >= 500) return 'خبير البرمجة';
+        if (points >= 300) return 'محترف متقدم';
+        if (points >= 150) return 'محترف';
+        if (points >= 50) return 'متقدم';
+        return 'مبتدئ';
+    } else {
+        if (points >= 500) return 'Programming Expert';
+        if (points >= 300) return 'Advanced Professional';
+        if (points >= 150) return 'Professional';
+        if (points >= 50) return 'Advanced';
+        return 'Beginner';
+    }
+}      
     </script>
 </body>
 </html>
