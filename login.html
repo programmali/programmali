@@ -469,16 +469,6 @@
             // حفظ الصفحة الحالية
             const currentPage = window.location.href;
             
-            // امسح أي بيانات زائر قديمة
-            const userData = localStorage.getItem(STORAGE_KEY);
-            if (userData) {
-                const user = JSON.parse(userData);
-                if (!user.isGoogleUser && !user.username) {
-                    // هذا زائر - امسحه
-                    localStorage.removeItem(STORAGE_KEY);
-                }
-            }
-            
             // تهيئة Google Sign-In بطريقة صحيحة
             google.accounts.id.initialize({
                 client_id: '736529467752-jl6rp0j3ab1jn3rda5v1n6jm3esfjdoe.apps.googleusercontent.com',
