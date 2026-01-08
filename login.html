@@ -209,7 +209,6 @@
             margin: 0 0 25px 0;
             min-height: 50px;
             width: 100%;
-            padding: 0 10px;
         }
 
         #googleButton {
@@ -220,10 +219,10 @@
             max-width: 100%;
         }
 
-        /* تحسين شكل زر Google - يظهر كامل! */
+        /* تحسين شكل زر Google - توسيط كامل! */
         #googleButton > div {
-            width: 100% !important;
-            max-width: 100% !important;
+            margin: 0 auto !important;
+            width: fit-content !important;
             border-radius: 12px !important;
             overflow: visible !important;
             box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
@@ -237,15 +236,8 @@
 
         #googleButton iframe {
             border-radius: 12px !important;
-            width: 100% !important;
-            max-width: 100% !important;
-        }
-        
-        /* للجوال - حجم أصغر */
-        @media (max-width: 480px) {
-            .google-signin-container {
-                padding: 0 5px;
-            }
+            display: block !important;
+            margin: 0 auto !important;
         }
 
         .guest-btn {
@@ -455,19 +447,14 @@
             }
         });
 
-        // منع الرجوع لموقع آخر بعد إلغاء Google Sign-In
-        window.addEventListener('popstate', function(event) {
-            // إذا كان المستخدم في صفحة login، أبقه فيها
-            if (window.location.pathname.includes('login.html')) {
-                window.history.pushState(null, '', 'login.html');
-            }
-        });
-
         // ========================================
         // Google Sign-In - الطريقة الصحيحة! ✅
         // ========================================
         
         window.onload = function() {
+            // حفظ الصفحة الحالية
+            const currentPage = window.location.href;
+            
             // امسح أي بيانات زائر قديمة
             const userData = localStorage.getItem(STORAGE_KEY);
             if (userData) {
@@ -482,11 +469,12 @@
             google.accounts.id.initialize({
                 client_id: '736529467752-jl6rp0j3ab1jn3rda5v1n6jm3esfjdoe.apps.googleusercontent.com',
                 callback: handleGoogleResponse,
-                auto_select: false, // لا تختار تلقائياً
-                cancel_on_tap_outside: false // لا تلغي عند الضغط خارج النافذة
+                auto_select: false,
+                cancel_on_tap_outside: false,
+                ux_mode: 'popup' // استخدام popup بدلاً من redirect! ✅
             });
             
-            // عرض الزر - يظهر كامل في الجوال! ✅
+            // عرض الزر - يظهر في المنتصف! ✅
             const isMobile = window.innerWidth <= 480;
             
             google.accounts.id.renderButton(
@@ -494,25 +482,24 @@
                 {
                     theme: 'outline',
                     size: 'large',
-                    width: isMobile ? 320 : 380, // عرض أصغر للجوال
+                    width: isMobile ? 300 : 350,
                     text: 'signin_with',
                     shape: 'pill',
                     logo_alignment: 'left'
                 }
             );
             
-            // حل مشكلة الرجوع - منع إضافة history entry
-            window.history.replaceState(null, '', window.location.href);
+            // منع مشكلة الرجوع - حافظ على الصفحة الحالية
+            setTimeout(() => {
+                if (window.location.href !== currentPage) {
+                    window.location.replace(currentPage);
+                }
+            }, 100);
         }
 
         // Handle Google response
         function handleGoogleResponse(response) {
             try {
-                // منع الرجوع لصفحات سابقة
-                if (window.history.length > 1) {
-                    window.history.pushState(null, '', window.location.href);
-                }
-                
                 // فك تشفير JWT token من Google
                 const userInfo = parseJwt(response.credential);
                 
