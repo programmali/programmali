@@ -445,6 +445,20 @@
             if (savedLang && savedLang !== 'ar') {
                 toggleLanguage();
             }
+            
+            // حفظ الصفحة السابقة (من أين جاء المستخدم)
+            const referrer = document.referrer;
+            if (referrer && referrer.includes(window.location.hostname)) {
+                // استخرج اسم الصفحة من الـ URL
+                const referrerPage = referrer.split('/').pop().split('?')[0] || 'index.html';
+                // لا تحفظ إذا كان من login.html نفسه
+                if (referrerPage !== 'login.html' && referrerPage !== '') {
+                    localStorage.setItem('returnTo', referrerPage);
+                }
+            } else if (!localStorage.getItem('returnTo')) {
+                // إذا لم يكن هناك referrer، احفظ index.html كافتراضي
+                localStorage.setItem('returnTo', 'index.html');
+            }
         });
 
         // ========================================
@@ -538,7 +552,10 @@
                 );
                 
                 setTimeout(() => {
-                    window.location.href = 'game.html';
+                    // الرجوع للصفحة السابقة أو الرئيسية
+                    const returnTo = localStorage.getItem('returnTo') || 'index.html';
+                    localStorage.removeItem('returnTo');
+                    window.location.href = returnTo;
                 }, 1500);
             } catch (error) {
                 console.error('Google Sign-In Error:', error);
@@ -634,7 +651,10 @@
                 );
                 
                 setTimeout(() => {
-                    window.location.href = 'game.html';
+                    // الرجوع للصفحة السابقة أو الرئيسية
+                    const returnTo = localStorage.getItem('returnTo') || 'index.html';
+                    localStorage.removeItem('returnTo');
+                    window.location.href = returnTo;
                 }, 1500);
             } else {
                 showMessage(
@@ -714,7 +734,10 @@
             );
             
             setTimeout(() => {
-                window.location.href = 'game.html';
+                // الرجوع للصفحة السابقة أو الرئيسية
+                const returnTo = localStorage.getItem('returnTo') || 'index.html';
+                localStorage.removeItem('returnTo');
+                window.location.href = returnTo;
             }, 1500);
         }
 
@@ -742,7 +765,10 @@
             );
             
             setTimeout(() => {
-                window.location.href = 'game.html';
+                // الرجوع للصفحة السابقة أو الرئيسية
+                const returnTo = localStorage.getItem('returnTo') || 'index.html';
+                localStorage.removeItem('returnTo');
+                window.location.href = returnTo;
             }, 1000);
         }
     </script>
