@@ -826,14 +826,14 @@
             
             // Update profile
             updateProfileName(userData.name);
-            document.getElementById('totalPoints').textContent = userData.points;
-            document.getElementById('highScore').textContent = userData.highScore;
-            document.getElementById('gamesPlayed').textContent = userData.gamesPlayed;
+            document.getElementById('totalPoints').textContent = userData.points || 0;
+            document.getElementById('highScore').textContent = userData.highScore || 0;
+            document.getElementById('gamesPlayed').textContent = userData.gamesPlayed || 0;
             
             // Update rewards
-            updateRewards(userData.points);
+            updateRewards(userData.points || 0);
             
-            // Update leaderboard
+            // Update leaderboard with real data
             updateLeaderboard(userData);
         }
 
@@ -877,31 +877,61 @@
 
         // Update leaderboard
         function updateLeaderboard(currentUser) {
-            const leaderboard = [...sampleLeaderboard];
+            const LEADERBOARD_KEY = 'programmali_leaderboard';
+            
+            // جلب لوحة الأوائل من localStorage
+            let leaderboard = localStorage.getItem(LEADERBOARD_KEY);
+            leaderboard = leaderboard ? JSON.parse(leaderboard) : [];
+            
+            // إضافة البيانات الوهمية إذا كانت القائمة فارغة
+            if (leaderboard.length === 0) {
+                leaderboard = [...sampleLeaderboard];
+            }
             
             // Add current user if they have points
-            if (currentUser.points > 0) {
+            if (currentUser && currentUser.points > 0) {
                 const youText = currentLang === 'ar' ? ' (أنت)' : ' (You)';
-                leaderboard.push({
+                
+                // البحث إذا كان المستخدم موجود
+                const existingIndex = leaderboard.findIndex(entry => {
+                    if (currentUser.googleId) return entry.googleId === currentUser.googleId;
+                    if (currentUser.username) return entry.username === currentUser.username;
+                    if (currentUser.email) return entry.email === currentUser.email;
+                    return false;
+                });
+                
+                const userEntry = {
                     name: currentUser.name + youText,
                     nameEn: currentUser.name + youText,
                     points: currentUser.points,
                     level: getLevelByPoints(currentUser.points),
                     levelEn: getLevelByPoints(currentUser.points, 'en'),
-                    isCurrentUser: true
-                });
+                    isCurrentUser: true,
+                    googleId: currentUser.googleId,
+                    username: currentUser.username,
+                    email: currentUser.email
+                };
+                
+                if (existingIndex !== -1) {
+                    // تحديث بيانات المستخدم
+                    leaderboard[existingIndex] = userEntry;
+                } else {
+                    // إضافة المستخدم
+                    leaderboard.push(userEntry);
+                }
             }
             
             // Sort by points
             leaderboard.sort((a, b) => b.points - a.points);
             
-            // Render leaderboard
+            // Render leaderboard (أعلى 10 فقط)
             const listElement = document.getElementById('leaderboardList');
             listElement.innerHTML = '';
             
             const pointsText = currentLang === 'ar' ? 'نقطة' : 'points';
+            const topPlayers = leaderboard.slice(0, 10);
             
-            leaderboard.forEach((user, index) => {
+            topPlayers.forEach((user, index) => {
                 const rank = index + 1;
                 const rankClass = rank === 1 ? 'top1' : rank === 2 ? 'top2' : rank === 3 ? 'top3' : '';
                 
