@@ -739,26 +739,11 @@
     
     const cleanName = guestName.trim();
     
-    // التحقق من أن الاسم غير موجود
-    const users = getUsers();
-    const nameExists = users.find(u => u.name.toLowerCase() === cleanName.toLowerCase());
-    
-    if (nameExists) {
-        showMessage(
-            'هذا الاسم مستخدم بالفعل! اختر اسماً آخر.',
-            'This name is already taken! Choose another name.',
-            'error'
-        );
-        // إعادة المحاولة
-        setTimeout(() => guestLogin(), 1500);
-        return;
-    }
-    
     // إنشاء معرف فريد للزائر بناءً على الاسم
     const guestId = 'guest_' + cleanName.toLowerCase().replace(/\s+/g, '_');
     const guestKey = `programmali_user_${guestId}`;
     
-    // التحقق إذا كان الزائر موجود مسبقاً
+    // التحقق إذا كان الزائر موجود مسبقاً في localStorage
     let guestUser = localStorage.getItem(guestKey);
     
     if (guestUser) {
@@ -771,6 +756,24 @@
             'success'
         );
     } else {
+        // التحقق من أن الاسم غير مستخدم من قبل حسابات أخرى (ليس زوار)
+        const users = getUsers();
+        const nameExistsInAccounts = users.find(u => 
+            u.name.toLowerCase() === cleanName.toLowerCase() && 
+            !u.isGuest  // فقط الحسابات العادية، ليس الزوار
+        );
+        
+        if (nameExistsInAccounts) {
+            showMessage(
+                'هذا الاسم مستخدم من قبل حساب آخر! اختر اسماً مختلفاً.',
+                'This name is used by another account! Choose a different name.',
+                'error'
+            );
+            // إعادة المحاولة
+            setTimeout(() => guestLogin(), 1500);
+            return;
+        }
+        
         // إنشاء زائر جديد
         guestUser = {
             name: cleanName,
@@ -808,43 +811,6 @@
         localStorage.removeItem('returnTo');
         window.location.href = returnTo;
     }, 1500);
-}
-
-// دالة مساعدة للدخول كزائر بدون اسم
-function continueAsAnonymousGuest() {
-    const guestKey = 'programmali_user_guest';
-    
-    let guestUser = localStorage.getItem(guestKey);
-    
-    if (guestUser) {
-        guestUser = JSON.parse(guestUser);
-    } else {
-        guestUser = {
-            name: currentLang === 'ar' ? 'زائر' : 'Guest',
-            points: 0,
-            highScore: 0,
-            gamesPlayed: 0,
-            rewards: [],
-            joinDate: new Date().toISOString(),
-            isGuest: true,
-            userId: 'guest'
-        };
-        localStorage.setItem(guestKey, JSON.stringify(guestUser));
-    }
-    
-    localStorage.setItem('programmali_current_user', 'guest');
-    
-    showMessage(
-        'مرحباً! جاري التحويل...',
-        'Welcome! Redirecting...',
-        'success'
-    );
-    
-    setTimeout(() => {
-        const returnTo = localStorage.getItem('returnTo') || 'index.html';
-        localStorage.removeItem('returnTo');
-        window.location.href = returnTo;
-    }, 1000);
 }
     </script>
 </body>
