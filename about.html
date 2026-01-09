@@ -220,20 +220,21 @@
         }
 
         .nav-menu {
-            display: flex;
-            list-style: none;
-            gap: clamp(15px, 2.5vw, 30px);
-        }
+    display: flex;
+    list-style: none;
+    gap: clamp(8px, 1.5vw, 18px);
+}
 
-        .nav-link {
-            color: var(--hover-color);
-            text-decoration: none;
-            font-size: clamp(14px, 2vw, 16px);
-            font-weight: 500;
-            transition: all 0.3s ease;
-            padding: 8px 12px;
-            border-radius: 8px;
-        }
+.nav-link {
+    color: var(--hover-color);
+    text-decoration: none;
+    font-size: clamp(12px, 1.6vw, 14px);
+    font-weight: 500;
+    transition: all 0.3s ease;
+    padding: 6px 8px;
+    border-radius: 8px;
+    white-space: nowrap;
+}
 
         .nav-link:hover, .nav-link.active {
             background: rgba(212, 196, 176, 0.2);
