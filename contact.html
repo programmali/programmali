@@ -758,10 +758,12 @@
         });
 
         function logout() {
-            localStorage.removeItem('programmali_user_data');
-            window.location.href = 'index.html';
-        }
-
+    const currentLang = localStorage.getItem('preferredLanguage') || 'ar';
+    if (confirm(currentLang === 'ar' ? 'هل أنت متأكد من تسجيل الخروج؟' : 'Are you sure you want to logout?')) {
+        localStorage.removeItem('programmali_current_user');
+        window.location.href = 'index.html';
+    }
+}
         function updateUserInfo() {
             const STORAGE_KEY = 'programmali_user_data';
             const userData = localStorage.getItem(STORAGE_KEY);
