@@ -1170,20 +1170,39 @@ void loop() {
         const canvasSize = 600;
 
         let snake = [{ x: 10 * box, y: 10 * box }];
-        let food = { 
-            x: (Math.floor(Math.random() * (canvas.width / box - 2)) + 1) * box, 
-            y: (Math.floor(Math.random() * (canvas.height / box - 2)) + 1) * box 
-        };
-        let direction = 'RIGHT';
-        let score = 0;
-        let highScore = localStorage.getItem('snakeHighScore') || 0;
-        let game;
-        let gameRunning = false;
-        let gamePaused = false;
-        let gameSpeed = 100;
-        let currentLang = 'ar';
+let food = { 
+    x: (Math.floor(Math.random() * (canvas.width / box - 2)) + 1) * box, 
+    y: (Math.floor(Math.random() * (canvas.height / box - 2)) + 1) * box 
+};
+let direction = 'RIGHT';
+let score = 0;
+let highScore = 0;  // سيتم تحميله من بيانات المستخدم
+let game;
+let gameRunning = false;
+let gamePaused = false;
+let gameSpeed = 100;
+let currentLang = 'ar';
 
-        document.getElementById('highScore').textContent = highScore;
+// تحميل أعلى نقاط من حساب المستخدم الحالي
+function loadHighScore() {
+    const currentUserId = localStorage.getItem('programmali_current_user');
+    if (currentUserId) {
+        const userKey = `programmali_user_${currentUserId}`;
+        const userData = localStorage.getItem(userKey);
+        if (userData) {
+            try {
+                const user = JSON.parse(userData);
+                highScore = user.highScore || 0;
+            } catch (e) {
+                highScore = 0;
+            }
+        }
+    }
+    document.getElementById('highScore').textContent = highScore;
+}
+
+// استدعاء الدالة عند تحميل الصفحة
+loadHighScore();
 
         // Adjust canvas size for mobile
         function adjustCanvasSize() {
@@ -1278,10 +1297,10 @@ void loop() {
                     document.getElementById('score').textContent = score;
                     
                     if (score > highScore) {
-                        highScore = score;
-                        localStorage.setItem('snakeHighScore', highScore);
-                        document.getElementById('highScore').textContent = highScore;
-                    }
+    highScore = score;
+    document.getElementById('highScore').textContent = highScore;
+    // سيتم حفظه في saveGameScore()
+}
 
                     // Increase speed
                     if (score % 5 === 0) {
