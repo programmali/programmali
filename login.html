@@ -723,35 +723,129 @@
         }
 
         // Guest Login
-        function guestLogin() {
-            const guestKey = 'programmali_user_guest';
-            
-            const guestUser = {
-                name: currentLang === 'ar' ? 'زائر' : 'Guest',
-                points: 0,
-                highScore: 0,
-                gamesPlayed: 0,
-                rewards: [],
-                joinDate: new Date().toISOString(),
-                isGuest: true,
-                userId: 'guest'
-            };
-            
-            localStorage.setItem(guestKey, JSON.stringify(guestUser));
-            localStorage.setItem('programmali_current_user', 'guest');
-            
-            showMessage(
-                'مرحباً! جاري التحويل...',
-                'Welcome! Redirecting...',
-                'success'
-            );
-            
-            setTimeout(() => {
-                const returnTo = localStorage.getItem('returnTo') || 'index.html';
-                localStorage.removeItem('returnTo');
-                window.location.href = returnTo;
-            }, 1000);
-        }
+    function guestLogin() {
+    // طلب اسم من المستخدم
+    const guestName = prompt(
+        currentLang === 'ar' 
+            ? 'اختر اسماً لك (أو اضغط Cancel للدخول كزائر بدون اسم):' 
+            : 'Choose a name (or press Cancel to continue as Guest):'
+    );
+    
+    // إذا ضغط Cancel أو لم يدخل شيء
+    if (!guestName || guestName.trim() === '') {
+        continueAsAnonymousGuest();
+        return;
+    }
+    
+    const cleanName = guestName.trim();
+    
+    // التحقق من أن الاسم غير موجود
+    const users = getUsers();
+    const nameExists = users.find(u => u.name.toLowerCase() === cleanName.toLowerCase());
+    
+    if (nameExists) {
+        showMessage(
+            'هذا الاسم مستخدم بالفعل! اختر اسماً آخر.',
+            'This name is already taken! Choose another name.',
+            'error'
+        );
+        // إعادة المحاولة
+        setTimeout(() => guestLogin(), 1500);
+        return;
+    }
+    
+    // إنشاء معرف فريد للزائر بناءً على الاسم
+    const guestId = 'guest_' + cleanName.toLowerCase().replace(/\s+/g, '_');
+    const guestKey = `programmali_user_${guestId}`;
+    
+    // التحقق إذا كان الزائر موجود مسبقاً
+    let guestUser = localStorage.getItem(guestKey);
+    
+    if (guestUser) {
+        // الزائر موجود - فقط سجل دخوله
+        guestUser = JSON.parse(guestUser);
+        
+        showMessage(
+            `مرحباً بعودتك ${cleanName}! 🎉`,
+            `Welcome back ${cleanName}! 🎉`,
+            'success'
+        );
+    } else {
+        // إنشاء زائر جديد
+        guestUser = {
+            name: cleanName,
+            points: 0,
+            highScore: 0,
+            gamesPlayed: 0,
+            rewards: [],
+            joinDate: new Date().toISOString(),
+            isGuest: true,
+            userId: guestId
+        };
+        
+        // حفظ في قائمة المستخدمين
+        users.push({
+            name: cleanName,
+            username: guestId,
+            joinDate: guestUser.joinDate,
+            isGuest: true
+        });
+        saveUsers(users);
+        
+        localStorage.setItem(guestKey, JSON.stringify(guestUser));
+        
+        showMessage(
+            `مرحباً ${cleanName}! 🎮`,
+            `Welcome ${cleanName}! 🎮`,
+            'success'
+        );
+    }
+    
+    localStorage.setItem('programmali_current_user', guestId);
+    
+    setTimeout(() => {
+        const returnTo = localStorage.getItem('returnTo') || 'index.html';
+        localStorage.removeItem('returnTo');
+        window.location.href = returnTo;
+    }, 1500);
+}
+
+// دالة مساعدة للدخول كزائر بدون اسم
+function continueAsAnonymousGuest() {
+    const guestKey = 'programmali_user_guest';
+    
+    let guestUser = localStorage.getItem(guestKey);
+    
+    if (guestUser) {
+        guestUser = JSON.parse(guestUser);
+    } else {
+        guestUser = {
+            name: currentLang === 'ar' ? 'زائر' : 'Guest',
+            points: 0,
+            highScore: 0,
+            gamesPlayed: 0,
+            rewards: [],
+            joinDate: new Date().toISOString(),
+            isGuest: true,
+            userId: 'guest'
+        };
+        localStorage.setItem(guestKey, JSON.stringify(guestUser));
+    }
+    
+    localStorage.setItem('programmali_current_user', 'guest');
+    
+    showMessage(
+        'مرحباً! جاري التحويل...',
+        'Welcome! Redirecting...',
+        'success'
+    );
+    
+    setTimeout(() => {
+        const returnTo = localStorage.getItem('returnTo') || 'index.html';
+        localStorage.removeItem('returnTo');
+        window.location.href = returnTo;
+    }, 1000);
+}
     </script>
 </body>
 </html>
