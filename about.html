@@ -792,23 +792,35 @@ function logout() {
 }
 
 function updateUserInfo() {
-    const STORAGE_KEY = 'programmali_user_data';
-    const userData = localStorage.getItem(STORAGE_KEY);
+    const currentUserId = localStorage.getItem('programmali_current_user');
     const userInfoDiv = document.getElementById('userInfo');
     const loginBtn = document.getElementById('loginBtn');
     
     if (!userInfoDiv || !loginBtn) return;
     
-    if (userData) {
-        const user = JSON.parse(userData);
-        userInfoDiv.style.display = 'flex';
-        loginBtn.style.display = 'none';
+    if (currentUserId) {
+        const userKey = `programmali_user_${currentUserId}`;
+        const userData = localStorage.getItem(userKey);
         
-        const userNameSpan = document.getElementById('userName');
-        const userPointsSpan = document.getElementById('userPoints');
-        
-        if (userNameSpan) userNameSpan.textContent = user.name;
-        if (userPointsSpan) userPointsSpan.textContent = user.points || 0;
+        if (userData) {
+            try {
+                const user = JSON.parse(userData);
+                userInfoDiv.style.display = 'flex';
+                loginBtn.style.display = 'none';
+                
+                const userNameSpan = document.getElementById('userName');
+                const userPointsSpan = document.getElementById('userPoints');
+                
+                if (userNameSpan) userNameSpan.textContent = user.name || 'زائر';
+                if (userPointsSpan) userPointsSpan.textContent = user.points || 0;
+            } catch (e) {
+                userInfoDiv.style.display = 'none';
+                loginBtn.style.display = 'inline-block';
+            }
+        } else {
+            userInfoDiv.style.display = 'none';
+            loginBtn.style.display = 'inline-block';
+        }
     } else {
         userInfoDiv.style.display = 'none';
         loginBtn.style.display = 'inline-block';
