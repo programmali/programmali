@@ -851,32 +851,40 @@
 }
 
         function updateUserInfo() {
-            const hasData = localStorage.getItem(STORAGE_KEY);
-            const userInfoDiv = document.getElementById('userInfo');
-            const loginBtn = document.getElementById('loginBtn');
-            
-            if (!userInfoDiv || !loginBtn) return;
-            
-            if (hasData) {
-                try {
-                    const userData = JSON.parse(hasData);
-                    userInfoDiv.style.display = 'flex';
-                    loginBtn.style.display = 'none';
-                    
-                    const userNameSpan = document.getElementById('userName');
-                    const userPointsSpan = document.getElementById('userPoints');
-                    
-                    if (userNameSpan) userNameSpan.textContent = userData.name || 'زائر';
-                    if (userPointsSpan) userPointsSpan.textContent = userData.points || 0;
-                } catch (e) {
-                    userInfoDiv.style.display = 'none';
-                    loginBtn.style.display = 'inline-block';
-                }
-            } else {
+    const currentUserId = localStorage.getItem('programmali_current_user');
+    const userInfoDiv = document.getElementById('userInfo');
+    const loginBtn = document.getElementById('loginBtn');
+    
+    if (!userInfoDiv || !loginBtn) return;
+    
+    if (currentUserId) {
+        const userKey = `programmali_user_${currentUserId}`;
+        const userData = localStorage.getItem(userKey);
+        
+        if (userData) {
+            try {
+                const user = JSON.parse(userData);
+                userInfoDiv.style.display = 'flex';
+                loginBtn.style.display = 'none';
+                
+                const userNameSpan = document.getElementById('userName');
+                const userPointsSpan = document.getElementById('userPoints');
+                
+                if (userNameSpan) userNameSpan.textContent = user.name || 'زائر';
+                if (userPointsSpan) userPointsSpan.textContent = user.points || 0;
+            } catch (e) {
                 userInfoDiv.style.display = 'none';
                 loginBtn.style.display = 'inline-block';
             }
+        } else {
+            userInfoDiv.style.display = 'none';
+            loginBtn.style.display = 'inline-block';
         }
+    } else {
+        userInfoDiv.style.display = 'none';
+        loginBtn.style.display = 'inline-block';
+    }
+}
 
         // Character counter
         document.getElementById('projectDescription').addEventListener('input', function() {
