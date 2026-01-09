@@ -201,7 +201,6 @@
             font-weight: bold;
         }
 
-        /* Google Sign-In Button Container */
         .google-signin-container {
             display: flex;
             justify-content: center;
@@ -219,7 +218,6 @@
             max-width: 100%;
         }
 
-        /* تحسين شكل زر Google - توسيط كامل! */
         #googleButton > div {
             margin: 0 auto !important;
             width: fit-content !important;
@@ -343,7 +341,7 @@
 
         <div id="message" class="message"></div>
 
-        <!-- Google Sign-In Button - في الأعلى! -->
+        <!-- Google Sign-In Button -->
         <div class="google-signin-container">
             <div id="googleButton"></div>
         </div>
@@ -408,8 +406,8 @@
         <button class="guest-btn" onclick="guestLogin()" data-ar="🎮 الدخول كزائر" data-en="🎮 Continue as Guest">🎮 الدخول كزائر</button>
 
         <div class="note">
-            <div class="note-title" data-ar="✅ تسجيل الدخول مفعّل!" data-en="✅ Google Sign-In Enabled!">✅ تسجيل الدخول مفعّل!</div>
-            <div class="note-text" data-ar="يمكنك الآن تسجيل الدخول عبر Google مباشرة!" data-en="You can now sign in with Google directly!">يمكنك الآن تسجيل الدخول عبر Google مباشرة!</div>
+            <div class="note-title" data-ar="✅ كل حساب منفصل!" data-en="✅ Each Account is Separate!">✅ كل حساب منفصل!</div>
+            <div class="note-text" data-ar="نقاطك محفوظة لكل حساب على حدة" data-en="Your points are saved separately for each account">نقاطك محفوظة لكل حساب على حدة</div>
         </div>
 
         <div class="back-home">
@@ -418,7 +416,6 @@
     </div>
 
     <script>
-        const STORAGE_KEY = 'programmali_user_data';
         const USERS_KEY = 'programmali_users';
         let currentLang = 'ar';
 
@@ -446,39 +443,29 @@
                 toggleLanguage();
             }
             
-            // حفظ الصفحة السابقة (من أين جاء المستخدم)
             const referrer = document.referrer;
             if (referrer && referrer.includes(window.location.hostname)) {
-                // استخرج اسم الصفحة من الـ URL
                 const referrerPage = referrer.split('/').pop().split('?')[0] || 'index.html';
-                // لا تحفظ إذا كان من login.html نفسه
                 if (referrerPage !== 'login.html' && referrerPage !== '') {
                     localStorage.setItem('returnTo', referrerPage);
                 }
             } else if (!localStorage.getItem('returnTo')) {
-                // إذا لم يكن هناك referrer، احفظ index.html كافتراضي
                 localStorage.setItem('returnTo', 'index.html');
             }
         });
 
-        // ========================================
-        // Google Sign-In - الطريقة الصحيحة! ✅
-        // ========================================
-        
+        // Google Sign-In
         window.onload = function() {
-            // حفظ الصفحة الحالية
             const currentPage = window.location.href;
             
-            // تهيئة Google Sign-In بطريقة صحيحة
             google.accounts.id.initialize({
                 client_id: '736529467752-jl6rp0j3ab1jn3rda5v1n6jm3esfjdoe.apps.googleusercontent.com',
                 callback: handleGoogleResponse,
                 auto_select: false,
                 cancel_on_tap_outside: false,
-                ux_mode: 'popup' // استخدام popup بدلاً من redirect! ✅
+                ux_mode: 'popup'
             });
             
-            // عرض الزر - يظهر في المنتصف! ✅
             const isMobile = window.innerWidth <= 480;
             
             google.accounts.id.renderButton(
@@ -493,7 +480,6 @@
                 }
             );
             
-            // منع مشكلة الرجوع - حافظ على الصفحة الحالية
             setTimeout(() => {
                 if (window.location.href !== currentPage) {
                     window.location.replace(currentPage);
@@ -504,36 +490,47 @@
         // Handle Google response
         function handleGoogleResponse(response) {
             try {
-                // فك تشفير JWT token من Google
                 const userInfo = parseJwt(response.credential);
+                const googleUserId = 'google_' + userInfo.sub;
+                const userKey = `programmali_user_${googleUserId}`;
                 
-                const googleUser = {
-                    name: userInfo.name,
-                    email: userInfo.email,
-                    username: 'google_' + userInfo.sub,
-                    googleId: userInfo.sub,
-                    picture: userInfo.picture,
-                    points: 0,
-                    highScore: 0,
-                    gamesPlayed: 0,
-                    rewards: [],
-                    joinDate: new Date().toISOString(),
-                    isGoogleUser: true
-                };
+                let userData = localStorage.getItem(userKey);
                 
-                // Check if user exists
-                const users = getUsers();
-                const existingUser = users.find(u => u.googleId === googleUser.googleId);
-                
-                if (existingUser) {
-                    // Login existing user
-                    localStorage.setItem(STORAGE_KEY, JSON.stringify(existingUser));
+                if (userData) {
+                    userData = JSON.parse(userData);
                 } else {
-                    // Create new user
-                    users.push(googleUser);
-                    saveUsers(users);
-                    localStorage.setItem(STORAGE_KEY, JSON.stringify(googleUser));
+                    userData = {
+                        name: userInfo.name,
+                        email: userInfo.email,
+                        username: googleUserId,
+                        googleId: userInfo.sub,
+                        picture: userInfo.picture,
+                        points: 0,
+                        highScore: 0,
+                        gamesPlayed: 0,
+                        rewards: [],
+                        joinDate: new Date().toISOString(),
+                        isGoogleUser: true,
+                        userId: googleUserId
+                    };
+                    
+                    const users = getUsers();
+                    const existingUser = users.find(u => u.googleId === userInfo.sub);
+                    if (!existingUser) {
+                        users.push({
+                            name: userInfo.name,
+                            email: userInfo.email,
+                            username: googleUserId,
+                            googleId: userInfo.sub,
+                            joinDate: userData.joinDate,
+                            isGoogleUser: true
+                        });
+                        saveUsers(users);
+                    }
                 }
+                
+                localStorage.setItem(userKey, JSON.stringify(userData));
+                localStorage.setItem('programmali_current_user', googleUserId);
                 
                 showMessage(
                     'تم تسجيل الدخول عبر Google بنجاح! 🎉',
@@ -542,7 +539,6 @@
                 );
                 
                 setTimeout(() => {
-                    // الرجوع للصفحة السابقة أو الرئيسية
                     const returnTo = localStorage.getItem('returnTo') || 'index.html';
                     localStorage.removeItem('returnTo');
                     window.location.href = returnTo;
@@ -557,7 +553,6 @@
             }
         }
 
-        // Parse JWT token
         function parseJwt(token) {
             const base64Url = token.split('.')[1];
             const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -567,7 +562,6 @@
             return JSON.parse(jsonPayload);
         }
 
-        // Switch between tabs
         function switchTab(tab) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.form-section').forEach(f => f.classList.remove('active'));
@@ -583,7 +577,6 @@
             hideMessage();
         }
 
-        // Show message
         function showMessage(textAr, textEn, type) {
             const msg = document.getElementById('message');
             msg.textContent = currentLang === 'ar' ? textAr : textEn;
@@ -594,13 +587,11 @@
             document.getElementById('message').className = 'message';
         }
 
-        // Get all users
         function getUsers() {
             const users = localStorage.getItem(USERS_KEY);
             return users ? JSON.parse(users) : [];
         }
 
-        // Save users
         function saveUsers(users) {
             localStorage.setItem(USERS_KEY, JSON.stringify(users));
         }
@@ -608,9 +599,6 @@
         // Handle Login
         function handleLogin(event) {
             event.preventDefault();
-            
-            // امسح بيانات الزائر أولاً
-            localStorage.removeItem(STORAGE_KEY);
             
             const username = document.getElementById('loginUsername').value.trim();
             const password = document.getElementById('loginPassword').value;
@@ -621,18 +609,28 @@
             );
             
             if (user) {
-                const userData = {
-                    name: user.name,
-                    username: user.username,
-                    email: user.email,
-                    points: user.points || 0,
-                    highScore: user.highScore || 0,
-                    gamesPlayed: user.gamesPlayed || 0,
-                    rewards: user.rewards || [],
-                    joinDate: user.joinDate
-                };
+                const userKey = `programmali_user_${user.username}`;
                 
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(userData));
+                let userData = localStorage.getItem(userKey);
+                
+                if (userData) {
+                    userData = JSON.parse(userData);
+                } else {
+                    userData = {
+                        name: user.name,
+                        username: user.username,
+                        email: user.email,
+                        points: 0,
+                        highScore: 0,
+                        gamesPlayed: 0,
+                        rewards: [],
+                        joinDate: user.joinDate,
+                        userId: user.username
+                    };
+                }
+                
+                localStorage.setItem(userKey, JSON.stringify(userData));
+                localStorage.setItem('programmali_current_user', user.username);
                 
                 showMessage(
                     'تم تسجيل الدخول بنجاح! جاري التحويل...',
@@ -641,7 +639,6 @@
                 );
                 
                 setTimeout(() => {
-                    // الرجوع للصفحة السابقة أو الرئيسية
                     const returnTo = localStorage.getItem('returnTo') || 'index.html';
                     localStorage.removeItem('returnTo');
                     window.location.href = returnTo;
@@ -659,9 +656,6 @@
         function handleRegister(event) {
             event.preventDefault();
             
-            // امسح بيانات الزائر أولاً
-            localStorage.removeItem(STORAGE_KEY);
-            
             const name = document.getElementById('registerName').value.trim();
             const username = document.getElementById('registerUsername').value.trim();
             const email = document.getElementById('registerEmail').value.trim();
@@ -669,7 +663,6 @@
             
             const users = getUsers();
             
-            // Check if username or email already exists
             if (users.find(u => u.username === username)) {
                 showMessage(
                     'اسم المستخدم موجود بالفعل!',
@@ -693,10 +686,6 @@
                 username,
                 email,
                 password,
-                points: 0,
-                highScore: 0,
-                gamesPlayed: 0,
-                rewards: [],
                 joinDate: new Date().toISOString(),
                 isGoogleUser: false
             };
@@ -704,18 +693,21 @@
             users.push(newUser);
             saveUsers(users);
             
+            const userKey = `programmali_user_${username}`;
             const userData = {
                 name: newUser.name,
                 username: newUser.username,
                 email: newUser.email,
-                points: newUser.points,
-                highScore: newUser.highScore,
-                gamesPlayed: newUser.gamesPlayed,
-                rewards: newUser.rewards,
-                joinDate: newUser.joinDate
+                points: 0,
+                highScore: 0,
+                gamesPlayed: 0,
+                rewards: [],
+                joinDate: newUser.joinDate,
+                userId: username
             };
             
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(userData));
+            localStorage.setItem(userKey, JSON.stringify(userData));
+            localStorage.setItem('programmali_current_user', username);
             
             showMessage(
                 'تم إنشاء الحساب بنجاح! جاري التحويل...',
@@ -724,7 +716,6 @@
             );
             
             setTimeout(() => {
-                // الرجوع للصفحة السابقة أو الرئيسية
                 const returnTo = localStorage.getItem('returnTo') || 'index.html';
                 localStorage.removeItem('returnTo');
                 window.location.href = returnTo;
@@ -733,8 +724,7 @@
 
         // Guest Login
         function guestLogin() {
-            // امسح أي بيانات قديمة
-            localStorage.removeItem(STORAGE_KEY);
+            const guestKey = 'programmali_user_guest';
             
             const guestUser = {
                 name: currentLang === 'ar' ? 'زائر' : 'Guest',
@@ -743,10 +733,12 @@
                 gamesPlayed: 0,
                 rewards: [],
                 joinDate: new Date().toISOString(),
-                isGuest: true
+                isGuest: true,
+                userId: 'guest'
             };
             
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(guestUser));
+            localStorage.setItem(guestKey, JSON.stringify(guestUser));
+            localStorage.setItem('programmali_current_user', 'guest');
             
             showMessage(
                 'مرحباً! جاري التحويل...',
@@ -755,7 +747,6 @@
             );
             
             setTimeout(() => {
-                // الرجوع للصفحة السابقة أو الرئيسية
                 const returnTo = localStorage.getItem('returnTo') || 'index.html';
                 localStorage.removeItem('returnTo');
                 window.location.href = returnTo;
