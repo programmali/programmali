@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
-    
+
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-PES47W54T3"></script>
     <script>
@@ -14,1109 +14,507 @@
       gtag('js', new Date());
       gtag('config', 'G-PES47W54T3');
     </script>
-    
-    <title>برمج مع علي | لعبة الدودة التعليمية - Arduino Snake Game</title>
-    <meta name="description" content="جرب لعبة الدودة التفاعلية المتحكم بها عبر الأردوينو. تعلم البرمجة بطريقة ممتعة وتفاعلية.">
+
+    <title>برمج مع علي | لعبة الدودة التعليمية</title>
+    <meta name="description" content="جرب لعبة الدودة التفاعلية المتحكم بها عبر الأردوينو.">
     <link rel="canonical" href="https://programmali.github.io/programmali/game.html">
-    <link rel="icon" type="image/jpeg" href="https://i.imgur.com/1Hu1phq.jpeg">
-    
+    <link rel="icon" type="image/jpeg" href="https://i.imgur.com/6yQ2kc8.jpeg">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin:0; padding:0; box-sizing:border-box; }
 
         :root {
-            --primary-color: #2c1810;
-            --secondary-color: #5a4035;
-            --accent-color: #8b6f5a;
-            --light-bg: #f5e6d3;
-            --hover-color: #d4c4b0;
+            --navy:   #0d1b3e;
+            --blue:   #1a3a6b;
+            --cyan:   #00c8e0;
+            --purple: #6b4de6;
+            --pink:   #e040fb;
+            --green:  #00e676;
+            --orange: #ff6d00;
+            --yellow: #ffd600;
+            --gray:   #8a9bb5;
+            --white:  #ffffff;
+            --card:   rgba(255,255,255,0.05);
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 50%, var(--accent-color) 100%);
-            background-attachment: fixed;
+            font-family: 'Cairo', sans-serif;
+            background: #eef4ff;
+            color: #0d1b3e;
             min-height: 100vh;
-            touch-action: manipulation;  /* منع delay 300ms */
-            -webkit-tap-highlight-color: transparent;  /* إزالة highlight */
+            overflow-x: hidden;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* Navbar */
+        body::before {
+            content:''; position:fixed; inset:0; z-index:0;
+            background:
+                radial-gradient(ellipse 55% 50% at 90% 10%, rgba(107,77,230,0.07) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 45% at 5% 85%,  rgba(0,200,224,0.07) 0%, transparent 70%);
+            pointer-events:none;
+        }
+
+        /* ===== NAVBAR ===== */
         .navbar {
-            background: rgba(44, 24, 16, 0.95);
-            padding: 12px 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            backdrop-filter: blur(10px);
+            position: sticky; top:0; z-index:1000;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(0,200,224,0.2);
+            box-shadow: 0 2px 20px rgba(0,27,62,0.08);
+        }
+        .nav-inner {
+            max-width:1300px; margin:0 auto;
+            display:flex; align-items:center;
+            justify-content:space-between;
+            padding: 10px clamp(16px,3vw,40px);
+            gap:16px;
+        }
+        .nav-logo { display:flex; align-items:center; gap:10px; text-decoration:none; }
+        .nav-logo img { width:42px; height:42px; border-radius:50%; object-fit:cover; }
+        .nav-logo span {
+            font-size:clamp(15px,2.5vw,20px); font-weight:800;
+            background: linear-gradient(90deg,var(--cyan),var(--purple));
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+        }
+        .nav-links { display:flex; list-style:none; gap:4px; }
+        .nav-links a {
+            color: #1a3a6b; text-decoration:none;
+            font-size:clamp(12px,1.4vw,14px); font-weight:600;
+            padding:7px 12px; border-radius:8px;
+            transition:all 0.25s; white-space:nowrap;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            background:rgba(0,200,224,0.12); color:var(--cyan);
+        }
+        .nav-actions { display:flex; align-items:center; gap:10px; }
+
+        /* زر تسجيل الدخول - يظهر دائماً ثم يُخفى بـ JS */
+        .btn-login {
+            background: linear-gradient(135deg,var(--cyan),var(--purple));
+            color:white; border:none;
+            padding:8px 20px; border-radius:8px;
+            font-family:'Cairo',sans-serif;
+            font-size:13px; font-weight:700;
+            cursor:pointer; text-decoration:none;
+            white-space:nowrap;
+            transition:opacity 0.25s, transform 0.25s;
+            display:inline-block;
+        }
+        .btn-login:hover { opacity:0.85; transform:translateY(-1px); }
+
+        /* User dropdown */
+        .user-info {
+            position:relative;
+            background:rgba(0,27,62,0.07);
+            padding:7px 14px; border-radius:20px;
+            display:none; align-items:center; gap:8px;
+            cursor:pointer; transition:background 0.25s;
+        }
+        .user-info:hover { background:rgba(0,27,62,0.12); }
+        .user-name { font-weight:700; font-size:13px; color:#0d1b3e; }
+        .user-points {
+            background:linear-gradient(135deg,#FFD700,#FFA500);
+            color:#111; padding:3px 9px;
+            border-radius:12px; font-size:11px; font-weight:700;
+        }
+        .user-dropdown {
+            position:absolute; top:calc(100% + 8px); right:0;
+            background:#fff;
+            border:1px solid rgba(0,200,224,0.2);
+            border-radius:12px; min-width:190px;
+            display:none; z-index:1001;
+            box-shadow:0 12px 35px rgba(0,27,62,0.15); overflow:hidden;
+        }
+        .user-dropdown.show { display:block; }
+        .dropdown-item {
+            display:block; padding:11px 18px;
+            color:#1a3a6b; text-decoration:none;
+            font-size:13px; transition:background 0.2s;
+            border-bottom:1px solid rgba(0,27,62,0.07);
+        }
+        .dropdown-item:hover { background:rgba(0,200,224,0.1); }
+        .dropdown-item.danger { color:#f87171; }
+        .dropdown-item:last-child { border-bottom:none; }
+
+        .menu-toggle {
+            display:none; background:none; border:none;
+            color:var(--navy); font-size:26px; cursor:pointer;
         }
 
-        .nav-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 clamp(15px, 3vw, 40px);
+        /* ===== MAIN ===== */
+        .main-wrap {
+            position:relative; z-index:1;
+            max-width:1200px; margin:0 auto;
+            padding: clamp(20px,4vw,40px) clamp(16px,3vw,40px);
         }
 
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: clamp(10px, 2vw, 15px);
-        }
-
-        .nav-logo-img {
-            width: clamp(40px, 6vw, 50px);
-            height: clamp(40px, 6vw, 50px);
-            border-radius: 50%;
-            overflow: hidden;
-        }
-
-        .nav-logo-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .nav-brand {
-            font-size: clamp(16px, 3vw, 24px);
-            font-weight: bold;
-            color: var(--hover-color);
-            text-decoration: none;
-        }
-
-        .nav-actions {
-            display: flex;
-            align-items: center;
-            gap: clamp(10px, 2vw, 20px);
-        }
-
-        .language-switcher {
-            background: var(--light-bg);
-            color: var(--primary-color);
-            border: none;
-            padding: clamp(6px, 1.5vw, 10px) clamp(10px, 2vw, 20px);
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: clamp(12px, 2vw, 16px);
-            transition: all 0.3s ease;
-        }
-
-        .language-switcher:hover {
-    background: var(--hover-color);
-    transform: scale(1.05);
-}
-
-/* User Info & Login */
-.user-info {
-    position: relative;
-    background: var(--light-bg);
-    padding: 8px 15px;
-    border-radius: 20px;
-    display: none;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.user-info:hover {
-    background: var(--hover-color);
-}
-
-.user-name {
-    font-weight: bold;
-    color: var(--primary-color);
-    font-size: 14px;
-}
-
-.user-points {
-    background: #FFD700;
-    color: var(--primary-color);
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-weight: bold;
-    font-size: 12px;
-}
-
-.user-dropdown {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    margin-top: 10px;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    min-width: 200px;
-    display: none;
-    z-index: 1001;
-}
-
-.user-dropdown.show {
-    display: block;
-}
-
-.dropdown-item {
-    padding: 12px 20px;
-    color: var(--primary-color);
-    text-decoration: none;
-    display: block;
-    transition: all 0.3s ease;
-    border-bottom: 1px solid #f0f0f0;
-}
-
-.dropdown-item:last-child {
-    border-bottom: none;
-}
-
-.dropdown-item:hover {
-    background: var(--light-bg);
-}
-
-.dropdown-item.danger {
-    color: #ef4444;
-}
-
-.login-btn {
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    color: white;
-    border: none;
-    padding: clamp(6px, 1.5vw, 10px) clamp(15px, 3vw, 25px);
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: clamp(12px, 2vw, 16px);
-    transition: all 0.3s ease;
-    white-space: nowrap;
-    text-decoration: none;
-    display: inline-block;
-}
-
-.login-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-}
-
-@media (max-width: 768px) {
-    .user-info {
-        font-size: 12px;
-    }
-    
-    .user-points {
-        font-size: 10px;
-        padding: 3px 8px;
-    }
-}
-
-.menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            color: var(--hover-color);
-            font-size: clamp(24px, 5vw, 32px);
-            cursor: pointer;
-        }
-
-        .nav-menu {
-    display: flex;
-    list-style: none;
-    gap: clamp(8px, 1.5vw, 18px);
-}
-
-.nav-link {
-    color: var(--hover-color);
-    text-decoration: none;
-    font-size: clamp(12px, 1.6vw, 14px);
-    font-weight: 500;
-    transition: all 0.3s ease;
-    padding: 6px 8px;
-    border-radius: 8px;
-    white-space: nowrap;
-}
-
-        .nav-link:hover, .nav-link.active {
-            background: rgba(212, 196, 176, 0.2);
-            color: #f5e6d3;
-        }
-
-        /* Game Container */
-        .game-container {
-            max-width: 1200px;
-            margin: clamp(20px, 4vw, 40px) auto;
-            padding: 0 clamp(15px, 3vw, 40px);
-        }
-
-        .game-header {
-            text-align: center;
-            margin-bottom: clamp(20px, 4vw, 40px);
-        }
-
+        .game-header { text-align:center; margin-bottom:clamp(20px,4vw,36px); }
         .game-title {
-            font-size: clamp(28px, 5vw, 48px);
-            color: white;
-            margin-bottom: 15px;
+            font-size:clamp(26px,5vw,44px); font-weight:900;
+            background:linear-gradient(90deg, var(--green), var(--cyan), var(--purple), var(--pink));
+            background-size: 200% auto;
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+            margin-bottom:10px;
+            animation: shimmer 3s linear infinite;
+        }
+        @keyframes shimmer { to { background-position: 200% center; } }
+        .game-desc { color:#5a7a9a; font-size:clamp(14px,2vw,17px); }
+
+        /* بطاقة اللعبة */
+        .game-card {
+            background:rgba(255,255,255,0.85);
+            border:1px solid rgba(0,200,224,0.2);
+            border-radius:20px;
+            padding:clamp(16px,3vw,32px);
+            box-shadow:0 8px 40px rgba(0,27,62,0.1);
+            backdrop-filter:blur(10px);
         }
 
-        .game-description {
-            font-size: clamp(14px, 2vw, 20px);
-            color: var(--light-bg);
-            max-width: 800px;
-            margin: 0 auto 20px;
+        /* إحصائيات */
+        .stats-row {
+            display:grid; grid-template-columns:repeat(3,1fr);
+            gap:clamp(10px,2vw,20px); margin-bottom:clamp(16px,3vw,24px);
         }
+        .stat-box {
+            border-radius:14px; padding:clamp(12px,2vw,20px);
+            text-align:center; position:relative; overflow:hidden;
+        }
+        .stat-box::before {
+            content:''; position:absolute; inset:0; opacity:0.08;
+            border-radius:14px;
+        }
+        /* النقاط - أخضر */
+        .stat-box:nth-child(1) {
+            background: rgba(0,230,118,0.07);
+            border: 1px solid rgba(0,230,118,0.25);
+        }
+        .stat-box:nth-child(1) .stat-val {
+            background: linear-gradient(135deg, #00e676, #69f0ae);
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+        }
+        .stat-box:nth-child(1) .stat-label { color: rgba(0,230,118,0.7); }
 
-        .game-wrapper {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: clamp(20px, 4vw, 40px);
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        /* أعلى نقاط - أصفر ذهبي */
+        .stat-box:nth-child(2) {
+            background: rgba(255,214,0,0.07);
+            border: 1px solid rgba(255,214,0,0.25);
         }
-        
-        /* Game Stats - في الأعلى دائماً */
-        .game-controls {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: clamp(15px, 3vw, 25px);
-            margin-bottom: clamp(20px, 4vw, 30px);
+        .stat-box:nth-child(2) .stat-val {
+            background: linear-gradient(135deg, #ffd600, #ffab00);
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
         }
+        .stat-box:nth-child(2) .stat-label { color: rgba(255,214,0,0.7); }
 
-        /* Game Layout - الشاشة والأزرار */
+        /* السرعة - برتقالي */
+        .stat-box:nth-child(3) {
+            background: rgba(255,109,0,0.07);
+            border: 1px solid rgba(255,109,0,0.25);
+        }
+        .stat-box:nth-child(3) .stat-val {
+            background: linear-gradient(135deg, #ff6d00, #ff9100);
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+        }
+        .stat-box:nth-child(3) .stat-label { color: rgba(255,109,0,0.7); }
+
+        .stat-label { font-size:clamp(11px,1.5vw,14px); margin-bottom:6px; font-weight:600; }
+        .stat-val { font-size:clamp(22px,3.5vw,36px); font-weight:900; }
+
+        /* layout */
         .game-layout {
-            display: flex;
-            gap: clamp(15px, 3vw, 30px);
-            align-items: flex-start;
-            justify-content: center;
+            display:flex; gap:clamp(14px,2.5vw,28px);
+            align-items:flex-start; justify-content:center;
         }
-
-        .game-canvas-wrapper {
-            flex-shrink: 0;
-        }
-
+        .game-canvas-wrap { flex-shrink:0; }
         .game-board {
-            background: #1a1a1a;
-            border: 4px solid var(--accent-color);
-            border-radius: 10px;
-            display: block;
-            width: 500px;
-            height: 500px;
+            background:#0a0a1a;
+            border:2px solid rgba(0,200,224,0.3);
+            border-radius:12px; display:block;
+            box-shadow:0 0 30px rgba(0,200,224,0.1);
+            width:500px; height:500px;
         }
 
-        .game-side-controls {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            width: 260px;
-            justify-content: center;
-            background: linear-gradient(145deg, #8b6f5a 0%, #5a4035 100%);
-            padding: 28px 18px;
-            border-radius: 25px;
-            box-shadow: 
-                0 15px 40px rgba(44, 24, 16, 0.5),
-                0 5px 15px rgba(90, 64, 53, 0.3),
-                inset 0 2px 1px rgba(245, 230, 211, 0.15),
-                inset 0 -3px 8px rgba(44, 24, 16, 0.3);
-            border: 3px solid rgba(139, 111, 90, 0.6);
-            position: relative;
+        /* لوحة التحكم */
+        .game-side {
+            display:flex; flex-direction:column; gap:14px;
+            width:260px;
+            background: linear-gradient(160deg, rgba(13,27,62,0.95), rgba(20,10,40,0.95));
+            border:1px solid rgba(0,200,224,0.2);
+            border-radius:20px; padding:22px 16px;
+            box-shadow:0 15px 40px rgba(0,0,0,0.4);
         }
-        
-        /* خط الإضاءة العلوي (بيج فاتح) */
-        .game-side-controls::before {
-            content: '';
-            position: absolute;
-            top: 8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60%;
-            height: 2px;
-            background: linear-gradient(90deg, 
-                transparent 0%, 
-                rgba(212, 196, 176, 0.6) 20%,
-                rgba(245, 230, 211, 0.9) 50%,
-                rgba(212, 196, 176, 0.6) 80%,
-                transparent 100%);
-            border-radius: 2px;
-            box-shadow: 0 0 10px rgba(212, 196, 176, 0.4);
-        }
-        
-        /* نقطة الإضاءة المركزية */
-        .game-side-controls::after {
-            content: '';
-            position: absolute;
-            top: 8px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 6px;
-            height: 6px;
-            background: radial-gradient(circle, rgba(245, 230, 211, 1) 0%, rgba(212, 196, 176, 0.8) 70%, transparent 100%);
-            border-radius: 50%;
-            box-shadow: 
-                0 0 8px rgba(245, 230, 211, 0.9),
-                0 0 15px rgba(212, 196, 176, 0.5);
-        }
-        
-        /* عنوان للوحة التحكم */
-        .controller-label {
-            text-align: center;
-            color: rgba(245, 230, 211, 0.95);
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            margin-top: 8px;  /* مسافة من الضوء الأبيض */
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            text-shadow: 0 2px 4px rgba(44, 24, 16, 0.8);
+        .ctrl-label {
+            text-align:center;
+            font-size:12px; font-weight:700;
+            letter-spacing:2px; text-transform:uppercase;
+            margin-bottom:4px;
+            background: linear-gradient(90deg, var(--cyan), var(--pink));
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
         }
 
-        .control-card {
-            background: var(--light-bg);
-            padding: 20px;
-            border-radius: 12px;
-            text-align: center;
-        }
-
-        .control-title {
-            font-size: clamp(18px, 3vw, 22px);
-            font-weight: bold;
-            color: var(--primary-color);
-            margin-bottom: 10px;
-        }
-
-        .control-value {
-            font-size: clamp(24px, 4vw, 32px);
-            font-weight: bold;
-            color: var(--accent-color);
-        }
-
-        .game-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            width: 100%;
-        }
-
+        .game-buttons { display:flex; flex-direction:column; gap:10px; width:100%; }
         .game-btn {
-            padding: clamp(12px, 2vw, 15px) clamp(20px, 4vw, 25px);
-            border: none;
-            border-radius: 12px;
-            font-size: clamp(14px, 2.5vw, 16px);
-            font-weight: bold;
-            cursor: pointer;
-            transition: none;  /* إزالة التأخير */
-            touch-action: manipulation;  /* استجابة فورية للمس */
-            -webkit-tap-highlight-color: transparent;  /* إزالة highlight */
-            user-select: none;  /* منع التحديد */
-            width: 100%;
-            min-height: 65px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            box-shadow: 
-                0 4px 15px rgba(0,0,0,0.4),
-                inset 0 1px 0 rgba(255,255,255,0.2);
+            padding:clamp(12px,2vw,15px); border:none; border-radius:12px;
+            font-family:'Cairo',sans-serif;
+            font-size:clamp(13px,2vw,16px); font-weight:700;
+            cursor:pointer; touch-action:manipulation;
+            -webkit-tap-highlight-color:transparent;
+            user-select:none; width:100%; min-height:58px;
+            display:flex; align-items:center; justify-content:center;
+            transition:transform 0.15s, box-shadow 0.15s;
         }
-        
-        .game-btn::before {
-            content: '';
-            position: absolute;
-            top: 1px;
-            left: 5%;
-            right: 5%;
-            height: 50%;
-            background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent);
-            border-radius: 12px 12px 0 0;
-            pointer-events: none;
-        }
-
         .btn-start {
-            background: linear-gradient(145deg, #d4af37, #b8941e);
-            color: white;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-            box-shadow: 
-                0 4px 15px rgba(212, 175, 55, 0.4),
-                inset 0 1px 0 rgba(255,255,255,0.2);
+            background:linear-gradient(135deg, #00e676, #00b248);
+            color:#001a0a; box-shadow:0 4px 20px rgba(0,230,118,0.35);
         }
-        
-        .btn-start:hover {
-            background: linear-gradient(145deg, #ffd700, #d4af37);
-            box-shadow: 
-                0 6px 25px rgba(212, 175, 55, 0.6),
-                inset 0 1px 0 rgba(255,255,255,0.3);
-            transform: translateY(-3px);
-        }
-        
-        .btn-start:active {
-            transform: translateY(1px);
-            box-shadow: 
-                0 2px 10px rgba(212, 175, 55, 0.5),
-                inset 0 2px 5px rgba(0, 0, 0, 0.3);
-        }
+        .btn-start:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(0,230,118,0.5); }
+        .btn-start:active { transform:translateY(1px); }
 
         .btn-pause {
-            background: linear-gradient(145deg, #ff6b6b, #ee5a52);
-            color: white;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
-            box-shadow: 
-                0 4px 15px rgba(255, 107, 107, 0.4),
-                inset 0 1px 0 rgba(255,255,255,0.2);
+            background:linear-gradient(135deg, #e040fb, #9c27b0);
+            color:white; box-shadow:0 4px 20px rgba(224,64,251,0.3);
         }
-        
-        .btn-pause:hover {
-            background: linear-gradient(145deg, #ff7979, #ff6b6b);
-            box-shadow: 
-                0 6px 25px rgba(255, 107, 107, 0.6),
-                inset 0 1px 0 rgba(255,255,255,0.3);
-        }
-        
-        .btn-pause:active {
-            transform: translateY(1px);
-            box-shadow: 
-                0 2px 10px rgba(255, 107, 107, 0.5),
-                inset 0 2px 5px rgba(0, 0, 0, 0.3);
-        }
+        .btn-pause:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(224,64,251,0.45); }
+        .btn-pause:active { transform:translateY(1px); }
+        .game-btn:disabled { opacity:0.4; cursor:not-allowed; transform:none; }
 
-        .game-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 
-                0 6px 20px rgba(0,0,0,0.5),
-                inset 0 1px 0 rgba(255,255,255,0.3);
+        /* أسهم التحكم */
+        .mobile-controls {
+            display:grid;
+            grid-template-columns: repeat(3,1fr);
+            gap:3px; width:100%;
+            background:rgba(0,0,0,0.3);
+            padding:6px; border-radius:14px;
+            justify-items:center; align-items:center;
         }
-        
-        .game-btn:active {
-            transform: translateY(1px);
-            box-shadow: 
-                0 2px 10px rgba(0,0,0,0.4),
-                inset 0 1px 3px rgba(0,0,0,0.3);
+        .arrow-btn {
+            background:linear-gradient(145deg,rgba(255,109,0,0.2),rgba(255,145,0,0.15));
+            border:1px solid rgba(255,109,0,0.4);
+            color:var(--orange); border-radius:8px; cursor:pointer;
+            touch-action:manipulation; -webkit-tap-highlight-color:transparent;
+            user-select:none; aspect-ratio:1;
+            display:flex; align-items:center; justify-content:center;
+            position:relative; min-height:40px; width:100%;
+            transition:background 0.15s, transform 0.1s;
         }
+        .arrow-btn::before {
+            content:''; width:0; height:0; border-style:solid; position:relative; z-index:1;
+        }
+        .arrow-btn.up::before    { border-width:0 9px 12px 9px;  border-color:transparent transparent #ff9100 transparent; }
+        .arrow-btn.down::before  { border-width:12px 9px 0 9px;  border-color:#ff9100 transparent transparent transparent; }
+        .arrow-btn.right::before { border-width:9px 12px 9px 0;  border-color:transparent #ff9100 transparent transparent; }
+        .arrow-btn.left::before  { border-width:9px 0 9px 12px;  border-color:transparent transparent transparent #ff9100; }
 
-        .game-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
+        [dir="ltr"] .arrow-btn.right::before { border-width:9px 0 9px 12px;  border-color:transparent transparent transparent #ff9100; }
+        [dir="ltr"] .arrow-btn.left::before  { border-width:9px 12px 9px 0;  border-color:transparent #ff9100 transparent transparent; }
 
-        /* Arduino Instructions */
+        .arrow-btn:hover { background:rgba(255,109,0,0.25); transform:translateY(-1px); }
+        .arrow-btn:active { transform:scale(0.92); }
+
+        /* قسم الأردوينو */
         .arduino-section {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: clamp(25px, 4vw, 40px);
-            margin-top: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            background:rgba(255,255,255,0.85);
+            border:1px solid rgba(0,200,224,0.2);
+            border-radius:20px; padding:clamp(24px,4vw,40px);
+            margin-top:28px; box-shadow:0 8px 40px rgba(0,27,62,0.1);
         }
-
         .arduino-title {
-            font-size: clamp(24px, 4vw, 32px);
-            color: var(--primary-color);
-            margin-bottom: 20px;
-            text-align: center;
+            font-size:clamp(20px,3.5vw,30px); font-weight:900;
+            background:linear-gradient(90deg,var(--cyan),var(--purple));
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+            margin-bottom:22px; text-align:center;
         }
-
         .instruction-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+            gap:16px;
         }
-
         .instruction-card {
-            background: var(--light-bg);
-            padding: 20px;
-            border-radius: 12px;
-            border-left: 4px solid var(--accent-color);
+            background:rgba(255,255,255,0.04);
+            border-radius:14px; padding:18px;
+            transition: transform 0.25s;
         }
+        .instruction-card:hover { transform:translateY(-4px); }
 
-        .instruction-step {
-            font-weight: bold;
-            color: var(--accent-color);
-            margin-bottom: 10px;
-            font-size: clamp(16px, 2.5vw, 18px);
-        }
+        /* لون مختلف لكل بطاقة */
+        .instruction-card:nth-child(1) { border-right:3px solid var(--cyan);   background: rgba(0,200,224,0.06); }
+        .instruction-card:nth-child(2) { border-right:3px solid var(--green);  background: rgba(0,230,118,0.06); }
+        .instruction-card:nth-child(3) { border-right:3px solid var(--purple); background: rgba(107,77,230,0.06); }
+        .instruction-card:nth-child(4) { border-right:3px solid var(--orange); background: rgba(255,109,0,0.06); }
 
-        .instruction-text {
-            color: var(--secondary-color);
-            line-height: 1.6;
-            font-size: clamp(14px, 2vw, 16px);
-        }
+        .instruction-card:nth-child(1) .instruction-step { color: var(--cyan); }
+        .instruction-card:nth-child(2) .instruction-step { color: var(--green); }
+        .instruction-card:nth-child(3) .instruction-step { color: #b39ddb; }
+        .instruction-card:nth-child(4) .instruction-step { color: var(--orange); }
+        .instruction-text { color:#3a5a7a; line-height:1.7; font-size:14px; }
 
         .code-block {
-            background: #1a1a1a;
-            color: #0f0;
-            padding: 20px;
-            border-radius: 10px;
-            font-family: 'Courier New', monospace;
-            overflow-x: auto;
-            margin-top: 20px;
-            font-size: clamp(12px, 1.8vw, 14px);
-        }
-
-        /* تم التحديث: 2025-01-02 الساعة 23:20 - إصلاح الأسهم في الجوال */
-        /* Mobile Controls - D-Pad Style */
-        .mobile-controls {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2px;  /* تم التصغير من 3px */
-            width: 100%;
-            background: rgba(44, 24, 16, 0.6);
-            padding: 5px;  /* تم التصغير من 6px */
-            border-radius: 15px;
-            box-shadow: 
-                inset 0 2px 8px rgba(44, 24, 16, 0.8),
-                0 2px 10px rgba(0, 0, 0, 0.3);
-            justify-items: center;
-            align-items: center;
-        }
-
-        .arrow-btn {
-            background: linear-gradient(145deg, #ffb84d, #ff9800);
-            color: white;
-            border: none;
-            padding: 0;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: none;  /* إزالة التأخير */
-            touch-action: manipulation;  /* استجابة فورية */
-            -webkit-tap-highlight-color: transparent;  /* إزالة highlight */
-            user-select: none;  /* منع التحديد */
-            aspect-ratio: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            min-height: 38px;
-            box-shadow: 
-                0 3px 10px rgba(255, 152, 0, 0.4),
-                inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
-        
-        .arrow-btn::after {
-            content: '';
-            position: absolute;
-            top: 2px;
-            left: 20%;
-            right: 20%;
-            height: 40%;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), transparent);
-            border-radius: 6px 6px 0 0;
-            pointer-events: none;
-        }
-        
-        /* رسم الأسهم بـ CSS */
-        .arrow-btn::before {
-            content: '';
-            width: 0;
-            height: 0;
-            border-style: solid;
-            position: relative;
-            z-index: 1;
-        }
-        
-        /* السهم للأعلى ▲ */
-        .arrow-btn.up::before {
-            border-width: 0 9px 12px 9px;  /* تم التكبير قليلاً */
-            border-color: transparent transparent white transparent;
-            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
-        }
-        
-        /* السهم للأسفل ▼ */
-        .arrow-btn.down::before {
-            border-width: 12px 9px 0 9px;  /* تم التكبير قليلاً */
-            border-color: white transparent transparent transparent;
-            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
-        }
-        
-        /* السهم لليمين (في RTL = يسار الشاشة) ◄ */
-        .arrow-btn.right::before {
-            border-width: 9px 12px 9px 0;  /* تم التكبير قليلاً */
-            border-color: transparent white transparent transparent;
-            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
-        }
-        
-        /* السهم لليسار (في RTL = يمين الشاشة) ► */
-        .arrow-btn.left::before {
-            border-width: 9px 0 9px 12px;  /* تم التكبير قليلاً */
-            border-color: transparent transparent transparent white;
-            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
-        }
-        
-        /* عكس شكل الأسهم في اللغة الإنجليزية (LTR) */
-        [dir="ltr"] .arrow-btn.right::before {
-            border-width: 9px 0 9px 12px;
-            border-color: transparent transparent transparent white;
-        }
-        
-        [dir="ltr"] .arrow-btn.left::before {
-            border-width: 9px 12px 9px 0;
-            border-color: transparent white transparent transparent;
-        }
-
-        .arrow-btn:hover {
-            background: linear-gradient(145deg, #ffc266, #ffb84d);
-            transform: translateY(-1px);
-            box-shadow: 
-                0 4px 15px rgba(255, 152, 0, 0.6),
-                inset 0 1px 0 rgba(255, 255, 255, 0.3);
-        }
-        
-        .arrow-btn:active {
-            transform: translateY(1px);
-            background: linear-gradient(145deg, #ff9800, #f57c00);
-            box-shadow: 
-                0 1px 5px rgba(255, 152, 0, 0.5),
-                inset 0 2px 5px rgba(0, 0, 0, 0.3);
+            background:rgba(0,0,0,0.5);
+            border:1px solid rgba(0,200,224,0.2);
+            color:#00ff88; padding:20px; border-radius:12px;
+            font-family:'Courier New',monospace; overflow-x:auto;
+            margin-top:20px; font-size:clamp(12px,1.6vw,14px);
         }
 
         /* Footer */
         .footer {
-            background: rgba(44, 24, 16, 0.95);
-            color: var(--hover-color);
-            text-align: center;
-            padding: clamp(30px, 5vw, 50px) 20px;
-            margin-top: clamp(50px, 8vw, 100px);
+            background:linear-gradient(135deg, #0d1b3e, #1a3a6b);
+            border-top:1px solid rgba(0,200,224,0.15);
+            padding:clamp(30px,5vw,50px) 20px;
+            text-align:center; margin-top:60px;
         }
-
-        .footer-logo {
-            width: clamp(60px, 10vw, 80px);
-            height: clamp(60px, 10vw, 80px);
-            margin: 0 auto 20px;
-            border-radius: 50%;
-            overflow: hidden;
+        .footer-logo-img {
+            width:60px; height:60px; border-radius:50%;
+            object-fit:cover; margin:0 auto 14px;
+            box-shadow:0 0 20px rgba(0,200,224,0.25);
         }
-
-        .footer-logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .footer-brand {
+            font-size:17px; font-weight:800;
+            background:linear-gradient(90deg,var(--cyan),var(--purple));
+            -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+            margin-bottom:6px;
         }
-        
-        .footer-text {
-            margin-bottom: 10px;
-            font-size: clamp(16px, 3vw, 18px);
-            font-weight: bold;
-            color: var(--light-bg);
-        }
-        
-        .footer-copyright {
-            opacity: 0.8;
-            font-size: clamp(13px, 2.5vw, 15px);
-            color: var(--hover-color);
-        }
+        .footer-copy { color:rgba(255,255,255,0.6); font-size:13px; }
 
         /* Responsive */
-        @media (max-width: 768px) {
-            .menu-toggle {
-                display: block;
+        @media(max-width:768px){
+            .menu-toggle { display:block; }
+            .nav-links {
+                display:none; position:fixed;
+                inset:65px 0 auto 0;
+                background:rgba(255,255,255,0.98);
+                flex-direction:column; padding:20px; gap:4px;
+                border-bottom:1px solid rgba(0,200,224,0.15);
+                box-shadow:0 10px 30px rgba(0,27,62,0.1);
             }
-
-            .nav-menu {
-                display: none;
-                position: fixed;
-                top: 70px;
-                left: 0;
-                right: 0;
-                background: rgba(44, 24, 16, 0.98);
-                border-radius: 0 0 15px 15px;
-                padding: 20px;
-                flex-direction: column;
-                gap: 5px;
-            }
-
-            .nav-menu.active {
-                display: flex;
-            }
-            
-            /* الجوال الطولي - Stats فوق، ثم الشاشة والأزرار تحت بعض */
-            .game-layout {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .game-board {
-                width: min(90vw, 350px) !important;
-                height: min(90vw, 350px) !important;
-            }
-            
-            .game-side-controls {
-                width: 240px;  /* تصغير من 260px */
-                max-width: 240px;
-                flex-direction: column !important;
-                justify-content: center;
-                margin-top: 3px;
-                margin-left: auto;
-                margin-right: auto;
-                gap: 5px;
-                padding: 4px 8px 4px 8px;
-            }
-            
-            .game-buttons {
-                width: 100%;
-                gap: 4px !important;  /* إضافة مسافة بين الأزرار */
-            }
-            
-            .mobile-controls {
-                width: 100%;
-                gap: 3px !important;
-                padding: 4px !important;
-                display: grid !important;
-                grid-template-columns: 46px 46px 46px !important;  /* تحديث من 50px */
-                justify-content: center !important;
-            }
-            
-            .game-wrapper {
-                padding: 10px;
-            }
-            
-            .game-container {
-                margin: 10px auto;
-                padding: 0 10px;
-            }
-            
-            .game-controls {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 8px;
-                margin-bottom: 12px;
-            }
-            
-            .control-card {
-                padding: 10px;
-            }
-            
-            .control-title {
-                font-size: 11px;
-            }
-            
-            .control-value {
-                font-size: 20px;
-            }
-            
-            .arrow-btn {
-                min-height: 28px !important;
-                max-height: 28px !important;
-                width: 46px !important;  /* تصغير من 50px */
-                aspect-ratio: auto !important;
-            }
-            
-            .arrow-btn.up::before,
-            .arrow-btn.down::before {
-                border-width: 9px 7px !important;
-            }
-            
-            .arrow-btn.left::before,
-            .arrow-btn.right::before {
-                border-width: 7px 9px !important;
-            }
-            
-            [dir="ltr"] .arrow-btn.left::before,
-            [dir="ltr"] .arrow-btn.right::before {
-                border-width: 7px 9px !important;
-            }
-            
-            .game-btn {
-                padding: 3px 8px;  /* تصغير من 4px */
-                font-size: 10px;
-                min-height: 22px;  /* تصغير من 24px */
-            }
-            
-            .controller-label {
-                font-size: 8px !important;
-                margin-top: 12px !important;  /* زيادة من 10px */
-                margin-bottom: 3px !important;
-                letter-spacing: 1px !important;
-                font-weight: 700 !important;
-            }
+            .nav-links.open { display:flex; }
+            .nav-links a { padding:12px 16px; font-size:15px; }
+            .game-layout { flex-direction:column; align-items:center; }
+            .game-board { width:min(90vw,350px) !important; height:min(90vw,350px) !important; }
+            .game-side { width:min(90vw,260px); }
         }
-        
-        /* الجوال العرضي - Stats فوق، الشاشة والأزرار جنب بعض */
-        @media (max-width: 768px) and (orientation: landscape) {
-            .game-layout {
-                flex-direction: row;
-                gap: 10px;
-            }
-            
-            .game-board {
-                width: min(65vh, 450px) !important;
-                height: min(65vh, 450px) !important;
-            }
-            
-            .game-side-controls {
-                flex-direction: column;
-                width: auto;
-                max-width: 180px !important;  /* تكبير كبير من 165px */
-                margin-top: 0;
-                justify-content: center;
-                padding: 20px 16px !important;  /* تكبير كبير من 18px 14px */
-            }
-            
-            .game-buttons,
-            .mobile-controls {
-                max-width: 100%;
-            }
-            
-            .arrow-btn {
-                min-height: 32px !important;  /* تصغير من 38px */
-                max-height: 32px !important;
-                width: 45px !important;  /* إضافة عرض مستطيل */
-                aspect-ratio: auto !important;
-            }
-            
-            .arrow-btn.up::before,
-            .arrow-btn.down::before {
-                border-width: 9px 7px !important;  /* تصغير من 11px 9px */
-            }
-            
-            .arrow-btn.left::before,
-            .arrow-btn.right::before {
-                border-width: 7px 9px !important;  /* تصغير من 9px 11px */
-            }
-            
-            [dir="ltr"] .arrow-btn.left::before,
-            [dir="ltr"] .arrow-btn.right::before {
-                border-width: 7px 9px !important;
-            }
-            
-            .game-btn {
-                min-height: 32px !important;  /* تصغير من 38px */
-                font-size: 11px !important;  /* تصغير من 12px */
-                padding: 7px 9px !important;  /* تصغير من 9px 11px */
-            }
-            
-            .mobile-controls {
-                gap: 2px !important;  /* زيادة من 0px */
-                padding: 10px !important;  /* تصغير من 12px */
-                display: grid !important;
-                grid-template-columns: 45px 45px 45px !important;
-                justify-content: center !important;
-            }
-            
-            .controller-label {
-                font-size: 10px !important;
-                margin-top: 8px !important;  /* زيادة من 6px */
-                margin-bottom: 6px !important;  /* زيادة من 5px */
-            }
+        @media(max-width:768px) and (orientation:landscape){
+            .game-layout { flex-direction:row; }
+            .game-board { width:min(65vh,420px) !important; height:min(65vh,420px) !important; }
+            .game-side { width:180px; }
         }
-        
-        /* Very Small Mobile */
-        @media (max-width: 480px) {
-            .game-board {
-                width: min(85vw, 300px) !important;
-                height: min(85vw, 300px) !important;
-            }
-        }
-        
-        /* Desktop - الأسهم ممتازة، بقي كما هو */
-        @media (min-width: 769px) {
-            /* Stats في الأعلى */
-            .game-controls {
-                margin-bottom: 30px;
-            }
-            
-            .control-card {
-                padding: 25px;
-            }
-            
-            .control-title {
-                font-size: 20px;
-            }
-            
-            .control-value {
-                font-size: 36px;
-            }
-            
-            /* الشاشة والأزرار جنب بعض */
-            .game-layout {
-                flex-direction: row;
-            }
-            
-            .game-board {
-                width: 450px !important;
-                height: 450px !important;
-            }
-            
-            .game-side-controls {
-                width: 300px !important;
-                max-width: 300px !important;
-                min-width: 300px !important;
-                padding: 28px 22px !important;
-            }
-            
-            .game-btn {
-                padding: 16px 20px;
-                font-size: 17px;
-                min-height: 65px;
-            }
-            
-            .arrow-btn {
-                min-height: 42px !important;  /* تصغير من 50px */
-                max-height: 42px !important;
-                width: 58px !important;  /* إضافة عرض أكبر */
-                aspect-ratio: auto !important;
-            }
-            
-            .arrow-btn.up::before,
-            .arrow-btn.down::before {
-                border-width: 12px 9px !important;  /* تعديل المثلثات */
-            }
-            
-            .arrow-btn.left::before,
-            .arrow-btn.right::before {
-                border-width: 9px 12px !important;
-            }
-            
-            [dir="ltr"] .arrow-btn.left::before,
-            [dir="ltr"] .arrow-btn.right::before {
-                border-width: 9px 12px !important;
-            }
-            
-            .mobile-controls {
-                gap: 3px !important;
-                padding: 8px !important;
-                justify-items: center !important;
-                align-items: center !important;
-                justify-content: center !important;  /* إضافة توسيط */
-                display: grid !important;
-                grid-template-columns: 58px 58px 58px !important;
-                margin: 0 auto !important;  /* توسيط الـ grid نفسه */
-            }
-            
-            .controller-label {
-                font-size: 20px !important;
-                font-weight: 900 !important;
-                letter-spacing: 5px !important;
-                margin-bottom: 12px !important;
-            }
+        @media(min-width:769px){
+            .game-board { width:450px !important; height:450px !important; }
         }
     </style>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <div class="nav-logo-img">
-                    <img src="https://i.imgur.com/1Hu1phq.jpeg" alt="Logo">
+
+<!-- NAVBAR -->
+<nav class="navbar">
+    <div class="nav-inner">
+        <a href="index.html" class="nav-logo">
+            <img src="https://i.imgur.com/6yQ2kc8.jpeg" alt="برمج مع علي">
+            <span>برمج مع علي</span>
+        </a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="index.html">الرئيسية</a></li>
+            <li><a href="services.html">خدماتنا</a></li>
+            <li><a href="game.html" class="active">اللعبة</a></li>
+            <li><a href="leaderboard.html">لوحة الأوائل</a></li>
+            <li><a href="ips-patents.html">براءات الاختراع</a></li>
+            <li><a href="about.html">من نحن</a></li>
+            <li><a href="contact.html">تواصل معنا</a></li>
+        </ul>
+        <div class="nav-actions">
+            <div class="user-info" id="userInfo" onclick="toggleUserDropdown()">
+                <span class="user-name" id="userName">زائر</span>
+                <span class="user-points">🏆 <span id="userPoints">0</span></span>
+                <span style="font-size:11px;color:var(--gray)">▼</span>
+                <div class="user-dropdown" id="userDropdown">
+                    <a href="leaderboard.html" class="dropdown-item">📊 لوحة الأوائل</a>
+                    <a href="login.html" class="dropdown-item">🔄 تبديل الحساب</a>
+                    <a href="#" class="dropdown-item danger" onclick="logout();return false;">🚪 تسجيل الخروج</a>
                 </div>
-                <a href="index.html" class="nav-brand" data-ar="برمج مع علي" data-en="Program with Ali">برمج مع علي</a>
             </div>
-            
-            <div class="nav-actions">
-    <!-- User Info (shown when logged in) -->
-    <div class="user-info" id="userInfo" onclick="toggleUserDropdown()">
-        <span class="user-name"><span id="userName">زائر</span></span>
-        <span class="user-points">🏆 <span id="userPoints">0</span></span>
-        <span>▼</span>
-        
-        <div class="user-dropdown" id="userDropdown">
-            <a href="leaderboard.html" class="dropdown-item"><span data-ar="📊 لوحة الأوائل" data-en="📊 Leaderboard">📊 لوحة الأوائل</span></a>
-            <a href="login.html" class="dropdown-item"><span data-ar="🔄 تبديل الحساب" data-en="🔄 Switch Account">🔄 تبديل الحساب</span></a>
-            <a href="#" class="dropdown-item danger" onclick="logout(); return false;"><span data-ar="🚪 تسجيل الخروج" data-en="🚪 Logout">🚪 تسجيل الخروج</span></a>
+            <!-- الزر يظهر دائماً ويُخفى بـ JS فقط عند تسجيل الدخول -->
+            <a href="login.html" class="btn-login" id="loginBtn">تسجيل الدخول</a>
+            <button class="menu-toggle" id="menuToggle">☰</button>
         </div>
     </div>
-    
-    <!-- Login Button (shown when not logged in) -->
-    <a href="login.html" class="login-btn" id="loginBtn" data-ar="تسجيل الدخول" data-en="Login">تسجيل الدخول</a>
-    
-    <button class="language-switcher" onclick="toggleLanguage()" id="langBtn">English</button>
-    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-    <ul class="nav-menu" id="navMenu">
-    <li><a href="index.html" class="nav-link" data-ar="الرئيسية" data-en="Home">الرئيسية</a></li>
-    <li><a href="courses.html" class="nav-link" data-ar="الدورات" data-en="Courses">الدورات</a></li>
-    <li><a href="game.html" class="nav-link" data-ar="لعبة تعليمية" data-en="Educational Game">لعبة تعليمية</a></li>
-    <li><a href="leaderboard.html" class="nav-link" data-ar="لوحة الأوائل" data-en="Leaderboard">لوحة الأوائل</a></li>
-    <li><a href="ips-patents.html" class="nav-link" data-ar="براءات الاختراع" data-en="Patents">براءات الاختراع</a></li>
-    <li><a href="about.html" class="nav-link" data-ar="من نحن" data-en="About Us">من نحن</a></li>
-    <li><a href="contact.html" class="nav-link" data-ar="تواصل معنا" data-en="Contact">تواصل معنا</a></li>
-</ul>
+</nav>
+
+<!-- MAIN -->
+<main class="main-wrap">
+    <header class="game-header">
+        <h1 class="game-title" data-ar="🎮 لعبة دودة الأردوينو" data-en="🎮 Arduino Snake Game">🎮 لعبة دودة الأردوينو</h1>
+        <p class="game-desc" data-ar="تحكم في الدودة باستخدام لوحة المفاتيح أو قم بتوصيل الأردوينو!" data-en="Control the snake using keyboard or connect your Arduino!">تحكم في الدودة باستخدام لوحة المفاتيح أو قم بتوصيل الأردوينو!</p>
+    </header>
+
+    <div class="game-card">
+        <!-- إحصائيات -->
+        <div class="stats-row">
+            <div class="stat-box">
+                <div class="stat-label" data-ar="النقاط" data-en="Score">النقاط</div>
+                <div class="stat-val" id="score">0</div>
             </div>
-        </div>
-    </nav>
-
-    <!-- Game Section -->
-    <main class="game-container">
-        <header class="game-header">
-            <h1 class="game-title" data-ar="🎮 لعبة دودة الأردوينو" data-en="🎮 Arduino Snake Game">🎮 لعبة دودة الأردوينو</h1>
-            <p class="game-description" data-ar="تحكم في الدودة باستخدام لوحة المفاتيح أو قم بتوصيل الأردوينو الخاص بك للتحكم بها!" data-en="Control the snake using your keyboard or connect your Arduino to control it!">تحكم في الدودة باستخدام لوحة المفاتيح أو قم بتوصيل الأردوينو الخاص بك للتحكم بها!</p>
-        </header>
-
-        <div class="game-wrapper">
-            <!-- Game Stats -->
-            <div class="game-controls">
-                <div class="control-card">
-                    <div class="control-title" data-ar="النقاط" data-en="Score">النقاط</div>
-                    <div class="control-value" id="score">0</div>
-                </div>
-                <div class="control-card">
-                    <div class="control-title" data-ar="أعلى نقاط" data-en="High Score">أعلى نقاط</div>
-                    <div class="control-value" id="highScore">0</div>
-                </div>
-                <div class="control-card">
-                    <div class="control-title" data-ar="السرعة" data-en="Speed">السرعة</div>
-                    <div class="control-value" id="speed">1</div>
-                </div>
+            <div class="stat-box">
+                <div class="stat-label" data-ar="أعلى نقاط" data-en="High Score">أعلى نقاط</div>
+                <div class="stat-val" id="highScore">0</div>
             </div>
-
-            <!-- Game Layout: Canvas + Side Controls -->
-            <div class="game-layout">
-                <!-- Game Canvas -->
-                <div class="game-canvas-wrapper">
-                    <canvas id="gameCanvas" class="game-board" width="600" height="600"></canvas>
-                </div>
-
-                <!-- Side Controls (Buttons + Arrows) -->
-                <div class="game-side-controls">
-                    <div class="controller-label" data-ar="🎮 لوحة التحكم" data-en="🎮 Controller">🎮 لوحة التحكم</div>
-                    
-                    <!-- Game Buttons -->
-                    <div class="game-buttons">
-                        <button class="game-btn btn-start" onclick="startGame()" id="startBtn" data-ar="ابدأ اللعبة" data-en="Start Game">ابدأ اللعبة</button>
-                        <button class="game-btn btn-pause" onclick="pauseGame()" id="pauseBtn" disabled data-ar="إيقاف مؤقت" data-en="Pause">إيقاف مؤقت</button>
-                    </div>
-
-                    <!-- Mobile Controls (Arrows) -->
-                    <div class="mobile-controls">
-                        <div></div>
-                        <button class="arrow-btn up" onclick="changeDirection('UP')"></button>
-                        <div></div>
-                        <button class="arrow-btn left" onclick="changeDirection('LEFT')"></button>
-                        <div></div>
-                        <button class="arrow-btn right" onclick="changeDirection('RIGHT')"></button>
-                        <div></div>
-                        <button class="arrow-btn down" onclick="changeDirection('DOWN')"></button>
-                        <div></div>
-                    </div>
-                </div>
+            <div class="stat-box">
+                <div class="stat-label" data-ar="السرعة" data-en="Speed">السرعة</div>
+                <div class="stat-val" id="speed">1</div>
             </div>
         </div>
 
-        <!-- Arduino Instructions -->
-        <section class="arduino-section">
-            <h2 class="arduino-title" data-ar="🔌 كيفية التحكم بالأردوينو" data-en="🔌 Arduino Control Instructions">🔌 كيفية التحكم بالأردوينو</h2>
-            
-            <div class="instruction-grid">
-                <div class="instruction-card">
-                    <div class="instruction-step" data-ar="الخطوة 1: المكونات" data-en="Step 1: Components">الخطوة 1: المكونات</div>
-                    <p class="instruction-text" data-ar="ستحتاج إلى: Arduino Uno, 4 أزرار، أسلاك توصيل" data-en="You'll need: Arduino Uno, 4 buttons, connecting wires">ستحتاج إلى: Arduino Uno، 4 أزرار، أسلاك توصيل</p>
+        <!-- اللعبة -->
+        <div class="game-layout">
+            <div class="game-canvas-wrap">
+                <canvas id="gameCanvas" class="game-board" width="600" height="600"></canvas>
+            </div>
+            <div class="game-side">
+                <div class="ctrl-label" data-ar="🎮 لوحة التحكم" data-en="🎮 Controller">🎮 لوحة التحكم</div>
+                <div class="game-buttons">
+                    <button class="game-btn btn-start" onclick="startGame()" id="startBtn" data-ar="ابدأ اللعبة" data-en="Start Game">ابدأ اللعبة</button>
+                    <button class="game-btn btn-pause" onclick="pauseGame()" id="pauseBtn" disabled data-ar="إيقاف مؤقت" data-en="Pause">إيقاف مؤقت</button>
                 </div>
-
-                <div class="instruction-card">
-                    <div class="instruction-step" data-ar="الخطوة 2: التوصيل" data-en="Step 2: Connections">الخطوة 2: التوصيل</div>
-                    <p class="instruction-text" data-ar="وصل الأزرار بالمنافذ: UP(2), DOWN(3), LEFT(4), RIGHT(5)" data-en="Connect buttons to pins: UP(2), DOWN(3), LEFT(4), RIGHT(5)">وصل الأزرار بالمنافذ: UP(2), DOWN(3), LEFT(4), RIGHT(5)</p>
-                </div>
-
-                <div class="instruction-card">
-                    <div class="instruction-step" data-ar="الخطوة 3: البرمجة" data-en="Step 3: Programming">الخطوة 3: البرمجة</div>
-                    <p class="instruction-text" data-ar="حمّل الكود التالي على الأردوينو" data-en="Upload the following code to Arduino">حمّل الكود التالي على الأردوينو</p>
-                </div>
-
-                <div class="instruction-card">
-                    <div class="instruction-step" data-ar="الخطوة 4: الاتصال" data-en="Step 4: Connection">الخطوة 4: الاتصال</div>
-                    <p class="instruction-text" data-ar="وصل الأردوينو بالكمبيوتر عبر USB وافتح Serial Monitor" data-en="Connect Arduino to computer via USB and open Serial Monitor">وصل الأردوينو بالكمبيوتر عبر USB وافتح Serial Monitor</p>
+                <div class="mobile-controls">
+                    <div></div>
+                    <button class="arrow-btn up" onclick="changeDirection('UP')"></button>
+                    <div></div>
+                    <button class="arrow-btn left" onclick="changeDirection('LEFT')"></button>
+                    <div></div>
+                    <button class="arrow-btn right" onclick="changeDirection('RIGHT')"></button>
+                    <div></div>
+                    <button class="arrow-btn down" onclick="changeDirection('DOWN')"></button>
+                    <div></div>
                 </div>
             </div>
+        </div>
+    </div>
 
-            <div class="code-block" dir="ltr">
+    <!-- قسم الأردوينو -->
+    <section class="arduino-section">
+        <h2 class="arduino-title" data-ar="🔌 كيفية التحكم بالأردوينو" data-en="🔌 Arduino Control Instructions">🔌 كيفية التحكم بالأردوينو</h2>
+        <div class="instruction-grid">
+            <div class="instruction-card">
+                <div class="instruction-step" data-ar="الخطوة 1: المكونات" data-en="Step 1: Components">الخطوة 1: المكونات</div>
+                <p class="instruction-text" data-ar="ستحتاج: Arduino Uno، 4 أزرار، أسلاك توصيل" data-en="You'll need: Arduino Uno, 4 buttons, connecting wires">ستحتاج: Arduino Uno، 4 أزرار، أسلاك توصيل</p>
+            </div>
+            <div class="instruction-card">
+                <div class="instruction-step" data-ar="الخطوة 2: التوصيل" data-en="Step 2: Connections">الخطوة 2: التوصيل</div>
+                <p class="instruction-text" data-ar="وصل الأزرار: UP(2)، DOWN(3)، LEFT(4)، RIGHT(5)" data-en="Connect buttons to pins: UP(2), DOWN(3), LEFT(4), RIGHT(5)">وصل الأزرار: UP(2)، DOWN(3)، LEFT(4)، RIGHT(5)</p>
+            </div>
+            <div class="instruction-card">
+                <div class="instruction-step" data-ar="الخطوة 3: البرمجة" data-en="Step 3: Programming">الخطوة 3: البرمجة</div>
+                <p class="instruction-text" data-ar="حمّل الكود أدناه على الأردوينو" data-en="Upload the code below to Arduino">حمّل الكود أدناه على الأردوينو</p>
+            </div>
+            <div class="instruction-card">
+                <div class="instruction-step" data-ar="الخطوة 4: الاتصال" data-en="Step 4: Connection">الخطوة 4: الاتصال</div>
+                <p class="instruction-text" data-ar="وصّل الأردوينو بالكمبيوتر عبر USB" data-en="Connect Arduino to computer via USB">وصّل الأردوينو بالكمبيوتر عبر USB</p>
+            </div>
+        </div>
+        <div class="code-block" dir="ltr">
 <pre>// Arduino Snake Game Controller
 const int UP_BTN = 2;
 const int DOWN_BTN = 3;
@@ -1132,473 +530,244 @@ void setup() {
 }
 
 void loop() {
-  if (digitalRead(UP_BTN) == LOW) {
-    Serial.println("UP");
-    delay(200);
-  }
-  if (digitalRead(DOWN_BTN) == LOW) {
-    Serial.println("DOWN");
-    delay(200);
-  }
-  if (digitalRead(LEFT_BTN) == LOW) {
-    Serial.println("LEFT");
-    delay(200);
-  }
-  if (digitalRead(RIGHT_BTN) == LOW) {
-    Serial.println("RIGHT");
-    delay(200);
-  }
+  if (digitalRead(UP_BTN) == LOW) { Serial.println("UP"); delay(200); }
+  if (digitalRead(DOWN_BTN) == LOW) { Serial.println("DOWN"); delay(200); }
+  if (digitalRead(LEFT_BTN) == LOW) { Serial.println("LEFT"); delay(200); }
+  if (digitalRead(RIGHT_BTN) == LOW) { Serial.println("RIGHT"); delay(200); }
 }</pre>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer" role="contentinfo">
-        <div class="footer-logo">
-            <img src="https://i.imgur.com/1Hu1phq.jpeg" alt="Logo">
         </div>
-        <p class="footer-text" data-ar="برمج مع علي" data-en="Program with Ali">برمج مع علي</p>
-        <p class="footer-copyright" data-ar="جميع الحقوق محفوظة © 2026" data-en="All Rights Reserved © 2026">جميع الحقوق محفوظة © 2026</p>
-    </footer>
+    </section>
+</main>
 
-    <script>
-        // Game Variables
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-        const box = 20;
-        const canvasSize = 600;
+<!-- FOOTER -->
+<footer class="footer">
+    <img src="https://i.imgur.com/6yQ2kc8.jpeg" alt="برمج مع علي" class="footer-logo-img">
+    <div class="footer-brand">برمج مع علي</div>
+    <div class="footer-copy">جميع الحقوق محفوظة © 2026</div>
+</footer>
 
-        let snake = [{ x: 10 * box, y: 10 * box }];
-let food = { 
-    x: (Math.floor(Math.random() * (canvas.width / box - 2)) + 1) * box, 
-    y: (Math.floor(Math.random() * (canvas.height / box - 2)) + 1) * box 
-};
-let direction = 'RIGHT';
-let score = 0;
-let highScore = 0;  // سيتم تحميله من بيانات المستخدم
-let game;
-let gameRunning = false;
-let gamePaused = false;
-let gameSpeed = 100;
-let currentLang = 'ar';
+<script>
+    // ===== GAME VARS =====
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const box = 20;
 
-// تحميل أعلى نقاط من حساب المستخدم الحالي
-function loadHighScore() {
-    const currentUserId = localStorage.getItem('programmali_current_user');
-    if (currentUserId) {
-        const userKey = `programmali_user_${currentUserId}`;
-        const userData = localStorage.getItem(userKey);
-        if (userData) {
-            try {
-                const user = JSON.parse(userData);
-                highScore = user.highScore || 0;
-            } catch (e) {
-                highScore = 0;
-            }
+    let snake = [{ x: 10*box, y: 10*box }];
+    let food = { x:(Math.floor(Math.random()*(canvas.width/box-2))+1)*box, y:(Math.floor(Math.random()*(canvas.height/box-2))+1)*box };
+    let direction = 'RIGHT';
+    let score = 0;
+    let highScore = 0;
+    let game, gameRunning = false, gamePaused = false, gameSpeed = 100;
+    let currentLang = 'ar';
+
+    // تحميل أعلى نقاط
+    function loadHighScore() {
+        const uid = localStorage.getItem('programmali_current_user');
+        if (uid) {
+            const d = localStorage.getItem('programmali_user_'+uid);
+            if (d) { try { highScore = JSON.parse(d).highScore||0; } catch(e){} }
         }
+        document.getElementById('highScore').textContent = highScore;
     }
-    document.getElementById('highScore').textContent = highScore;
-}
+    loadHighScore();
 
-// استدعاء الدالة عند تحميل الصفحة
-loadHighScore();
-
-        // Adjust canvas size for mobile
-        function adjustCanvasSize() {
-            // Keep canvas size fixed at 600x600 for consistent gameplay
-            canvas.width = 600;
-            canvas.height = 600;
-            // CSS will handle the visual scaling
+    // رسم اللعبة
+    function drawGame() {
+        ctx.fillStyle = '#0a0a1a'; ctx.fillRect(0,0,canvas.width,canvas.height);
+        ctx.strokeStyle = 'rgba(0,200,224,0.06)';
+        for (let i=0; i<canvas.width; i+=box) {
+            ctx.beginPath(); ctx.moveTo(i,0); ctx.lineTo(i,canvas.height); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(0,i); ctx.lineTo(canvas.width,i); ctx.stroke();
         }
-
-        // Call on load
-        adjustCanvasSize();
-
-        // Mobile Menu
-        function toggleMenu() {
-            const menu = document.getElementById('navMenu');
-            const toggle = document.querySelector('.menu-toggle');
-            menu.classList.toggle('active');
-            toggle.textContent = menu.classList.contains('active') ? '✕' : '☰';
-        }
-
-        // Language Toggle
-        function toggleLanguage() {
-            currentLang = currentLang === 'ar' ? 'en' : 'ar';
-            const langBtn = document.getElementById('langBtn');
-            
-            langBtn.textContent = currentLang === 'ar' ? 'English' : 'العربية';
-            
-            document.querySelectorAll('[data-ar][data-en]').forEach(element => {
-                element.textContent = element.getAttribute(`data-${currentLang}`);
-            });
-            
-            document.documentElement.setAttribute('lang', currentLang);
-            document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
-            
-            localStorage.setItem('preferredLanguage', currentLang);
-        }
-
-        // Load saved language
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedLang = localStorage.getItem('preferredLanguage');
-            if (savedLang && savedLang !== 'ar') {
-                toggleLanguage();
+        for (let i=0; i<snake.length; i++) {
+            if (i === 0) {
+                ctx.fillStyle = '#00e676'; // رأس الدودة - أخضر
+            } else {
+                // جسم الدودة - تدرج من سماوي إلى بنفسجي
+                const ratio = i / snake.length;
+                const r = Math.round(0 + ratio * 107);
+                const g = Math.round(200 - ratio * 123);
+                const b = Math.round(224 - ratio * (224-230));
+                ctx.fillStyle = `rgb(${r},${g},${b})`;
             }
-        });
-
-        // Game Functions
-        function drawGame() {
-            // Background
-            ctx.fillStyle = '#1a1a1a';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            // Grid
-            ctx.strokeStyle = '#2a2a2a';
-            for (let i = 0; i < canvas.width; i += box) {
-                ctx.beginPath();
-                ctx.moveTo(i, 0);
-                ctx.lineTo(i, canvas.height);
-                ctx.stroke();
-                ctx.beginPath();
-                ctx.moveTo(0, i);
-                ctx.lineTo(canvas.width, i);
-                ctx.stroke();
-            }
-
-            // Snake
-            for (let i = 0; i < snake.length; i++) {
-                ctx.fillStyle = i === 0 ? '#10b981' : '#8b6f5a';
-                ctx.fillRect(snake[i].x, snake[i].y, box, box);
-                ctx.strokeStyle = '#1a1a1a';
-                ctx.strokeRect(snake[i].x, snake[i].y, box, box);
-            }
-
-            // Food
-            ctx.fillStyle = '#ef4444';
             ctx.beginPath();
-            ctx.arc(food.x + box / 2, food.y + box / 2, box / 2, 0, Math.PI * 2);
+            ctx.roundRect ? ctx.roundRect(snake[i].x+1, snake[i].y+1, box-2, box-2, 4) : ctx.rect(snake[i].x+1, snake[i].y+1, box-2, box-2);
             ctx.fill();
-
-            // Move snake
-            if (!gamePaused) {
-                let snakeX = snake[0].x;
-                let snakeY = snake[0].y;
-
-                if (direction === 'LEFT') snakeX += box;  // في العربي: اليسار = يمين الشاشة
-                if (direction === 'UP') snakeY -= box;
-                if (direction === 'RIGHT') snakeX -= box;  // في العربي: اليمين = يسار الشاشة
-                if (direction === 'DOWN') snakeY += box;
-
-                // Check collision with food
-                if (snakeX === food.x && snakeY === food.y) {
-                    score++;
-                    document.getElementById('score').textContent = score;
-                    
-                    if (score > highScore) {
-    highScore = score;
-    document.getElementById('highScore').textContent = highScore;
-    // سيتم حفظه في saveGameScore()
-}
-
-                    // Increase speed
-                    if (score % 5 === 0) {
-                        clearInterval(game);
-                        gameSpeed = Math.max(50, gameSpeed - 10);
-                        game = setInterval(drawGame, gameSpeed);
-                        document.getElementById('speed').textContent = Math.floor(100 / gameSpeed * 10) / 10;
-                    }
-
-                    // New food - avoid edges
-                    food = {
-                        x: (Math.floor(Math.random() * (canvas.width / box - 2)) + 1) * box,
-                        y: (Math.floor(Math.random() * (canvas.height / box - 2)) + 1) * box
-                    };
-                } else {
-                    snake.pop();
-                }
-
-                // New head
-                const newHead = { x: snakeX, y: snakeY };
-
-                // Check collision
-               // Check collision
-if (snakeX < 0 || snakeX >= canvas.width || snakeY < 0 || snakeY >= canvas.height || collision(newHead, snake)) {
-    clearInterval(game);
-    gameRunning = false;
-    
-    // حفظ النقاط في حساب المستخدم
-    saveGameScore(score);
-    
-    alert(currentLang === 'ar' ? `انتهت اللعبة! النقاط: ${score}` : `Game Over! Score: ${score}`);
-    document.getElementById('startBtn').disabled = false;
-    document.getElementById('pauseBtn').disabled = true;
-    return;
-}
-
-                snake.unshift(newHead);
-            }
         }
+        // الطعام - برتقالي متوهج
+        const gradient = ctx.createRadialGradient(food.x+box/2, food.y+box/2, 0, food.x+box/2, food.y+box/2, box/2);
+        gradient.addColorStop(0, '#ff9100');
+        gradient.addColorStop(1, '#e65100');
+        ctx.fillStyle = gradient;
+        ctx.beginPath(); ctx.arc(food.x+box/2, food.y+box/2, box/2-1, 0, Math.PI*2); ctx.fill();
+        // هالة حول الطعام
+        ctx.strokeStyle = 'rgba(255,145,0,0.3)';
+        ctx.lineWidth = 3;
+        ctx.beginPath(); ctx.arc(food.x+box/2, food.y+box/2, box/2+2, 0, Math.PI*2); ctx.stroke();
+        ctx.lineWidth = 1;
 
-        function collision(head, array) {
-            for (let i = 0; i < array.length; i++) {
-                if (head.x === array[i].x && head.y === array[i].y) {
-                    return true;
-                }
+        if (!gamePaused) {
+            let sx = snake[0].x, sy = snake[0].y;
+            if (direction==='LEFT')  sx += box;
+            if (direction==='UP')    sy -= box;
+            if (direction==='RIGHT') sx -= box;
+            if (direction==='DOWN')  sy += box;
+
+            if (sx===food.x && sy===food.y) {
+                score++;
+                document.getElementById('score').textContent = score;
+                if (score > highScore) { highScore=score; document.getElementById('highScore').textContent = highScore; }
+                if (score%5===0) { clearInterval(game); gameSpeed=Math.max(50,gameSpeed-10); game=setInterval(drawGame,gameSpeed); document.getElementById('speed').textContent=Math.floor(100/gameSpeed*10)/10; }
+                food = { x:(Math.floor(Math.random()*(canvas.width/box-2))+1)*box, y:(Math.floor(Math.random()*(canvas.height/box-2))+1)*box };
+            } else { snake.pop(); }
+
+            const newHead = {x:sx, y:sy};
+            if (sx<0||sx>=canvas.width||sy<0||sy>=canvas.height||collision(newHead,snake)) {
+                clearInterval(game); gameRunning=false;
+                saveGameScore(score);
+                alert(currentLang==='ar' ? `انتهت اللعبة! النقاط: ${score}` : `Game Over! Score: ${score}`);
+                document.getElementById('startBtn').disabled=false;
+                document.getElementById('pauseBtn').disabled=true;
+                return;
             }
-            return false;
+            snake.unshift(newHead);
         }
-
-        function startGame() {
-            // Reset game first
-            clearInterval(game);
-            snake = [{ x: 10 * box, y: 10 * box }];
-            direction = 'RIGHT';
-            score = 0;
-            gameSpeed = 100;
-            gamePaused = false;
-            document.getElementById('score').textContent = 0;
-            document.getElementById('speed').textContent = 1;
-            document.getElementById('pauseBtn').textContent = currentLang === 'ar' ? 'إيقاف مؤقت' : 'Pause';
-            
-            // Start game
-            gameRunning = true;
-            game = setInterval(drawGame, gameSpeed);
-            document.getElementById('startBtn').disabled = true;
-            document.getElementById('pauseBtn').disabled = false;
-        }
-
-        function pauseGame() {
-            gamePaused = !gamePaused;
-            document.getElementById('pauseBtn').textContent = gamePaused ? 
-                (currentLang === 'ar' ? 'استئناف' : 'Resume') : 
-                (currentLang === 'ar' ? 'إيقاف مؤقت' : 'Pause');
-        }
-
-        function changeDirection(newDirection) {
-            // في اللغة الإنجليزية (LTR)، نعكس LEFT و RIGHT
-            if (document.documentElement.getAttribute('dir') === 'ltr') {
-                if (newDirection === 'LEFT') newDirection = 'RIGHT';
-                else if (newDirection === 'RIGHT') newDirection = 'LEFT';
-            }
-            
-            if (newDirection === 'LEFT' && direction !== 'RIGHT') direction = 'LEFT';
-            if (newDirection === 'UP' && direction !== 'DOWN') direction = 'UP';
-            if (newDirection === 'RIGHT' && direction !== 'LEFT') direction = 'RIGHT';
-            if (newDirection === 'DOWN' && direction !== 'UP') direction = 'DOWN';
-        }
-
-        // Keyboard Controls
-        document.addEventListener('keydown', (event) => {
-            // في العربية (RTL): الكيبورد معكوس
-            // في الإنجليزية (LTR): الكيبورد طبيعي
-            const isRTL = document.documentElement.getAttribute('dir') === 'rtl';
-            
-            if (event.key === 'ArrowLeft') {
-                changeDirection(isRTL ? 'RIGHT' : 'LEFT');
-            }
-            if (event.key === 'ArrowUp') {
-                changeDirection('UP');
-            }
-            if (event.key === 'ArrowRight') {
-                changeDirection(isRTL ? 'LEFT' : 'RIGHT');
-            }
-            if (event.key === 'ArrowDown') {
-                changeDirection('DOWN');
-            }
-            
-            // Prevent scrolling with arrow keys
-            if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(event.key)) {
-                event.preventDefault();
-            }
-        });
-
-        // Draw initial canvas
-        ctx.fillStyle = '#1a1a1a';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-            // ========================================
-// نظام تسجيل الدخول - Navbar
-// ========================================
-
-function toggleUserDropdown() {
-    const dropdown = document.getElementById('userDropdown');
-    if (dropdown) {
-        dropdown.classList.toggle('show');
     }
-}
 
-document.addEventListener('click', function(event) {
-    const userInfo = document.getElementById('userInfo');
-    const dropdown = document.getElementById('userDropdown');
-    
-    if (userInfo && dropdown && !userInfo.contains(event.target)) {
-        dropdown.classList.remove('show');
+    function collision(h, arr) { return arr.some(s=>s.x===h.x&&s.y===h.y); }
+
+    function startGame() {
+        clearInterval(game);
+        snake=[{x:10*box,y:10*box}]; direction='RIGHT'; score=0; gameSpeed=100; gamePaused=false;
+        document.getElementById('score').textContent=0;
+        document.getElementById('speed').textContent=1;
+        document.getElementById('pauseBtn').textContent = currentLang==='ar'?'إيقاف مؤقت':'Pause';
+        gameRunning=true; game=setInterval(drawGame,gameSpeed);
+        document.getElementById('startBtn').disabled=true;
+        document.getElementById('pauseBtn').disabled=false;
     }
-});
 
-function logout() {
-    const currentLang = localStorage.getItem('preferredLanguage') || 'ar';
-    if (confirm(currentLang === 'ar' ? 'هل أنت متأكد من تسجيل الخروج؟' : 'Are you sure you want to logout?')) {
-        localStorage.removeItem('programmali_current_user');
-        window.location.href = 'index.html';
+    function pauseGame() {
+        gamePaused=!gamePaused;
+        document.getElementById('pauseBtn').textContent = gamePaused?(currentLang==='ar'?'استئناف':'Resume'):(currentLang==='ar'?'إيقاف مؤقت':'Pause');
     }
-}
 
-function updateUserInfo() {
-    const currentUserId = localStorage.getItem('programmali_current_user');
-    const userInfoDiv = document.getElementById('userInfo');
-    const loginBtn = document.getElementById('loginBtn');
-    
-    if (!userInfoDiv || !loginBtn) return;
-    
-    if (currentUserId) {
-        const userKey = `programmali_user_${currentUserId}`;
-        const userData = localStorage.getItem(userKey);
-        
-        if (userData) {
-            try {
-                const user = JSON.parse(userData);
-                userInfoDiv.style.display = 'flex';
-                loginBtn.style.display = 'none';
-                
-                const userNameSpan = document.getElementById('userName');
-                const userPointsSpan = document.getElementById('userPoints');
-                
-                if (userNameSpan) userNameSpan.textContent = user.name || 'زائر';
-                if (userPointsSpan) userPointsSpan.textContent = user.points || 0;
-            } catch (e) {
-                userInfoDiv.style.display = 'none';
-                loginBtn.style.display = 'inline-block';
-            }
-        } else {
-            userInfoDiv.style.display = 'none';
-            loginBtn.style.display = 'inline-block';
+    function changeDirection(d) {
+        if (document.documentElement.getAttribute('dir')==='ltr') {
+            if (d==='LEFT') d='RIGHT'; else if (d==='RIGHT') d='LEFT';
         }
-    } else {
-        userInfoDiv.style.display = 'none';
-        loginBtn.style.display = 'inline-block';
+        if (d==='LEFT'&&direction!=='RIGHT') direction='LEFT';
+        if (d==='UP'&&direction!=='DOWN') direction='UP';
+        if (d==='RIGHT'&&direction!=='LEFT') direction='RIGHT';
+        if (d==='DOWN'&&direction!=='UP') direction='DOWN';
     }
-}
 
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', updateUserInfo);
-} else {
+    document.addEventListener('keydown', e => {
+        const isRTL = document.documentElement.getAttribute('dir')==='rtl';
+        if (e.key==='ArrowLeft') changeDirection(isRTL?'RIGHT':'LEFT');
+        if (e.key==='ArrowUp') changeDirection('UP');
+        if (e.key==='ArrowRight') changeDirection(isRTL?'LEFT':'RIGHT');
+        if (e.key==='ArrowDown') changeDirection('DOWN');
+        if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.key)) e.preventDefault();
+    });
+
+    // رسم أولي
+    ctx.fillStyle='#0a0a1a'; ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    // ===== NAVBAR =====
+    document.getElementById('menuToggle').addEventListener('click', function(){
+        const l=document.getElementById('navLinks');
+        l.classList.toggle('open');
+        this.textContent=l.classList.contains('open')?'✕':'☰';
+    });
+    document.addEventListener('click',e=>{
+        const l=document.getElementById('navLinks'),t=document.getElementById('menuToggle');
+        if(l.classList.contains('open')&&!l.contains(e.target)&&!t.contains(e.target)){l.classList.remove('open');t.textContent='☰';}
+    });
+
+    function toggleUserDropdown(){ document.getElementById('userDropdown').classList.toggle('show'); }
+    document.addEventListener('click',e=>{
+        const ui=document.getElementById('userInfo'),dd=document.getElementById('userDropdown');
+        if(dd&&ui&&!ui.contains(e.target)) dd.classList.remove('show');
+    });
+    function logout(){
+        if(confirm(currentLang==='ar'?'هل أنت متأكد من تسجيل الخروج؟':'Are you sure?')){
+            localStorage.removeItem('programmali_current_user'); location.href='index.html';
+        }
+    }
+
+    // ===== تحديث معلومات المستخدم =====
+    function updateUserInfo(){
+        const uid=localStorage.getItem('programmali_current_user');
+        const ui=document.getElementById('userInfo');
+        const lb=document.getElementById('loginBtn');
+        if(!ui||!lb) return;
+        if(uid){
+            const d=localStorage.getItem('programmali_user_'+uid);
+            if(d){ try{
+                const u=JSON.parse(d);
+                ui.style.display='flex'; lb.style.display='none';
+                document.getElementById('userName').textContent=u.name||'زائر';
+                document.getElementById('userPoints').textContent=u.points||0;
+            }catch(e){ ui.style.display='none'; lb.style.display='inline-block'; }
+            } else { ui.style.display='none'; lb.style.display='inline-block'; }
+        } else { ui.style.display='none'; lb.style.display='inline-block'; }
+    }
+    // استدعاء فوري + عند DOMContentLoaded
     updateUserInfo();
-}
+    document.addEventListener('DOMContentLoaded', updateUserInfo);
 
-  // ========================================
-// نظام حفظ النقاط وتحديث لوحة الأوائل
-// ========================================
-
-function saveGameScore(finalScore) {
-    const currentUserId = localStorage.getItem('programmali_current_user');
-    
-    if (!currentUserId) {
-        console.log('User not logged in');
-        return;
+    // ===== اللغة =====
+    function toggleLanguage(){
+        currentLang=currentLang==='ar'?'en':'ar';
+        document.querySelectorAll('[data-ar][data-en]').forEach(el=>el.textContent=el.getAttribute('data-'+currentLang));
+        document.documentElement.setAttribute('lang',currentLang);
+        document.documentElement.setAttribute('dir',currentLang==='ar'?'rtl':'ltr');
+        localStorage.setItem('preferredLanguage',currentLang);
     }
-    
-    try {
-        const userKey = `programmali_user_${currentUserId}`;
-        const userData = localStorage.getItem(userKey);
-        
-        if (!userData) return;
-        
-        const user = JSON.parse(userData);
-        
-        user.gamesPlayed = (user.gamesPlayed || 0) + 1;
-        user.points = (user.points || 0) + finalScore;
-        
-        if (finalScore > (user.highScore || 0)) {
-            user.highScore = finalScore;
-        }
-        
-        localStorage.setItem(userKey, JSON.stringify(user));
-        updateUserInfo();
-        updateGlobalLeaderboard(user);
-        
-    } catch (error) {
-        console.error('Error saving score:', error);
-    }
-}
+    window.addEventListener('DOMContentLoaded',()=>{
+        const s=localStorage.getItem('preferredLanguage');
+        if(s&&s!=='ar') toggleLanguage();
+    });
 
-function updateGlobalLeaderboard(user) {
-    const LEADERBOARD_KEY = 'programmali_leaderboard';
-    
-    try {
-        let leaderboard = localStorage.getItem(LEADERBOARD_KEY);
-        leaderboard = leaderboard ? JSON.parse(leaderboard) : [];
-        
-        const userIndex = leaderboard.findIndex(entry => {
-            if (user.googleId) return entry.googleId === user.googleId;
-            if (user.username) return entry.username === user.username;
-            if (user.email) return entry.email === user.email;
-            return false;
-        });
-        
-        const leaderboardEntry = {
-            name: user.name,
-            nameEn: user.nameEn || user.name,
-            username: user.username,
-            email: user.email,
-            googleId: user.googleId,
-            points: user.points,
-            highScore: user.highScore,
-            gamesPlayed: user.gamesPlayed,
-            level: getLevelByPoints(user.points),
-            levelEn: getLevelByPoints(user.points, 'en'),
-            lastUpdated: new Date().toISOString()
-        };
-        
-        if (userIndex !== -1) {
-            leaderboard[userIndex] = leaderboardEntry;
-        } else {
-            if (!user.isGuest) {
-                leaderboard.push(leaderboardEntry);
-            }
-        }
-        
-        leaderboard.sort((a, b) => b.points - a.points);
-        leaderboard = leaderboard.slice(0, 50);
-        localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(leaderboard));
-        
-        const userRank = leaderboard.findIndex(entry => {
-            if (user.googleId) return entry.googleId === user.googleId;
-            if (user.username) return entry.username === user.username;
-            if (user.email) return entry.email === user.email;
-            return false;
-        }) + 1;
-        
-        if (userRank > 0 && userRank <= 5) {
-            setTimeout(() => {
-                const message = currentLang === 'ar' 
-                    ? `🎉 مبروك! أنت في المركز ${userRank} على لوحة الأوائل!`
-                    : `🎉 Congratulations! You're ranked #${userRank} on the leaderboard!`;
-                alert(message);
-            }, 500);
-        }
-        
-    } catch (error) {
-        console.error('Error updating leaderboard:', error);
+    // ===== حفظ النقاط =====
+    function saveGameScore(finalScore){
+        const uid=localStorage.getItem('programmali_current_user');
+        if(!uid) return;
+        try{
+            const key='programmali_user_'+uid;
+            const d=localStorage.getItem(key); if(!d) return;
+            const u=JSON.parse(d);
+            u.gamesPlayed=(u.gamesPlayed||0)+1;
+            u.points=(u.points||0)+finalScore;
+            if(finalScore>(u.highScore||0)) u.highScore=finalScore;
+            localStorage.setItem(key,JSON.stringify(u));
+            updateUserInfo();
+            updateGlobalLeaderboard(u);
+        }catch(e){ console.error(e); }
     }
-}
 
-function getLevelByPoints(points, lang = 'ar') {
-    if (lang === 'ar') {
-        if (points >= 500) return 'خبير البرمجة';
-        if (points >= 300) return 'محترف متقدم';
-        if (points >= 150) return 'محترف';
-        if (points >= 50) return 'متقدم';
+    function updateGlobalLeaderboard(user){
+        const KEY='programmali_leaderboard';
+        try{
+            let lb=localStorage.getItem(KEY); lb=lb?JSON.parse(lb):[];
+            const idx=lb.findIndex(e=>(user.googleId&&e.googleId===user.googleId)||(user.username&&e.username===user.username));
+            const entry={name:user.name,username:user.username,email:user.email,googleId:user.googleId,points:user.points,highScore:user.highScore,gamesPlayed:user.gamesPlayed,level:getLevelByPoints(user.points),lastUpdated:new Date().toISOString()};
+            if(idx!==-1) lb[idx]=entry; else if(!user.isGuest) lb.push(entry);
+            lb.sort((a,b)=>b.points-a.points); lb=lb.slice(0,50);
+            localStorage.setItem(KEY,JSON.stringify(lb));
+            const rank=lb.findIndex(e=>(user.googleId&&e.googleId===user.googleId)||(user.username&&e.username===user.username))+1;
+            if(rank>0&&rank<=5) setTimeout(()=>alert(currentLang==='ar'?`🎉 مبروك! أنت في المركز ${rank} على لوحة الأوائل!`:`🎉 Congrats! You're ranked #${rank}!`),500);
+        }catch(e){ console.error(e); }
+    }
+
+    function getLevelByPoints(p){
+        if(p>=500) return 'خبير البرمجة';
+        if(p>=300) return 'محترف متقدم';
+        if(p>=150) return 'محترف';
+        if(p>=50)  return 'متقدم';
         return 'مبتدئ';
-    } else {
-        if (points >= 500) return 'Programming Expert';
-        if (points >= 300) return 'Advanced Professional';
-        if (points >= 150) return 'Professional';
-        if (points >= 50) return 'Advanced';
-        return 'Beginner';
     }
-}      
-    </script>
+</script>
 </body>
 </html>
