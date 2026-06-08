@@ -3,815 +3,542 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    
+
     <title>برمج مع علي | تسجيل الدخول</title>
-    <meta name="description" content="سجل دخولك للعب وكسب النقاط والحصول على المكافآت!">
+    <meta name="description" content="سجل دخولك في منصة برمج مع علي">
     <link rel="canonical" href="https://programmali.github.io/programmali/login.html">
-    <link rel="icon" type="image/jpeg" href="https://i.imgur.com/1Hu1phq.jpeg">
-    
+    <link rel="icon" type="image/jpeg" href="https://i.imgur.com/6yQ2kc8.jpeg">
+
     <!-- Google Sign-In -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-    
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --primary-color: #2c1810;
-            --secondary-color: #5a4035;
-            --accent-color: #8b6f5a;
-            --light-bg: #f5e6d3;
-            --hover-color: #d4c4b0;
+            --navy:   #0d1b3e;
+            --blue:   #1a3a6b;
+            --cyan:   #00c8e0;
+            --purple: #6b4de6;
+            --gray:   #8a9bb5;
+            --white:  #ffffff;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 50%, var(--accent-color) 100%);
-            background-attachment: fixed;
+            font-family: 'Cairo', sans-serif;
+            background: var(--navy);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
-        }
-
-        .login-container {
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: clamp(30px, 6vw, 50px);
-            max-width: 450px;
-            width: 100%;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             position: relative;
-            overflow: visible;
+            overflow-x: hidden;
         }
 
-        .language-switcher-top {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: var(--light-bg);
-            color: var(--primary-color);
-            border: none;
-            padding: 8px 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            z-index: 10;
+        /* خلفية متحركة */
+        body::before {
+            content: '';
+            position: fixed; inset: 0; z-index: 0;
+            background:
+                radial-gradient(ellipse 60% 60% at 80% 20%, rgba(107,77,230,0.2) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 50% at 10% 80%, rgba(0,200,224,0.15) 0%, transparent 70%);
+        }
+        body::after {
+            content: '';
+            position: fixed; inset: 0; z-index: 0;
+            background-image:
+                linear-gradient(rgba(0,200,224,0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,200,224,0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
         }
 
-        .language-switcher-top:hover {
-            background: var(--hover-color);
-            transform: scale(1.05);
+        /* ===== CARD ===== */
+        .login-card {
+            position: relative; z-index: 1;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(0,200,224,0.18);
+            border-radius: 24px;
+            padding: clamp(30px,6vw,48px);
+            width: 100%;
+            max-width: 460px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+            animation: slideUp 0.6s cubic-bezier(.34,1.56,.64,1) both;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(40px); opacity: 0; }
+            to   { transform: translateY(0);    opacity: 1; }
         }
 
-        .logo {
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 20px;
+        /* شعار */
+        .logo-wrap {
+            width: 90px; height: 90px;
             border-radius: 50%;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin: 0 auto 20px;
+            box-shadow: 0 0 40px rgba(0,200,224,0.35);
+            border: 2px solid rgba(0,200,224,0.3);
         }
+        .logo-wrap img { width:100%; height:100%; object-fit:cover; }
 
-        .logo img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .login-title {
-            font-size: clamp(24px, 5vw, 32px);
-            color: var(--primary-color);
+        .card-title {
             text-align: center;
-            margin-bottom: 10px;
-            font-weight: bold;
+            font-size: clamp(22px,4vw,28px);
+            font-weight: 900;
+            background: linear-gradient(90deg, var(--cyan), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 6px;
         }
-
-        .login-subtitle {
-            font-size: clamp(14px, 2.5vw, 16px);
-            color: var(--accent-color);
+        .card-sub {
             text-align: center;
-            margin-bottom: 30px;
+            color: var(--gray);
+            font-size: 14px;
+            margin-bottom: 28px;
         }
 
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-        }
-
-        .tab {
-            flex: 1;
-            padding: 12px;
-            background: var(--light-bg);
-            border: none;
+        /* رسائل */
+        .msg {
+            padding: 12px 16px;
             border-radius: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 16px;
-            color: var(--primary-color);
-            transition: all 0.3s ease;
-        }
-
-        .tab.active {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-        }
-
-        .form-section {
+            text-align: center;
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 18px;
             display: none;
         }
+        .msg.show { display: block; }
+        .msg.success { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.3); }
+        .msg.error   { background: rgba(239,68,68,0.12);  color: #f87171; border: 1px solid rgba(239,68,68,0.3);  }
 
-        .form-section.active {
-            display: block;
+        /* Google */
+        .google-wrap {
+            display: flex; justify-content: center;
+            margin-bottom: 20px; min-height: 48px;
         }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-label {
-            display: block;
-            font-weight: bold;
-            color: var(--primary-color);
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-
-        .form-input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid var(--hover-color);
-            border-radius: 10px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-        }
-
-        .form-input:focus {
-            outline: none;
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 3px rgba(139, 111, 90, 0.1);
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 15px;
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-        }
-
-        .divider {
-            text-align: center;
-            margin: 30px 0;
-            position: relative;
-        }
-
-        .divider::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: var(--hover-color);
-        }
-
-        .divider span {
-            background: white;
-            padding: 0 15px;
-            position: relative;
-            color: var(--accent-color);
-            font-weight: bold;
-        }
-
-        .google-signin-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 0 25px 0;
-            min-height: 50px;
-            width: 100%;
-        }
-
-        #googleButton {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            max-width: 100%;
-        }
-
+        #googleButton { display:flex; justify-content:center; width:100%; }
         #googleButton > div {
             margin: 0 auto !important;
-            width: fit-content !important;
             border-radius: 12px !important;
             overflow: visible !important;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
-            transition: all 0.3s ease !important;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3) !important;
+            transition: transform 0.25s !important;
+        }
+        #googleButton > div:hover { transform: translateY(-2px) !important; }
+        #googleButton iframe { border-radius: 12px !important; display:block !important; margin: 0 auto !important; }
+
+        /* فاصل */
+        .divider {
+            position: relative; text-align: center;
+            margin: 20px 0;
+        }
+        .divider::before {
+            content:''; position:absolute; top:50%; left:0; right:0;
+            height:1px; background: rgba(255,255,255,0.1);
+        }
+        .divider span {
+            position:relative;
+            background: rgba(13,27,62,0.9);
+            padding: 0 14px;
+            color: var(--gray); font-size:13px; font-weight:700;
         }
 
-        #googleButton > div:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0,0,0,0.15) !important;
+        /* تبويبات */
+        .tabs {
+            display: flex; gap: 8px;
+            margin-bottom: 24px;
         }
-
-        #googleButton iframe {
-            border-radius: 12px !important;
-            display: block !important;
-            margin: 0 auto !important;
-        }
-
-        .guest-btn {
-            width: 100%;
-            padding: 15px;
-            background: var(--light-bg);
-            color: var(--primary-color);
-            border: 2px solid var(--accent-color);
+        .tab {
+            flex:1; padding: 11px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
             border-radius: 10px;
-            font-size: 18px;
-            font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s ease;
-            margin-top: 15px;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700; font-size: 15px;
+            color: var(--gray);
+            transition: all 0.25s;
+        }
+        .tab.active {
+            background: linear-gradient(135deg, var(--cyan), var(--purple));
+            border-color: transparent;
+            color: white;
+        }
+        .tab:not(.active):hover {
+            background: rgba(255,255,255,0.08);
+            color: var(--white);
         }
 
+        /* فورم */
+        .form-section { display:none; }
+        .form-section.active { display:block; }
+
+        .form-group { margin-bottom: 18px; }
+        .form-label {
+            display:block;
+            color: rgba(255,255,255,0.75);
+            font-size: 13px; font-weight: 700;
+            margin-bottom: 7px;
+        }
+        .form-input {
+            width:100%;
+            padding: 12px 14px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 10px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 15px;
+            color: var(--white);
+            transition: all 0.25s;
+            direction: rtl;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--cyan);
+            background: rgba(0,200,224,0.06);
+            box-shadow: 0 0 0 3px rgba(0,200,224,0.12);
+        }
+        .form-input::placeholder { color: rgba(255,255,255,0.3); }
+
+        .submit-btn {
+            width:100%; padding: 14px;
+            background: linear-gradient(135deg, var(--cyan), var(--purple));
+            color: white; border: none;
+            border-radius: 10px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 17px; font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s;
+            box-shadow: 0 4px 20px rgba(0,200,224,0.25);
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px rgba(0,200,224,0.4);
+        }
+
+        /* زر الزائر */
+        .guest-btn {
+            width:100%; padding: 13px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(0,200,224,0.25);
+            border-radius: 10px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 16px; font-weight: 700;
+            color: var(--cyan);
+            cursor: pointer;
+            margin-top: 12px;
+            transition: all 0.25s;
+        }
         .guest-btn:hover {
-            background: var(--hover-color);
+            background: rgba(0,200,224,0.08);
             transform: translateY(-2px);
         }
 
-        .message {
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            text-align: center;
-            font-weight: bold;
-            display: none;
-        }
-
-        .message.show {
-            display: block;
-        }
-
-        .message.success {
-            background: #d1fae5;
-            color: #065f46;
-        }
-
-        .message.error {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        .back-home {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .back-home a {
-            color: var(--accent-color);
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-
-        .back-home a:hover {
-            color: var(--primary-color);
-        }
-
+        /* ملاحظة */
         .note {
-            background: #d1fae5;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
+            background: rgba(16,185,129,0.08);
+            border: 1px solid rgba(16,185,129,0.25);
+            border-radius: 12px;
+            padding: 14px;
+            margin-top: 18px;
             text-align: center;
-            border: 2px solid #10b981;
         }
+        .note-title { font-weight:700; color:#34d399; font-size:13px; margin-bottom:4px; }
+        .note-text  { color: rgba(52,211,153,0.8); font-size:12px; }
 
-        .note-title {
-            font-weight: bold;
-            color: #065f46;
-            margin-bottom: 5px;
+        /* رابط العودة */
+        .back-home {
+            text-align:center; margin-top:18px;
         }
-
-        .note-text {
-            color: #047857;
-            font-size: 14px;
+        .back-home a {
+            color: var(--gray); text-decoration:none;
+            font-size:13px; font-weight:600;
+            transition: color 0.2s;
         }
+        .back-home a:hover { color: var(--cyan); }
 
-        @media (max-width: 480px) {
-            .login-container {
-                padding: 25px;
-            }
+        /* زر اللغة */
+        .lang-btn {
+            position: absolute; top:18px; left:18px;
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.12);
+            color: var(--gray);
+            padding: 6px 14px; border-radius:8px;
+            font-family:'Cairo',sans-serif;
+            font-size:12px; font-weight:700;
+            cursor:pointer; transition:all 0.25s;
+        }
+        .lang-btn:hover { background:rgba(0,200,224,0.1); color:var(--cyan); }
 
-            .tab {
-                font-size: 14px;
-                padding: 10px;
-            }
+        @media (max-width:480px){
+            .login-card { padding:24px 20px; }
+            .tab { font-size:13px; padding:10px; }
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <button class="language-switcher-top" onclick="toggleLanguage()" id="langBtn">English</button>
-        
-        <div class="logo">
-            <img src="https://i.imgur.com/1Hu1phq.jpeg" alt="Logo">
-        </div>
+<div class="login-card">
+    <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">English</button>
 
-        <h1 class="login-title" data-ar="مرحباً بك!" data-en="Welcome!">مرحباً بك!</h1>
-        <p class="login-subtitle" data-ar="سجل دخولك لبدء اللعب وكسب النقاط" data-en="Login to start playing and earn points">سجل دخولك لبدء اللعب وكسب النقاط</p>
-
-        <div id="message" class="message"></div>
-
-        <!-- Google Sign-In Button -->
-        <div class="google-signin-container">
-            <div id="googleButton"></div>
-        </div>
-
-        <div class="divider">
-            <span data-ar="أو" data-en="OR">أو</span>
-        </div>
-
-        <div class="tabs">
-            <button class="tab active" onclick="switchTab('login')" data-ar="تسجيل الدخول" data-en="Login">تسجيل الدخول</button>
-            <button class="tab" onclick="switchTab('register')" data-ar="إنشاء حساب" data-en="Register">إنشاء حساب</button>
-        </div>
-
-        <!-- Login Form -->
-        <div id="loginForm" class="form-section active">
-            <form onsubmit="handleLogin(event)">
-                <div class="form-group">
-                    <label class="form-label" data-ar="اسم المستخدم أو البريد الإلكتروني" data-en="Username or Email">اسم المستخدم أو البريد الإلكتروني</label>
-                    <input type="text" id="loginUsername" class="form-input" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" data-ar="كلمة المرور" data-en="Password">كلمة المرور</label>
-                    <input type="password" id="loginPassword" class="form-input" required>
-                </div>
-
-                <button type="submit" class="submit-btn" data-ar="تسجيل الدخول" data-en="Login">تسجيل الدخول</button>
-            </form>
-        </div>
-
-        <!-- Register Form -->
-        <div id="registerForm" class="form-section">
-            <form onsubmit="handleRegister(event)">
-                <div class="form-group">
-                    <label class="form-label" data-ar="الاسم الكامل" data-en="Full Name">الاسم الكامل</label>
-                    <input type="text" id="registerName" class="form-input" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" data-ar="اسم المستخدم" data-en="Username">اسم المستخدم</label>
-                    <input type="text" id="registerUsername" class="form-input" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" data-ar="البريد الإلكتروني" data-en="Email">البريد الإلكتروني</label>
-                    <input type="email" id="registerEmail" class="form-input" required>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" data-ar="كلمة المرور" data-en="Password">كلمة المرور</label>
-                    <input type="password" id="registerPassword" class="form-input" required minlength="6">
-                </div>
-
-                <button type="submit" class="submit-btn" data-ar="إنشاء حساب" data-en="Register">إنشاء حساب</button>
-            </form>
-        </div>
-
-        <div class="divider">
-            <span data-ar="أو" data-en="OR">أو</span>
-        </div>
-
-        <button class="guest-btn" onclick="guestLogin()" data-ar="🎮 الدخول كزائر" data-en="🎮 Continue as Guest">🎮 الدخول كزائر</button>
-
-        <div class="note">
-            <div class="note-title" data-ar="✅ كل حساب منفصل!" data-en="✅ Each Account is Separate!">✅ كل حساب منفصل!</div>
-            <div class="note-text" data-ar="نقاطك محفوظة لكل حساب على حدة" data-en="Your points are saved separately for each account">نقاطك محفوظة لكل حساب على حدة</div>
-        </div>
-
-        <div class="back-home">
-            <a href="index.html" data-ar="← العودة للصفحة الرئيسية" data-en="← Back to Home">← العودة للصفحة الرئيسية</a>
-        </div>
+    <div class="logo-wrap">
+        <img src="https://i.imgur.com/6yQ2kc8.jpeg" alt="برمج مع علي">
     </div>
 
-    <script>
-        const USERS_KEY = 'programmali_users';
-        let currentLang = 'ar';
+    <h1 class="card-title" data-ar="مرحباً بك!" data-en="Welcome!">مرحباً بك!</h1>
+    <p class="card-sub" data-ar="سجل دخولك للوصول إلى خدماتنا" data-en="Login to access our services">سجل دخولك للوصول إلى خدماتنا</p>
 
-        // Language Toggle
-        function toggleLanguage() {
-            currentLang = currentLang === 'ar' ? 'en' : 'ar';
-            const langBtn = document.getElementById('langBtn');
-            
-            langBtn.textContent = currentLang === 'ar' ? 'English' : 'العربية';
-            
-            document.querySelectorAll('[data-ar][data-en]').forEach(element => {
-                element.textContent = element.getAttribute(`data-${currentLang}`);
-            });
-            
-            document.documentElement.setAttribute('lang', currentLang);
-            document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
-            
-            localStorage.setItem('preferredLanguage', currentLang);
-        }
+    <div id="message" class="msg"></div>
 
-        // Load saved language
-        window.addEventListener('DOMContentLoaded', () => {
-            const savedLang = localStorage.getItem('preferredLanguage');
-            if (savedLang && savedLang !== 'ar') {
-                toggleLanguage();
-            }
-            
-            const referrer = document.referrer;
-            if (referrer && referrer.includes(window.location.hostname)) {
-                const referrerPage = referrer.split('/').pop().split('?')[0] || 'index.html';
-                if (referrerPage !== 'login.html' && referrerPage !== '') {
-                    localStorage.setItem('returnTo', referrerPage);
-                }
-            } else if (!localStorage.getItem('returnTo')) {
-                localStorage.setItem('returnTo', 'index.html');
-            }
+    <!-- Google Sign-In -->
+    <div class="google-wrap">
+        <div id="googleButton"></div>
+    </div>
+
+    <div class="divider"><span data-ar="أو" data-en="OR">أو</span></div>
+
+    <!-- تبويبات -->
+    <div class="tabs">
+        <button class="tab active" onclick="switchTab('login')" data-ar="تسجيل الدخول" data-en="Login">تسجيل الدخول</button>
+        <button class="tab" onclick="switchTab('register')" data-ar="إنشاء حساب" data-en="Register">إنشاء حساب</button>
+    </div>
+
+    <!-- فورم الدخول -->
+    <div id="loginForm" class="form-section active">
+        <form onsubmit="handleLogin(event)">
+            <div class="form-group">
+                <label class="form-label" data-ar="اسم المستخدم أو البريد الإلكتروني" data-en="Username or Email">اسم المستخدم أو البريد الإلكتروني</label>
+                <input type="text" id="loginUsername" class="form-input" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label" data-ar="كلمة المرور" data-en="Password">كلمة المرور</label>
+                <input type="password" id="loginPassword" class="form-input" required>
+            </div>
+            <button type="submit" class="submit-btn" data-ar="تسجيل الدخول" data-en="Login">تسجيل الدخول</button>
+        </form>
+    </div>
+
+    <!-- فورم التسجيل -->
+    <div id="registerForm" class="form-section">
+        <form onsubmit="handleRegister(event)">
+            <div class="form-group">
+                <label class="form-label" data-ar="الاسم الكامل" data-en="Full Name">الاسم الكامل</label>
+                <input type="text" id="registerName" class="form-input" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label" data-ar="اسم المستخدم" data-en="Username">اسم المستخدم</label>
+                <input type="text" id="registerUsername" class="form-input" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label" data-ar="البريد الإلكتروني" data-en="Email">البريد الإلكتروني</label>
+                <input type="email" id="registerEmail" class="form-input" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label" data-ar="كلمة المرور" data-en="Password">كلمة المرور</label>
+                <input type="password" id="registerPassword" class="form-input" required minlength="6">
+            </div>
+            <button type="submit" class="submit-btn" data-ar="إنشاء حساب" data-en="Register">إنشاء حساب</button>
+        </form>
+    </div>
+
+    <div class="divider"><span data-ar="أو" data-en="OR">أو</span></div>
+
+    <button class="guest-btn" onclick="guestLogin()" data-ar="🚀 الدخول كزائر" data-en="🚀 Continue as Guest">🚀 الدخول كزائر</button>
+
+    <div class="note">
+        <div class="note-title" data-ar="✅ كل حساب منفصل!" data-en="✅ Each Account is Separate!">✅ كل حساب منفصل!</div>
+        <div class="note-text" data-ar="نقاطك محفوظة لكل حساب على حدة" data-en="Your points are saved separately for each account">نقاطك محفوظة لكل حساب على حدة</div>
+    </div>
+
+    <div class="back-home">
+        <a href="index.html" data-ar="← العودة للصفحة الرئيسية" data-en="← Back to Home">← العودة للصفحة الرئيسية</a>
+    </div>
+</div>
+
+<script>
+    const USERS_KEY = 'programmali_users';
+    let currentLang = 'ar';
+
+    // تغيير اللغة
+    function toggleLanguage() {
+        currentLang = currentLang === 'ar' ? 'en' : 'ar';
+        document.getElementById('langBtn').textContent = currentLang === 'ar' ? 'English' : 'العربية';
+        document.querySelectorAll('[data-ar][data-en]').forEach(el => {
+            el.textContent = el.getAttribute('data-' + currentLang);
         });
+        document.documentElement.setAttribute('lang', currentLang);
+        document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+        localStorage.setItem('preferredLanguage', currentLang);
+    }
 
-        // Google Sign-In
-        window.onload = function() {
-            const currentPage = window.location.href;
-            
-            google.accounts.id.initialize({
-                client_id: '736529467752-jl6rp0j3ab1jn3rda5v1n6jm3esfjdoe.apps.googleusercontent.com',
-                callback: handleGoogleResponse,
-                auto_select: false,
-                cancel_on_tap_outside: false,
-                ux_mode: 'popup'
-            });
-            
-            const isMobile = window.innerWidth <= 480;
-            
-            google.accounts.id.renderButton(
-                document.getElementById('googleButton'),
-                {
-                    theme: 'outline',
-                    size: 'large',
-                    width: isMobile ? 300 : 350,
-                    text: 'signin_with',
-                    shape: 'pill',
-                    logo_alignment: 'left'
-                }
-            );
-            
-            setTimeout(() => {
-                if (window.location.href !== currentPage) {
-                    window.location.replace(currentPage);
-                }
-            }, 100);
+    window.addEventListener('DOMContentLoaded', () => {
+        const savedLang = localStorage.getItem('preferredLanguage');
+        if (savedLang && savedLang !== 'ar') toggleLanguage();
+
+        const referrer = document.referrer;
+        if (referrer && referrer.includes(window.location.hostname)) {
+            const page = referrer.split('/').pop().split('?')[0] || 'index.html';
+            if (page !== 'login.html' && page !== '') localStorage.setItem('returnTo', page);
+        } else if (!localStorage.getItem('returnTo')) {
+            localStorage.setItem('returnTo', 'index.html');
         }
+    });
 
-        // Handle Google response
-        function handleGoogleResponse(response) {
-            try {
-                const userInfo = parseJwt(response.credential);
-                const googleUserId = 'google_' + userInfo.sub;
-                const userKey = `programmali_user_${googleUserId}`;
-                
-                let userData = localStorage.getItem(userKey);
-                
-                if (userData) {
-                    userData = JSON.parse(userData);
-                } else {
-                    userData = {
-                        name: userInfo.name,
-                        email: userInfo.email,
-                        username: googleUserId,
-                        googleId: userInfo.sub,
-                        picture: userInfo.picture,
-                        points: 0,
-                        highScore: 0,
-                        gamesPlayed: 0,
-                        rewards: [],
-                        joinDate: new Date().toISOString(),
-                        isGoogleUser: true,
-                        userId: googleUserId
-                    };
-                    
-                    const users = getUsers();
-                    const existingUser = users.find(u => u.googleId === userInfo.sub);
-                    if (!existingUser) {
-                        users.push({
-                            name: userInfo.name,
-                            email: userInfo.email,
-                            username: googleUserId,
-                            googleId: userInfo.sub,
-                            joinDate: userData.joinDate,
-                            isGoogleUser: true
-                        });
-                        saveUsers(users);
-                    }
-                }
-                
-                localStorage.setItem(userKey, JSON.stringify(userData));
-                localStorage.setItem('programmali_current_user', googleUserId);
-                
-                showMessage(
-                    'تم تسجيل الدخول عبر Google بنجاح! 🎉',
-                    'Google Sign-In successful! 🎉',
-                    'success'
-                );
-                
-                setTimeout(() => {
-                    const returnTo = localStorage.getItem('returnTo') || 'index.html';
-                    localStorage.removeItem('returnTo');
-                    window.location.href = returnTo;
-                }, 1500);
-            } catch (error) {
-                console.error('Google Sign-In Error:', error);
-                showMessage(
-                    'حدث خطأ في تسجيل الدخول. حاول مرة أخرى!',
-                    'Sign-in error. Please try again!',
-                    'error'
-                );
-            }
-        }
+    // Google Sign-In
+    window.onload = function() {
+        const currentPage = window.location.href;
+        google.accounts.id.initialize({
+            client_id: '736529467752-jl6rp0j3ab1jn3rda5v1n6jm3esfjdoe.apps.googleusercontent.com',
+            callback: handleGoogleResponse,
+            auto_select: false,
+            cancel_on_tap_outside: false,
+            ux_mode: 'popup'
+        });
+        google.accounts.id.renderButton(document.getElementById('googleButton'), {
+            theme: 'filled_black',
+            size: 'large',
+            width: window.innerWidth <= 480 ? 300 : 350,
+            text: 'signin_with',
+            shape: 'pill',
+            logo_alignment: 'left'
+        });
+        setTimeout(() => {
+            if (window.location.href !== currentPage) window.location.replace(currentPage);
+        }, 100);
+    }
 
-        function parseJwt(token) {
-            const base64Url = token.split('.')[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => {
-                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-            }).join(''));
-            return JSON.parse(jsonPayload);
-        }
-
-        function switchTab(tab) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.form-section').forEach(f => f.classList.remove('active'));
-            
-            if (tab === 'login') {
-                document.querySelectorAll('.tab')[0].classList.add('active');
-                document.getElementById('loginForm').classList.add('active');
+    function handleGoogleResponse(response) {
+        try {
+            const userInfo = parseJwt(response.credential);
+            const googleUserId = 'google_' + userInfo.sub;
+            const userKey = 'programmali_user_' + googleUserId;
+            let userData = localStorage.getItem(userKey);
+            if (userData) {
+                userData = JSON.parse(userData);
             } else {
-                document.querySelectorAll('.tab')[1].classList.add('active');
-                document.getElementById('registerForm').classList.add('active');
-            }
-            
-            hideMessage();
-        }
-
-        function showMessage(textAr, textEn, type) {
-            const msg = document.getElementById('message');
-            msg.textContent = currentLang === 'ar' ? textAr : textEn;
-            msg.className = 'message ' + type + ' show';
-        }
-
-        function hideMessage() {
-            document.getElementById('message').className = 'message';
-        }
-
-        function getUsers() {
-            const users = localStorage.getItem(USERS_KEY);
-            return users ? JSON.parse(users) : [];
-        }
-
-        function saveUsers(users) {
-            localStorage.setItem(USERS_KEY, JSON.stringify(users));
-        }
-
-        // Handle Login
-        function handleLogin(event) {
-            event.preventDefault();
-            
-            const username = document.getElementById('loginUsername').value.trim();
-            const password = document.getElementById('loginPassword').value;
-            
-            const users = getUsers();
-            const user = users.find(u => 
-                (u.username === username || u.email === username) && u.password === password
-            );
-            
-            if (user) {
-                const userKey = `programmali_user_${user.username}`;
-                
-                let userData = localStorage.getItem(userKey);
-                
-                if (userData) {
-                    userData = JSON.parse(userData);
-                } else {
-                    userData = {
-                        name: user.name,
-                        username: user.username,
-                        email: user.email,
-                        points: 0,
-                        highScore: 0,
-                        gamesPlayed: 0,
-                        rewards: [],
-                        joinDate: user.joinDate,
-                        userId: user.username
-                    };
+                userData = {
+                    name: userInfo.name, email: userInfo.email,
+                    username: googleUserId, googleId: userInfo.sub,
+                    picture: userInfo.picture, points: 0,
+                    highScore: 0, gamesPlayed: 0, rewards: [],
+                    joinDate: new Date().toISOString(),
+                    isGoogleUser: true, userId: googleUserId
+                };
+                const users = getUsers();
+                if (!users.find(u => u.googleId === userInfo.sub)) {
+                    users.push({ name: userInfo.name, email: userInfo.email, username: googleUserId, googleId: userInfo.sub, joinDate: userData.joinDate, isGoogleUser: true });
+                    saveUsers(users);
                 }
-                
-                localStorage.setItem(userKey, JSON.stringify(userData));
-                localStorage.setItem('programmali_current_user', user.username);
-                
-                showMessage(
-                    'تم تسجيل الدخول بنجاح! جاري التحويل...',
-                    'Login successful! Redirecting...',
-                    'success'
-                );
-                
-                setTimeout(() => {
-                    const returnTo = localStorage.getItem('returnTo') || 'index.html';
-                    localStorage.removeItem('returnTo');
-                    window.location.href = returnTo;
-                }, 1500);
-            } else {
-                showMessage(
-                    'اسم المستخدم أو كلمة المرور غير صحيحة!',
-                    'Invalid username or password!',
-                    'error'
-                );
             }
-        }
-
-        // Handle Register
-        function handleRegister(event) {
-            event.preventDefault();
-            
-            const name = document.getElementById('registerName').value.trim();
-            const username = document.getElementById('registerUsername').value.trim();
-            const email = document.getElementById('registerEmail').value.trim();
-            const password = document.getElementById('registerPassword').value;
-            
-            const users = getUsers();
-            
-            if (users.find(u => u.username === username)) {
-                showMessage(
-                    'اسم المستخدم موجود بالفعل!',
-                    'Username already exists!',
-                    'error'
-                );
-                return;
-            }
-            
-            if (users.find(u => u.email === email)) {
-                showMessage(
-                    'البريد الإلكتروني مسجل بالفعل!',
-                    'Email already registered!',
-                    'error'
-                );
-                return;
-            }
-            
-            const newUser = {
-                name,
-                username,
-                email,
-                password,
-                joinDate: new Date().toISOString(),
-                isGoogleUser: false
-            };
-            
-            users.push(newUser);
-            saveUsers(users);
-            
-            const userKey = `programmali_user_${username}`;
-            const userData = {
-                name: newUser.name,
-                username: newUser.username,
-                email: newUser.email,
-                points: 0,
-                highScore: 0,
-                gamesPlayed: 0,
-                rewards: [],
-                joinDate: newUser.joinDate,
-                userId: username
-            };
-            
             localStorage.setItem(userKey, JSON.stringify(userData));
-            localStorage.setItem('programmali_current_user', username);
-            
-            showMessage(
-                'تم إنشاء الحساب بنجاح! جاري التحويل...',
-                'Account created successfully! Redirecting...',
-                'success'
-            );
-            
+            localStorage.setItem('programmali_current_user', googleUserId);
+            showMessage('تم تسجيل الدخول عبر Google بنجاح! 🎉', 'Google Sign-In successful! 🎉', 'success');
             setTimeout(() => {
-                const returnTo = localStorage.getItem('returnTo') || 'index.html';
+                const r = localStorage.getItem('returnTo') || 'index.html';
                 localStorage.removeItem('returnTo');
-                window.location.href = returnTo;
+                window.location.href = r;
             }, 1500);
+        } catch(e) {
+            showMessage('حدث خطأ في تسجيل الدخول. حاول مرة أخرى!', 'Sign-in error. Please try again!', 'error');
         }
+    }
 
-        // Guest Login
-    function guestLogin() {
-    // طلب اسم من المستخدم
-    const guestName = prompt(
-        currentLang === 'ar' 
-            ? 'اختر اسماً لك (أو اضغط Cancel للدخول كزائر بدون اسم):' 
-            : 'Choose a name (or press Cancel to continue as Guest):'
-    );
-    
-    // إذا ضغط Cancel أو لم يدخل شيء
-    if (!guestName || guestName.trim() === '') {
-        continueAsAnonymousGuest();
-        return;
+    function parseJwt(token) {
+        const base64 = token.split('.')[1].replace(/-/g,'+').replace(/_/g,'/');
+        return JSON.parse(decodeURIComponent(atob(base64).split('').map(c => '%' + ('00'+c.charCodeAt(0).toString(16)).slice(-2)).join('')));
     }
-    
-    const cleanName = guestName.trim();
-    
-    // إنشاء معرف فريد للزائر بناءً على الاسم
-    const guestId = 'guest_' + cleanName.toLowerCase().replace(/\s+/g, '_');
-    const guestKey = `programmali_user_${guestId}`;
-    
-    // التحقق إذا كان الزائر موجود مسبقاً في localStorage
-    let guestUser = localStorage.getItem(guestKey);
-    
-    if (guestUser) {
-        // الزائر موجود - فقط سجل دخوله
-        guestUser = JSON.parse(guestUser);
-        
-        showMessage(
-            `مرحباً بعودتك ${cleanName}! 🎉`,
-            `Welcome back ${cleanName}! 🎉`,
-            'success'
-        );
-    } else {
-        // التحقق من أن الاسم غير مستخدم من قبل حسابات أخرى (ليس زوار)
-        const users = getUsers();
-        const nameExistsInAccounts = users.find(u => 
-            u.name.toLowerCase() === cleanName.toLowerCase() && 
-            !u.isGuest  // فقط الحسابات العادية، ليس الزوار
-        );
-        
-        if (nameExistsInAccounts) {
-            showMessage(
-                'هذا الاسم مستخدم من قبل حساب آخر! اختر اسماً مختلفاً.',
-                'This name is used by another account! Choose a different name.',
-                'error'
-            );
-            // إعادة المحاولة
-            setTimeout(() => guestLogin(), 1500);
-            return;
+
+    function switchTab(tab) {
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.form-section').forEach(f => f.classList.remove('active'));
+        if (tab === 'login') {
+            document.querySelectorAll('.tab')[0].classList.add('active');
+            document.getElementById('loginForm').classList.add('active');
+        } else {
+            document.querySelectorAll('.tab')[1].classList.add('active');
+            document.getElementById('registerForm').classList.add('active');
         }
-        
-        // إنشاء زائر جديد
-        guestUser = {
-            name: cleanName,
-            points: 0,
-            highScore: 0,
-            gamesPlayed: 0,
-            rewards: [],
-            joinDate: new Date().toISOString(),
-            isGuest: true,
-            userId: guestId
-        };
-        
-        // حفظ في قائمة المستخدمين
-        users.push({
-            name: cleanName,
-            username: guestId,
-            joinDate: guestUser.joinDate,
-            isGuest: true
-        });
-        saveUsers(users);
-        
-        localStorage.setItem(guestKey, JSON.stringify(guestUser));
-        
-        showMessage(
-            `مرحباً ${cleanName}! 🎮`,
-            `Welcome ${cleanName}! 🎮`,
-            'success'
-        );
+        hideMessage();
     }
-    
-    localStorage.setItem('programmali_current_user', guestId);
-    
-    setTimeout(() => {
-        const returnTo = localStorage.getItem('returnTo') || 'index.html';
-        localStorage.removeItem('returnTo');
-        window.location.href = returnTo;
-    }, 1500);
-}
-    </script>
+
+    function showMessage(ar, en, type) {
+        const msg = document.getElementById('message');
+        msg.textContent = currentLang === 'ar' ? ar : en;
+        msg.className = 'msg ' + type + ' show';
+    }
+    function hideMessage() { document.getElementById('message').className = 'msg'; }
+    function getUsers() { const u = localStorage.getItem(USERS_KEY); return u ? JSON.parse(u) : []; }
+    function saveUsers(u) { localStorage.setItem(USERS_KEY, JSON.stringify(u)); }
+
+    function handleLogin(event) {
+        event.preventDefault();
+        const username = document.getElementById('loginUsername').value.trim();
+        const password = document.getElementById('loginPassword').value;
+        const users = getUsers();
+        const user = users.find(u => (u.username === username || u.email === username) && u.password === password);
+        if (user) {
+            const userKey = 'programmali_user_' + user.username;
+            let userData = localStorage.getItem(userKey);
+            if (!userData) {
+                userData = { name:user.name, username:user.username, email:user.email, points:0, highScore:0, gamesPlayed:0, rewards:[], joinDate:user.joinDate, userId:user.username };
+            } else { userData = JSON.parse(userData); }
+            localStorage.setItem(userKey, JSON.stringify(userData));
+            localStorage.setItem('programmali_current_user', user.username);
+            showMessage('تم تسجيل الدخول بنجاح! جاري التحويل...', 'Login successful! Redirecting...', 'success');
+            setTimeout(() => { const r = localStorage.getItem('returnTo')||'index.html'; localStorage.removeItem('returnTo'); window.location.href = r; }, 1500);
+        } else {
+            showMessage('اسم المستخدم أو كلمة المرور غير صحيحة!', 'Invalid username or password!', 'error');
+        }
+    }
+
+    function handleRegister(event) {
+        event.preventDefault();
+        const name = document.getElementById('registerName').value.trim();
+        const username = document.getElementById('registerUsername').value.trim();
+        const email = document.getElementById('registerEmail').value.trim();
+        const password = document.getElementById('registerPassword').value;
+        const users = getUsers();
+        if (users.find(u => u.username === username)) { showMessage('اسم المستخدم موجود بالفعل!','Username already exists!','error'); return; }
+        if (users.find(u => u.email === email)) { showMessage('البريد الإلكتروني مسجل بالفعل!','Email already registered!','error'); return; }
+        const newUser = { name, username, email, password, joinDate: new Date().toISOString(), isGoogleUser: false };
+        users.push(newUser); saveUsers(users);
+        const userData = { name, username, email, points:0, highScore:0, gamesPlayed:0, rewards:[], joinDate:newUser.joinDate, userId:username };
+        localStorage.setItem('programmali_user_'+username, JSON.stringify(userData));
+        localStorage.setItem('programmali_current_user', username);
+        showMessage('تم إنشاء الحساب بنجاح! جاري التحويل...','Account created successfully! Redirecting...','success');
+        setTimeout(() => { const r = localStorage.getItem('returnTo')||'index.html'; localStorage.removeItem('returnTo'); window.location.href = r; }, 1500);
+    }
+
+    function guestLogin() {
+        const guestName = prompt(currentLang === 'ar' ? 'اختر اسماً لك (أو اضغط Cancel للدخول كزائر):' : 'Choose a name (or press Cancel to continue as Guest):');
+        if (!guestName || guestName.trim() === '') { continueAsAnonymousGuest(); return; }
+        const cleanName = guestName.trim();
+        const guestId = 'guest_' + cleanName.toLowerCase().replace(/\s+/g,'_');
+        const guestKey = 'programmali_user_' + guestId;
+        let guestUser = localStorage.getItem(guestKey);
+        if (guestUser) {
+            guestUser = JSON.parse(guestUser);
+            showMessage('مرحباً بعودتك '+cleanName+'! 🎉', 'Welcome back '+cleanName+'! 🎉', 'success');
+        } else {
+            const users = getUsers();
+            if (users.find(u => u.name.toLowerCase() === cleanName.toLowerCase() && !u.isGuest)) {
+                showMessage('هذا الاسم مستخدم من قبل حساب آخر!','This name is already taken!','error');
+                setTimeout(() => guestLogin(), 1500); return;
+            }
+            guestUser = { name:cleanName, points:0, highScore:0, gamesPlayed:0, rewards:[], joinDate:new Date().toISOString(), isGuest:true, userId:guestId };
+            users.push({ name:cleanName, username:guestId, joinDate:guestUser.joinDate, isGuest:true });
+            saveUsers(users);
+            localStorage.setItem(guestKey, JSON.stringify(guestUser));
+            showMessage('مرحباً '+cleanName+'! 🚀', 'Welcome '+cleanName+'! 🚀', 'success');
+        }
+        localStorage.setItem('programmali_current_user', guestId);
+        setTimeout(() => { const r = localStorage.getItem('returnTo')||'index.html'; localStorage.removeItem('returnTo'); window.location.href = r; }, 1500);
+    }
+</script>
 </body>
 </html>
